@@ -14,10 +14,10 @@
           <SelectGroup>
             <!-- <SelectLabel>预设</SelectLabel> -->
             <SelectItem value="001">
-              公众号封面
+              1200x630
             </SelectItem>
             <SelectItem value="002">
-              小红书封面
+              500x500
             </SelectItem>
           </SelectGroup>
         </SelectContent>
@@ -49,7 +49,9 @@
       <img :src="generateUrl" alt="">
     </div>
     <div class="w-full max-w-xl h-auto" v-else>
-      <ImgxRender :title="text"></ImgxRender>
+      <PreviewWraper :presetCode="preset">
+        <ImgxRender :title="text"></ImgxRender>
+      </PreviewWraper>
     </div>
 
   </div>
@@ -63,6 +65,7 @@ const preset = ref<Perset>('001')
 const template = ref('001')
 const text = ref('')
 const generateUrl = ref('')
+
 const generateImage = async () => {
   generateUrl.value = `/api/img/${preset.value}/${text.value}`
 }

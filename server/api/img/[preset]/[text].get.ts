@@ -4,19 +4,14 @@ import BiaoTiHei from '~/assets/fonts/YouSheBiaoTiHei-2.ttf';
 import Image from '~/components/ImgxRender.vue';
 
 const PresetMap: Record<string, any> = {
-  '001': Image
-}
-
-const PersetConfig: Record<string, { width: number, height: number }> = {
-  '001': {
-    width: 1200,
-    height: 630,
-  }
+  '001': Image,
+  '002': Image
 }
 
 export default defineEventHandler(async (event) => {
   const text = decodeURI(getRouterParam(event, 'text') || '')
   const preset = getRouterParam(event, 'preset') as string;
+  const { presetConfig } = useAppConfig();
   if (!!!text) {
     throw createError({
       statusCode: 400,
@@ -33,7 +28,7 @@ export default defineEventHandler(async (event) => {
 
   const parsedText = text.replace(/\//g, '')
 
-  if (!PresetMap[preset]) {
+  if (!presetConfig[preset]) {
     throw createError({
       statusCode: 400,
       statusMessage: '预设不存在',
@@ -44,8 +39,8 @@ export default defineEventHandler(async (event) => {
     props: {
       title: parsedText,
     },
-    width: PersetConfig[preset].width,
-    height: PersetConfig[preset].height,
+    width: presetConfig[preset].width,
+    height: presetConfig[preset].height,
     fonts: [{
       name: 'YouSheBiaoTiHei',
       data: BiaoTiHei,

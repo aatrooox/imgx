@@ -1,10 +1,8 @@
 <script setup lang="ts">
 const {
   title = 'IMGX',
-  preset = '001'
 } = defineProps<{
   title?: string
-  preset?: string
 }>()
 
 </script>
