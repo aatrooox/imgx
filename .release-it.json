@@ -84,10 +84,7 @@
     }
   },
   "github": {
-    "release": false,
-    "tokenRef": false,
-    "assets": false,
-    "skipChecks": true
+    "release": true
   },
   "git": {
     "requireCleanWorkingDir": true,
