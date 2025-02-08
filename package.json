@@ -2,7 +2,7 @@
   "name": "imgx",
   "private": true,
   "description": "a img tool power by nuxt",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "type": "module",
   "scripts": {
     "build": "nuxt build",

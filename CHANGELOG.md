@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.3](https://github.com/aatrooox/imgx/compare/0.1.2...0.1.3) (2025-02-08)
+
+
+### 🔨 其他
+
+* chore: 修改部署命令；测试 ([f7c1202](https://github.com/aatrooox/blog.zzao.club/commit/f7c1202ac899703fd573b868c2e448f2dcfc12fa))
+
 ## [0.1.2](https://github.com/aatrooox/imgx/compare/0.1.1...0.1.2) (2025-02-08)
 
 
