@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.0](https://github.com/aatrooox/imgx/compare/0.0.6...0.1.0) (2025-02-08)
+
+
+### ✨ 新功能
+
+* feat: 文字转图片基本功能完成 ([c612fb6](https://github.com/aatrooox/blog.zzao.club/commit/c612fb6a6281eb8d96dc7518ae3f57c7a532bd66))
+
 ## [0.1.0](https://github.com/aatrooox/imgx/compare/0.0.5...0.1.0) (2025-02-08)
 
 
