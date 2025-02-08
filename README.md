@@ -1,6 +1,6 @@
-# Nuxt Minimal Starter
+# IMGX
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+quickly generate images from text
 
 ## Setup
 
