@@ -1,75 +1,17 @@
 # IMGX
 
-quickly generate images from text
+通过 Api 根据文字快速生成图片
 
-## Setup
+模板为自定义的 Vue 组件，核心插件为 `satori` / `satori-html`
 
-Make sure to install dependencies:
+## 使用
 
-```bash
-# npm
-npm install
+如： https://imgx.zzao.club/api/img/001/我不得不告诉你的+deepseek-r1的使用技巧
 
-# pnpm
-pnpm install
+![](https://imgx.zzao.club/api/img/001/我不得不告诉你的+deepseek-r1的使用技巧)
 
-# yarn
-yarn install
+直接右键下载即可
 
-# bun
-bun install
-```
+因为是 Api 的形式，所以也不限浏览器场景
 
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+**核心代码逻辑复制于** [v-satori](https://github.com/wobsoriano/v-satori)，也可以直接此仓库，为了避免仓库失效，也可以自己 fork 一份。
