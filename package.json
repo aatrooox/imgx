@@ -1,13 +1,16 @@
 {
-  "name": "nuxt-app",
+  "name": "imgx",
   "private": true,
+  "description": "a img tool power by nuxt",
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev -o -p 4573",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "release": "release-it"
   },
   "dependencies": {
     "@nuxtjs/color-mode": "3.5.2",
@@ -27,5 +30,6 @@
     "clsx": "^2.1.1",
     "tailwind-merge": "^3.0.1",
     "tailwindcss-animate": "^1.0.7"
-  }
+  },
+  "packageManager": "pnpm@9.15.4"
 }

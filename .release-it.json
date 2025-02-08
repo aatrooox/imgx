@@ -1,0 +1,108 @@
+{
+  "plugins": {
+    "release-it-pnpm": {},
+    "@release-it/conventional-changelog": {
+      "preset": {
+        "name": "conventionalcommits",
+        "types": [
+          {
+            "type": "feat",
+            "section": "✨ 新功能"
+          },
+          {
+            "type": "fix",
+            "section": "🐛 Bug 修复"
+          },
+          {
+            "type": "docs",
+            "section": "📝 文档"
+          },
+          {
+            "type": "style",
+            "section": "💄 样式"
+          },
+          {
+            "type": "refactor",
+            "section": "♻️ 重构"
+          },
+          {
+            "type": "perf",
+            "section": "⚡ 性能优化"
+          },
+          {
+            "type": "test",
+            "section": "✅ 测试"
+          },
+          {
+            "type": "build",
+            "section": "📦 构建"
+          },
+          {
+            "type": "ci",
+            "section": "👷 CI"
+          },
+          {
+            "type": "chore",
+            "section": "🔨 其他"
+          },
+          {
+            "type": "revert",
+            "section": "⏪ 回退"
+          },
+          {
+            "type": "wip",
+            "section": "🚧 进行中"
+          },
+          {
+            "type": "init",
+            "section": "🎉 初始化"
+          },
+          {
+            "type": "deps",
+            "section": "📌 依赖"
+          },
+          {
+            "type": "i18n",
+            "section": "🌐 国际化"
+          },
+          {
+            "type": "typo",
+            "section": "✏️ 拼写"
+          },
+          {
+            "type": "config",
+            "section": "⚙️ 配置"
+          }
+        ]
+      },
+      "infile": "CHANGELOG.md",
+      "header": "# Changelog",
+      "writerOpts": {
+        "commitPartial": "* {{header}} ([{{shortHash}}](https://github.com/aatrooox/blog.zzao.club/commit/{{hash}}))\n",
+        "mainTemplate": "{{> header}}\n\n{{#each commitGroups}}\n\n{{#if title}}\n### {{title}}\n\n{{/if}}\n{{#each commits}}\n{{> commit root=@root}}\n{{/each}}\n{{/each}}\n\n{{> footer}}"
+      }
+    }
+  },
+  "github": {
+    "release": false,
+    "tokenRef": false,
+    "assets": false,
+    "skipChecks": true
+  },
+  "git": {
+    "requireCleanWorkingDir": true,
+    "requireBranch": false,
+    "requireUpstream": false,
+    "requireCommits": true,
+    "addUntrackedFiles": false,
+    "commit": true,
+    "commitMessage": "chore: release v${version}",
+    "tag": true,
+    "push": false,
+    "changelog": true
+  },
+  "hooks": {
+    "after:release": "git push origin --follow-tags"
+  },
+  "npm": false
+}
