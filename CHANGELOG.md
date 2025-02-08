@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.2.0](https://github.com/aatrooox/imgx/compare/0.1.3...0.2.0) (2025-02-08)
+
+
+### ✨ 新功能
+
+* feat: 预览样式；配置预设宽高； ([af199c1](https://github.com/aatrooox/blog.zzao.club/commit/af199c10f23ed03773f3ee56a61d488977b6143a))
+
+### 🐛 Bug 修复
+
+* fix: add release-it-pnpm ([ef8b35e](https://github.com/aatrooox/blog.zzao.club/commit/ef8b35e3f2750485f6e43074b0db674759bbeed9))
+* fix: devDep add release-it ([a0f295b](https://github.com/aatrooox/blog.zzao.club/commit/a0f295b3d0af4b7bb8eb520f35b7ace848bc66d1))
+
+### 🔨 其他
+
+* chore: release v0.1.3 ([991fa4a](https://github.com/aatrooox/blog.zzao.club/commit/991fa4a3c129cea7a0046d7cbbe93b6d4c5d4a33))
+
 ## [0.1.3](https://github.com/aatrooox/imgx/compare/0.1.2...0.1.3) (2025-02-08)
 
 
