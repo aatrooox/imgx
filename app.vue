@@ -2,7 +2,7 @@
   <div
     class="flex flex-col gap-4 pt-8 items-center h-screen w-full overflow-hidden transition-all duration-300 ease-in-out px-8">
     <div class="title">
-      <SparklesText text="IMGX" :colors="{ first: '#9E7AFF', second: '#FE8BBB' }" :sparkles-count="10" class="my-8" />
+      <SparklesText text="IMG X" :colors="{ first: '#9E7AFF', second: '#FE8BBB' }" :sparkles-count="10" class="my-8" />
     </div>
     <div class="options flex gap-4 w-full max-w-xl">
       <!-- 预设选择 -->
@@ -35,7 +35,7 @@
           </SelectGroup>
         </SelectContent>
       </Select>
-      <InteractiveHoverButton class="w-56" text="清除" @click="generateUrl = ''" />
+      <InteractiveHoverButton class="w-56" text="返回到预览" @click="generateUrl = ''" />
 
     </div>
 
@@ -43,7 +43,7 @@
       <IInput placeholder="type a simple title" container-class="w-full max-w-xl" class="h-12" v-model="text"></IInput>
     </div>
 
-    <InteractiveHoverButton class="w-56" text="Generate" @click="generateImage" />
+    <InteractiveHoverButton class="w-56" text="生成图片" @click="generateImage" />
 
     <div class="img-preview max-w-xl" v-if="generateUrl">
       <img :src="generateUrl" alt="">
