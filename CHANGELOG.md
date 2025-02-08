@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.3](https://github.com/aatrooox/imgx/compare/0.0.2...0.0.3) (2025-02-08)
+
+
+### 📝 文档
+
+* docs: readme ([71c96d6](https://github.com/aatrooox/blog.zzao.club/commit/71c96d6e6c0bf16cf5547491ae0452ccb2b5d44b))
+
 ## 0.0.2 (2025-02-08)
 
 
