@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.5](https://github.com/aatrooox/imgx/compare/0.0.4...0.0.5) (2025-02-08)
+
+
+### 🔨 其他
+
+* chore: 修改配置 ([aa34ba3](https://github.com/aatrooox/blog.zzao.club/commit/aa34ba37160d4b97cd7c6df0165a2996ca9d61e1))
+
 ## [0.0.4](https://github.com/aatrooox/imgx/compare/0.0.3...0.0.4) (2025-02-08)
 
 
