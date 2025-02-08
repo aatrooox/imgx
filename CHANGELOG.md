@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.1](https://github.com/aatrooox/imgx/compare/0.1.0...0.1.1) (2025-02-08)
+
+
+### 🔨 其他
+
+* chore: 增加 gitea 仓库；部署脚本 ([e050aff](https://github.com/aatrooox/blog.zzao.club/commit/e050aff96dc19778974ed82feaab9f3cf0e49c6a))
+
 ## [0.1.0](https://github.com/aatrooox/imgx/compare/0.0.6...0.1.0) (2025-02-08)
 
 
