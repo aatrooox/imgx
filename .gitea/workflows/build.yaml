@@ -1,0 +1,54 @@
+name: Gitea Actions Demo
+run-name: ${{ gitea.actor }} is testing out Gitea Actions  
+on: 
+  push:
+    branches: 
+      - main
+jobs:
+  Explore-Gitea-Actions:
+    runs-on: debian
+    # 发版时才会部署，正常提交不部署
+    if: "contains(github.event.head_commit.message, 'chore: release')"
+    steps:
+      - run: echo "  The job was automatically triggered by a ${{ gitea.event_name }} event."
+      - run: echo "  This job is now running on a ${{ runner.os }} server hosted by Gitea!"
+      - run: echo "  The name of your branch is ${{ gitea.ref }} and your repository is ${{ gitea.repository }}."
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: Install dependencies
+        run: |
+          npm i -g pnpm
+          pnpm install
+      - name: Build Project
+        env: 
+          CONTENT_REPO_TOKEN: ${{ vars.CONTENT_REPO_TOKEN }}
+          NUXT_COS_SECRET_ID: ${{ vars.NUXT_COS_SECRET_ID }}
+          NUXT_COS_SECRET_KEY: ${{ vars.NUXT_COS_SECRET_KEY }}
+          NUXT_COS_BUCKET: ${{ vars.NUXT_COS_BUCKET }}
+          NUXT_COS_REGION: ${{ vars.NUXT_COS_REGION }}
+          NUXT_JWT_SECRET: ${{ vars.NUXT_JWT_SECRET }}
+          DATABASE_URL: ${{ vars.DATABASE_URL }}
+          NUXT_GITHUB_CLIENT_SECRET: ${{ vars.NUXT_GITHUB_CLIENT_SECRET }}
+          NUXT_GITHUB_CLIENT_ID: ${{ vars.NUXT_GITHUB_CLIENT_ID }}
+          NUXT_AUTH_SECTRET: ${{ vars.NUXT_AUTH_SECTRET }}
+          NUXT_AUTH_ORIGIN: ${{ vars.NUXT_AUTH_ORIGIN }}
+        run: pnpm build
+      - name: Copy and Build
+        env: 
+          DATABASE_URL: ${{ vars.DATABASE_URL }}
+          NUXT_GITHUB_CLIENT_SECRET: ${{ vars.NUXT_GITHUB_CLIENT_SECRET }}
+          NUXT_GITHUB_CLIENT_ID: ${{ vars.NUXT_GITHUB_CLIENT_ID }}
+          NUXT_AUTH_SECTRET: ${{ vars.NUXT_AUTH_SECTRET }}
+          NUXT_AUTH_ORIGIN: ${{ vars.NUXT_AUTH_ORIGIN }}
+        run: |
+          rm -rf /root/web/imgx/*
+          cp -R .output/* /root/web/imgx/
+          cp -R ecosystem.config.cjs /root/web/imgx/ecosystem.config.cjs
+          cd /root/web/imgx
+          pm2 start ecosystem.config.cjs
+      - run: echo "  The ${{ gitea.repository }} repository has been cloned to the runner."
+      - run: echo " ️ The workflow is now ready to test your code on the runner."
+      - name: List files in the repository
+        run: |
+          ls ${{ gitea.workspace }}          
+      - run: echo "  This job's status is ${{ job.status }}."
