@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.4](https://github.com/aatrooox/imgx/compare/0.0.3...0.0.4) (2025-02-08)
+
+
+### 🐛 Bug 修复
+
+* fix: release-it create github-releases ([2400b09](https://github.com/aatrooox/blog.zzao.club/commit/2400b0954084eeabecbe0ebdd41fdbe83e1842c4))
+
 ## [0.0.3](https://github.com/aatrooox/imgx/compare/0.0.2...0.0.3) (2025-02-08)
 
 
