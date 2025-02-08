@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.0](https://github.com/aatrooox/imgx/compare/0.0.5...0.1.0) (2025-02-08)
+
+
+### ✨ 新功能
+
+* feat: auto release ([8b4ef0b](https://github.com/aatrooox/blog.zzao.club/commit/8b4ef0ba656befe4716ca3dfd5e0728a9d5880c7))
+
 ## [0.0.5](https://github.com/aatrooox/imgx/compare/0.0.4...0.0.5) (2025-02-08)
 
 
