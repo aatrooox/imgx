@@ -23,7 +23,8 @@ const setScale = () => {
   console.log(`previewRef`, previewRef.value);
   if (realWidth) {
     const _realWidth = parseInt(realWidth)
-    scale.value = _realWidth / exportWidth.value
+    scale.value = (_realWidth / exportWidth.value) > 1 ? 1 : _realWidth / exportWidth.value
+    console.log(`scale`, scale.value)
     // previewRef.value.style.height = `${height}px`
   }
 }
@@ -38,7 +39,7 @@ onMounted(() => {
 
 </script>
 <template>
-  <div class="w-full transform" ref="previewRef">
+  <div class="w-full transform flex justify-center items-center" ref="previewRef">
     <div class="scale-wraper w-full origin-top-left" :style="{
       scale: `${scale}`,
       width: exportWidth + 'px',

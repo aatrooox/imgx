@@ -2,15 +2,17 @@ import { Resvg } from '@resvg/resvg-js'
 import { satori, html } from '~/utils/satori';
 import BiaoTiHei from '~/assets/fonts/YouSheBiaoTiHei-2.ttf';
 import Image from '~/components/ImgxRender.vue';
+import Image1 from '~/components/ImgTemplate1.vue';
 
-const PresetMap: Record<string, any> = {
+const templateMap: Record<string, any> = {
   '001': Image,
-  '002': Image
+  '002': Image1
 }
 
 export default defineEventHandler(async (event) => {
   const text = decodeURI(getRouterParam(event, 'text') || '')
   const preset = getRouterParam(event, 'preset') as string;
+  const template = getRouterParam(event, 'template') as string;
   const { presetConfig } = useAppConfig();
   if (!!!text) {
     throw createError({
@@ -35,7 +37,14 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  const svg = await satori(PresetMap[preset], {
+  if (!templateMap[template]) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: '模板不存在',
+    })
+  }
+  
+  const svg = await satori(templateMap[preset], {
     props: {
       title: parsedText,
     },
