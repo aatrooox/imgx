@@ -1,27 +1,31 @@
 <script setup lang="ts">
+import { getParsedText } from '~/lib/template';
 const {
   title = 'IMGX',
-  content = 'AI图片生成器',
-  author = 'IMGX',
-  date = '2023-07-01'
+  bgColor = 'rgba(0, 0, 0, 0.2)',
+  accentColor = '#000'
 } = defineProps<{
-  title?: string
-  content?: string
-  author?: string
-  date?: string
+  title?: string,
+  bgColor?: string,
+  accentColor?: string
 }>()
 
 </script>
 
 <template>
-  <div class="w-full h-full overflow-hidden rounded-lg shadow-2xl flex flex-col items-center justify-center p-8"
-    style="background-image: linear-gradient(to right, #9b59b6, #f1c40f);">
-    <div class="flex flex-col items-center justify-center text-white">
-      <div class="text-7xl font-bold mb-4" style="color: white;">{{ title }}</div>
-      <div class="text-4xl text-center mb-8" style="color: white;">{{ content }}</div>
-      <div class="flex justify-between w-full text-sm">
-        <div style="color: white;">作者：{{ author }}</div>
-        <div style="color: white;">日期：{{ date }}</div>
+  <div class="w-full h-full flex items-center justify-center p-8" :style="{ backgroundColor: bgColor }">
+    <div class="flex items-center justify-center w-full h-full">
+      <div class="flex flex-col">
+        <template v-for="text in title.split('+')">
+          <div class="text-3xl font-black flex justify-center">
+            <!-- <span>{{ text }}</span> -->
+            <template v-for="(part, index) in getParsedText(text)" :key="index">
+              <span :style="{ color: part.isTag && accentColor || '' }">
+                {{ part.text }}
+              </span>
+            </template>
+          </div>
+        </template>
       </div>
     </div>
   </div>

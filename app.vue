@@ -8,17 +8,14 @@
     <div class="options flex gap-4 w-full max-w-xl">
       <!-- 预设选择 -->
       <Select v-model="preset">
-        <SelectTrigger class="w-[120px]">
+        <SelectTrigger class="w-[150px]">
           <SelectValue placeholder="选择一个预设" />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
             <!-- <SelectLabel>预设</SelectLabel> -->
-            <SelectItem value="001">
-              1200x630
-            </SelectItem>
-            <SelectItem value="002">
-              500x500
+            <SelectItem v-for="option in presetOptions" :value="option.value">
+              {{ option.label }}
             </SelectItem>
           </SelectGroup>
         </SelectContent>
@@ -37,8 +34,8 @@
         </SelectContent>
       </Select>
 
-      <InteractiveHoverButton class="w-36" text="切换" @click="switchPerviewCard(!isFirstOnTop)" />
-      <InteractiveHoverButton class="w-36" text="生成图片" @click="generateImage" />
+      <InteractiveHoverButton class="w-20 text-sm" text="切换" @click="switchPerviewCard(!isFirstOnTop)" />
+      <InteractiveHoverButton class="w-36" text="查看图片" @click="generateImage" />
 
     </div>
 
@@ -49,14 +46,16 @@
     <div>
     </div>
     <div class="toggle-box relative w-full max-w-xl">
-      <div class="img-preview w-full max-w-xl absolute transition-all duration-500" v-if="generateUrl"
+      <div class="img-preview box-border max-w-xl absolute transition-all duration-500" v-if="generateUrl"
         :class="{ 'z-10': !isFirstOnTop, 'delay-200': !isFirstOnTop }" :style="getCardStyle(!isFirstOnTop)">
-        <a :href="generateUrl" :download="`imgx-${preset}-${template}.png`">
-          <img :src="generateUrl" alt="">
+        <a :href="generateUrl" :download="`imgx-${preset}-${template}.png`" ref="imgDownloadRef">
+          <!-- <img alt="imgx" ref="imgRef"> -->
         </a>
+        <BorderBeam class="box-border" :size="200" :duration="2" :delay="9" :border-width="5" v-if="isLoadingImg" />
       </div>
-      <div class="w-full max-w-xl h-auto absolute transition-all duration-500"
-        :class="{ 'z-10': isFirstOnTop, 'delay-200': isFirstOnTop }" :style="getCardStyle(isFirstOnTop)">
+      <div class="w-full max-w-xl h-auto absolute transition-all duration-500 cursor-pointer"
+        :class="{ 'z-10': isFirstOnTop, 'delay-200': isFirstOnTop }" :style="getCardStyle(isFirstOnTop)"
+        @click="switchPerviewCard(true)">
         <ClientOnly>
           <PreviewWraper :presetCode="preset">
             <component :is="curComponent" :title="text"></component>
@@ -71,9 +70,11 @@
 </template>
 
 <script lang="ts" setup>
-import { templates } from './lib/template';
+import { templates, type TemplateCode } from '@/lib/template';
+import { presets, type PresetCode } from '@/lib/preset';
 const isFirstOnTop = ref(true)
-const firstCardZIndex = ref(true)
+const isLoadingImg = ref(true)
+const imgDownloadRef = ref()
 
 const templateOptions = computed(() => {
   return Object.keys(templates).map(key => ({
@@ -82,19 +83,25 @@ const templateOptions = computed(() => {
   }))
 })
 
+const presetOptions = computed(() => {
+  return Object.keys(presets).map((key) => ({
+    value: key,
+    label: `尺寸-${key}-${presets[key as PresetCode].desc}`
+  }))
+})
 
 const config = useRuntimeConfig();
 
-type Perset = '001' | '002';
-
-const preset = ref<Perset>('001')
-const template = ref<'001' | '002'>('001')
-const text = ref('')
+const preset = ref<PresetCode>('001')
+const template = ref<TemplateCode>('001')
+const text = ref('IMGX')
 const generateUrl = ref('')
 const curComponent = computed(() => {
   return templates[template.value]
 })
-
+function loadedImg() {
+  console.log(` 加载完毕`,)
+}
 const getCardStyle = (isTop: boolean) => ({
   transform: isTop
     ? 'translateY(0) translateX(0) scale(1)'
@@ -112,7 +119,25 @@ const switchPerviewCard = (flag?: boolean) => {
 }
 
 const generateImage = async () => {
+  const img = new Image();
+  isLoadingImg.value = true
   generateUrl.value = `/api/img/${preset.value}/${template.value}/${text.value}`
+  img.src = generateUrl.value;
+  img.onload = () => {
+    console.log(`加载完成`);
+    isLoadingImg.value = false
+    imgDownloadRef.value.innerHTML = '';
+    imgDownloadRef.value.appendChild(img);
+  }
+
+  img.onerror = () => {
+    console.log(`加载失败`);
+    isLoadingImg.value = false
+    isFirstOnTop.value = true
+  }
+
+
+
   switchPerviewCard(false)
 }
 </script>

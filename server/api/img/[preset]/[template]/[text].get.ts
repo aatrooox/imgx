@@ -1,8 +1,8 @@
 import { Resvg } from '@resvg/resvg-js'
 import { satori, html } from '~/utils/satori';
 import BiaoTiHei from '~/assets/fonts/YouSheBiaoTiHei-2.ttf';
-import Image from '~/components/ImgxRender.vue';
-import Image1 from '~/components/ImgTemplate1.vue';
+import { presets } from '~/lib/preset';
+import type { PresetCode } from '~/lib/preset';
 import { serverTemplates } from '~/lib/template';
 import type { TemplateCode } from '~/lib/template'
 import type { Component } from 'vue';
@@ -13,9 +13,9 @@ export async function getComponent(name: TemplateCode): Promise<Component> {
 
 export default defineEventHandler(async (event) => {
   const text = decodeURI(getRouterParam(event, 'text') || '')
-  const preset = getRouterParam(event, 'preset') as string;
+  const query = getQuery(event);
+  const preset = getRouterParam(event, 'preset') as PresetCode;
   const template = getRouterParam(event, 'template') as TemplateCode;
-  const { presetConfig } = useAppConfig();
   if (!!!text) {
     throw createError({
       statusCode: 400,
@@ -32,7 +32,7 @@ export default defineEventHandler(async (event) => {
 
   const parsedText = text.replace(/\//g, '')
 
-  if (!presetConfig[preset]) {
+  if (!presets[preset]) {
     throw createError({
       statusCode: 400,
       statusMessage: '预设不存在',
@@ -45,13 +45,23 @@ export default defineEventHandler(async (event) => {
       statusMessage: '模板不存在',
     })
   }
+
+  const bgColor = query.bgColor;
+  const color = query.color;
+  const accentColor = query.accentColor;
+  const center = query.center;
+  const props: any = { title:  parsedText }
+  if (template === '001') {
+    if (bgColor) props.bgColor = `${bgColor}`
+    if (color) props.color = `#${color}`
+    if (accentColor) props.accentColor = `#${accentColor}`
+    if (center === 1) props.center = true
+  }
   const componnet = await getComponent(template)
   const svg = await satori(componnet, {
-    props: {
-      title: parsedText,
-    },
-    width: presetConfig[preset].width,
-    height: presetConfig[preset].height,
+    props,
+    width: presets[preset].width,
+    height: presets[preset].height,
     fonts: [{
       name: 'YouSheBiaoTiHei',
       data: BiaoTiHei,
@@ -59,7 +69,7 @@ export default defineEventHandler(async (event) => {
       style: 'normal',
     }],
   })
-
+  console.log(`imgx => ${presets[preset].width} x ${presets[preset].height} - bgColor:${bgColor} - accentColor:${accentColor} - color:${color}`)
   const resvg = new Resvg(svg, {
     fitTo: {
       mode: 'original',
