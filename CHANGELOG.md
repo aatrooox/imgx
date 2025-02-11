@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.2.0](https://github.com/aatrooox/imgx/compare/0.1.7...0.2.0) (2025-02-11)
+
+
+### ✨ 新功能
+
+* feat: 修改默认值；默认渲染一张图片 ([c39a7c5](https://github.com/aatrooox/blog.zzao.club/commit/c39a7c593ddb059fcb61b814015e49bdc401ac68))
+
+### 📝 文档
+
+* docs: 更新文档链接 ([ef49a86](https://github.com/aatrooox/blog.zzao.club/commit/ef49a866093f03ef151c1bdfc74d3809614baa53))
+
 ## [0.2.0](https://github.com/aatrooox/imgx/compare/0.1.6...0.2.0) (2025-02-11)
 
 
