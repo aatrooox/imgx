@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.0](https://github.com/aatrooox/imgx/compare/0.1.5...0.2.0) (2025-02-11)
+
+
+### ✨ 新功能
+
+* feat: 模板定义；动画效果优化 ([c9b8732](https://github.com/aatrooox/blog.zzao.club/commit/c9b8732abe40f1e33e2a627f062c020ea5f63ec3))
+* feat: 增加新模版 ([6aeb9d1](https://github.com/aatrooox/blog.zzao.club/commit/6aeb9d130dec46fa05358f915dbe825f841cafcb))
+
 ## [0.2.0](https://github.com/aatrooox/imgx/compare/0.1.3...0.2.0) (2025-02-10)
 
 
