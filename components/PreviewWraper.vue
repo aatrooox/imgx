@@ -33,19 +33,25 @@ watch(exportWidth, () => {
   setScale()
 })
 
-onMounted(() => {
-  setScale()
+onMounted(async () => {
+  await nextTick();
+  setTimeout(() => {
+    setScale()
+  })
 })
 
 </script>
 <template>
-  <div class="w-full transform flex justify-center items-center" ref="previewRef">
-    <div class="scale-wraper w-full origin-top-left" :style="{
+  <div class="transform flex justify-center items-center relative" ref="previewRef">
+    <div class="scale-wraper w-full origin-top-left absolute left-0 top-0 font-[YouSheBiaoTiHei]" :style="{
       scale: `${scale}`,
       width: exportWidth + 'px',
       height: exportHeight + 'px',
     }">
-      <slot></slot>
+      <Transition name="fade" mode="out-in">
+        <slot></slot>
+      </Transition>
+      <!-- <BorderBeam :size="600" :duration="2" :delay="9" :border-width="10" /> -->
     </div>
   </div>
 </template>

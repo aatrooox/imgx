@@ -25,6 +25,7 @@
     "satori": "^0.12.1",
     "satori-html": "^0.3.2",
     "shadcn-nuxt": "0.11.3",
+    "vaul-vue": "^0.2.1",
     "vue": "latest",
     "vue-router": "latest"
   },

@@ -65,3 +65,22 @@
     --ring:240 4.9% 83.9%;
   }
 }
+
+
+@font-face {
+  font-family: 'YouSheBiaoTiHei';
+  src: url('/YouSheBiaoTiHei-2.ttf') format('ttf');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}

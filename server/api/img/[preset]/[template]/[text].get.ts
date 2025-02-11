@@ -3,16 +3,18 @@ import { satori, html } from '~/utils/satori';
 import BiaoTiHei from '~/assets/fonts/YouSheBiaoTiHei-2.ttf';
 import Image from '~/components/ImgxRender.vue';
 import Image1 from '~/components/ImgTemplate1.vue';
-
-const templateMap: Record<string, any> = {
-  '001': Image,
-  '002': Image1
+import { serverTemplates } from '~/lib/template';
+import type { TemplateCode } from '~/lib/template'
+import type { Component } from 'vue';
+export async function getComponent(name: TemplateCode): Promise<Component> {
+  const module = await serverTemplates[name]()
+  return module.default
 }
 
 export default defineEventHandler(async (event) => {
   const text = decodeURI(getRouterParam(event, 'text') || '')
   const preset = getRouterParam(event, 'preset') as string;
-  const template = getRouterParam(event, 'template') as string;
+  const template = getRouterParam(event, 'template') as TemplateCode;
   const { presetConfig } = useAppConfig();
   if (!!!text) {
     throw createError({
@@ -37,14 +39,14 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  if (!templateMap[template]) {
+  if (!serverTemplates[template]) {
     throw createError({
       statusCode: 400,
       statusMessage: '模板不存在',
     })
   }
-  
-  const svg = await satori(templateMap[preset], {
+  const componnet = await getComponent(template)
+  const svg = await satori(componnet, {
     props: {
       title: parsedText,
     },
