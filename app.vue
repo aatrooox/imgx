@@ -34,13 +34,15 @@
         </SelectContent>
       </Select>
 
-      <InteractiveHoverButton class="w-20 text-sm" text="切换" @click="switchPerviewCard(!isFirstOnTop)" />
-      <InteractiveHoverButton class="w-36" text="查看图片" @click="generateImage" />
+
 
     </div>
-
+    <div class="options w-full max-w-xl flex gap-2">
+      <InteractiveHoverButton class="w-20 text-sm" text="切换" @click="switchPerviewCard(!isFirstOnTop)" />
+      <InteractiveHoverButton class="w-36" text="查看图片" @click="generateImage" />
+    </div>
     <div class="w-full flex justify-center">
-      <IInput placeholder="输入内容" container-class="w-full max-w-xl" class="h-12" v-model="text"></IInput>
+      <IInput placeholder="输入内容" container-class="w-full max-w-xl" class="h-16" v-model="text"></IInput>
     </div>
 
     <div>
@@ -65,7 +67,15 @@
       </div>
     </div>
 
+    <div class="w-full max-w-xl mt-[250px]">
+      <p>
+        <span class="font-bold">API [GET]:</span>
+        <a class="text-blue-500"
+          href="https://imgx.zzao.club/api/img/001/001/[Nuxt实战]从入门到放弃系列+点击就送屠龙宝刀?bgColor=292a3a-536976&accentColor=0088a9&color=ffffff">https://imgx.zzao.club/api/img/001/001/[Nuxt实战]从入门到放弃系列+点击就送屠龙宝刀?bgColor=292a3a-536976&accentColor=0088a9&color=ffffff</a>
+      </p>
+      <p class="text-sm mt-4 text-zinc-500"> 参数说明：颜色色值传 HEX 格式, bgColor（背景颜色）支持两个颜色渐变，以短横线 - 分割</p>
 
+    </div>
   </div>
 </template>
 
