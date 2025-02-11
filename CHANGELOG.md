@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.0](https://github.com/aatrooox/imgx/compare/0.1.6...0.2.0) (2025-02-11)
+
+
+### ✨ 新功能
+
+* feat: 完善模板 1；增加基本配置参数 ([5f87c84](https://github.com/aatrooox/blog.zzao.club/commit/5f87c84352ceadf94012030711b694a8a3601198))
+
 ## [0.2.0](https://github.com/aatrooox/imgx/compare/0.1.5...0.2.0) (2025-02-11)
 
 
