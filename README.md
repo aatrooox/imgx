@@ -6,9 +6,10 @@
 
 ## 使用
 
-如： https://imgx.zzao.club/api/img/001/我不得不告诉你的+deepseek-r1的使用技巧
+如：  https://imgx.zzao.club/api/img/001/001/[Nuxt实战]从入门到放弃系列+点击就送屠龙宝刀?bgColor=292a3a-536976&accentColor=0088a9&color=ffffff
 
-![](https://imgx.zzao.club/api/img/001/我不得不告诉你的+deepseek-r1的使用技巧)
+
+![](https://imgx.zzao.club/api/img/001/001/[Nuxt实战]从入门到放弃系列+点击就送屠龙宝刀?bgColor=292a3a-536976&accentColor=0088a9&color=ffffff)
 
 直接右键下载即可
 
