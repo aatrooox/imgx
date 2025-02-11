@@ -2,9 +2,9 @@
 import { getParsedText, getParsetBgColor } from '~/lib/template';
 const {
   title = 'IMGX',
-  bgColor = 'rgba(243,244,212)',
+  bgColor = 'f6d365-fda085',
   color = '#000000',
-  accentColor = '#FF340A',
+  accentColor = '#0088a9',
   center = true
 } = defineProps<{
   title?: string,

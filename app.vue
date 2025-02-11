@@ -94,8 +94,8 @@ const config = useRuntimeConfig();
 
 const preset = ref<PresetCode>('001')
 const template = ref<TemplateCode>('001')
-const text = ref('IMGX')
-const generateUrl = ref('')
+const text = ref('最新最全的[Nuxt]实战教程+blog.zzao.club')
+const generateUrl = ref(``)
 const curComponent = computed(() => {
   return templates[template.value]
 })
@@ -139,5 +139,13 @@ const generateImage = async () => {
 
 
   switchPerviewCard(false)
+
+
 }
+
+onMounted(() => {
+  setTimeout(() => {
+    generateImage()
+  }, 1000);
+})
 </script>
