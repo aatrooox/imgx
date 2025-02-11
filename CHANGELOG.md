@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.2.0](https://github.com/aatrooox/imgx/compare/0.1.9...0.2.0) (2025-02-11)
+
+
+### ✨ 新功能
+
+* feat: 移动端样式修复；增加 api 说明 ([7c3eed3](https://github.com/aatrooox/blog.zzao.club/commit/7c3eed3831aeae088f2183216a8cb21c8ed14600))
+
+### 🔨 其他
+
+* chore: release v0.1.9 ([4748175](https://github.com/aatrooox/blog.zzao.club/commit/4748175208e493ee63e0715a991101f384f620ef))
+
 ## [0.2.0](https://github.com/aatrooox/imgx/compare/0.1.8...0.2.0) (2025-02-11)
 
 
