@@ -16,7 +16,6 @@ export type TemplateCode = keyof typeof templates;
 
 export function getParsetBgColor(color: string) {
   const colors = color.split('-');
-  console.log(`colors`, colors)
   if (colors.length === 1) {
     return {
       backgroundColor: colors[0].includes(',') ? colors[0] : `#${colors[0]}`

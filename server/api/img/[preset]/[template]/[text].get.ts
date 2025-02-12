@@ -49,19 +49,21 @@ export default defineEventHandler(async (event) => {
   const bgColor = query.bgColor;
   const color = query.color;
   const accentColor = query.accentColor;
-  const center = query.center;
+  const center = query.center === '1' ? 1 : 0;
+  const ratio = query.ratio ? +query.ratio : 1;
   const props: any = { title:  parsedText }
   if (template === '001') {
     if (bgColor) props.bgColor = `${bgColor}`
     if (color) props.color = `#${color}`
     if (accentColor) props.accentColor = `#${accentColor}`
     if (center === 1) props.center = true
+    props.fontSize = ratio * presets[preset].fontSize
   }
   const componnet = await getComponent(template)
   const svg = await satori(componnet, {
     props,
-    width: presets[preset].width,
-    height: presets[preset].height,
+    width: presets[preset].width * ratio,
+    height: presets[preset].height * ratio,
     fonts: [{
       name: 'YouSheBiaoTiHei',
       data: BiaoTiHei,
@@ -69,7 +71,7 @@ export default defineEventHandler(async (event) => {
       style: 'normal',
     }],
   })
-  console.log(`imgx => ${presets[preset].width} x ${presets[preset].height} - bgColor:${bgColor} - accentColor:${accentColor} - color:${color}`)
+  console.log(`imgx => ${presets[preset].width} x ${presets[preset].height} x ${ratio} - center:${bgColor} - accentColor:${accentColor} - color:${color}`)
   const resvg = new Resvg(svg, {
     fitTo: {
       mode: 'original',

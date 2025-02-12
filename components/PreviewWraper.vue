@@ -1,21 +1,21 @@
 <script lang="ts" setup>
 import { presets, type PresetCode } from '@/lib/preset';
 
-const { presetCode = '001' } = defineProps<{ presetCode?: PresetCode }>()
+const { presetCode = '001', ratio = 1 } = defineProps<{ presetCode?: PresetCode, ratio?: number | string }>()
 const previewRef = ref();
 const scale = ref(1);
 const exportWidth = computed(() => {
   // width 和 height 为导出时的真实像素值
   // 在预览显示时，保持比例即可
-  const { width, height } = presets[presetCode];
-  return width
+  const { width, fontSize } = presets[presetCode];
+  return width * +ratio
 })
 
 const exportHeight = computed(() => {
   // width 和 height 为导出时的真实像素值
   // 在预览显示时，保持比例即可
-  const { width, height } = presets[presetCode];
-  return height
+  const { fontSize, height } = presets[presetCode];
+  return height * +ratio
 })
 
 const setScale = () => {

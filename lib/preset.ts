@@ -3,30 +3,35 @@ export const presets = {
   '001': {
     width: 500,
     height: 212,
+    fontSize: 30,
     desc: '2.35:1'
   },
   // 1:1
   '002': {
     width: 500,
     height: 500,
+    fontSize: 30,
     desc: '1:1'
   },
   // 4:3
   '003': {
     width: 500,
     height: 375,
+    fontSize: 30,
     desc: '4:3'
   },
   // 3:4
   '004': {
     width: 375,
     height: 500,
+    fontSize: 30,
     desc: '3:4'
   },
   // 16:9
   '005': {
     width: 500,
     height: 281,
+    fontSize: 30,
     desc: '16:9'
   }
 }
