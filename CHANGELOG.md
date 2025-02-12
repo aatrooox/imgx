@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.2.0](https://github.com/aatrooox/imgx/compare/0.1.10...0.2.0) (2025-02-12)
+
+
+### ✨ 新功能
+
+* feat: 前端支持选预制的的背景色；接口支持导出 2 倍图；界面优化 ([5a0f3b7](https://github.com/aatrooox/blog.zzao.club/commit/5a0f3b748ec5f2f7bb99d8e1826c2b8369d62bf3))
+* feat: 移动端样式修复；增加 api 说明 ([7c3eed3](https://github.com/aatrooox/blog.zzao.club/commit/7c3eed3831aeae088f2183216a8cb21c8ed14600))
+
+### 🔨 其他
+
+* chore: release v0.1.10 ([c3d148d](https://github.com/aatrooox/blog.zzao.club/commit/c3d148d3f35d772fea8349c904338fbb89f3d699))
+
 ## [0.2.0](https://github.com/aatrooox/imgx/compare/0.1.9...0.2.0) (2025-02-11)
 
 
