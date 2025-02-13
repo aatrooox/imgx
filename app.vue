@@ -60,14 +60,20 @@
       </div>
       <Button variant="secondary" size="sm" @click="reRandomBgColors">随机</Button>
     </div>
-    <!-- <div class="bgColor-selector w-full max-w-xl flex gap-2">
-      <div v-for="color in bgColors" class="rounded-full w-[30px] h-[30px] cursor-pointer"
+    <div class="bgColor-selector w-full max-w-xl flex items-center gap-2">
+      <!-- <div v-for="color in bgColors" class="rounded-full w-[30px] h-[30px] cursor-pointer"
         :class="{ 'border-4 border-black': color[0] === customColor[0] }"
         :style="{ backgroundImage: `linear-gradient(to right, #${color[0]}, #${color[1]})` }"
         @click="customColor = color">
-      </div>
-      <Button variant="secondary" size="sm" @click="reRandomBgColors">随机</Button>
-    </div> -->
+      </div> -->
+      <div class="font-bold px-2 cursor-pointer" :style="{ color: '#ffffff', backgroundColor: '#000000' }"
+        @click="setFixedFontColor('ffffff')">IMGX</div>
+      <div class="font-bold px-2 cursor-pointer" :style="{ color: '#000000', backgroundColor: '#ffffff' }"
+        @click="setFixedFontColor('000000')">IMGX</div>
+      <div class="font-bold px-2 cursor-pointer"
+        :style="{ backgroundImage: `linear-gradient(to right, #${customColor[0]}, #${customColor[1]})`, color: `#${curstomFontColor}` }"
+        @click="setFixedFontColor(randomHexColor())">随机</div>
+    </div>
     <div class="options w-full max-w-xl flex gap-2">
       <div class="flex items-center space-x-2">
         <Switch id="airplane-mode-3" v-model:checked="isRelativeWithBgColors" />
@@ -83,6 +89,20 @@
         <AccordionItem value="item-1">
           <AccordionTrigger>Tips！</AccordionTrigger>
           <AccordionContent>
+            <div class="flex flex-wrap gap-2 items-center mb-2">
+              <div class="flex items-center gap-2">
+                <NuxtIcon name="material-symbols:recenter-rounded" size="2em" mode="svg"></NuxtIcon> 是否居中
+              </div>
+              <div class="flex items-center gap-2">
+                <NuxtIcon name="material-symbols:high-quality" size="2em" mode="svg"></NuxtIcon>是否高清
+              </div>
+              <div class="flex">
+                <div class="font-bold px-2"
+                  :style="{ backgroundImage: `linear-gradient(to right, #${customColor[0]}, #${customColor[1]})`, color: `#${curstomFontColor}` }">
+                  IMGX</div>
+                <div>自动随机文字颜色！(跟随背景色)</div>
+              </div>
+            </div>
             <div class="tip text-sm mb-1">
               现阶段<strong class="text-cyan-500">API</strong>还在频繁调整中，建议<strong class="text-cyan-500">下载图片进行使用</strong>
             </div>
@@ -118,7 +138,7 @@
         <ClientOnly>
           <PreviewWraper :presetCode="preset">
             <component :is="curComponent" :title="text" :center="isCenter" :bgColor="customColor!.join('-')"
-              :color="`#${curstomFontColor}`">
+              :color="`#${curstomFontColor}`" :accentColor="`#${accentFontColor}`">
             </component>
           </PreviewWraper>
         </ClientOnly>
@@ -147,7 +167,11 @@ const isHighRatio = ref(false)
 const imgDownloadRef = ref()
 // 是否跟随背景色自动变化
 const isRelativeWithBgColors = ref(true)
+// 固定颜色，没勾选自动时，用这个颜色
 const fixedFontColor = ref('000000')
+// 强调色
+const accentFontColor = ref('0088a9');
+
 const bgColors = ref<Array<GradientColors>>()
 const customColor = ref<GradientColors>(['7a24d6', '88e524'])
 
@@ -192,8 +216,11 @@ const generateUrl = ref(``)
 const curComponent = computed(() => {
   return templates[template.value]
 })
-function loadedImg() {
-  console.log(` 加载完毕`,)
+const setFixedFontColor = (color: string) => {
+  fixedFontColor.value = color
+}
+const setAccentFontColor = (color: string) => {
+  accentFontColor.value = color
 }
 const getCardStyle = (isTop: boolean) => ({
   transform: isTop
