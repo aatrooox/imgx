@@ -1,5 +1,12 @@
 # Changelog
 
+# [0.3.0](https://github.com/aatrooox/imgx/compare/0.2.6...0.3.0) (2025-02-13)
+
+
+### Features
+
+* 接口支持传递 fontSize，格式不正确时降级为默认配置 ([b4a8966](https://github.com/aatrooox/imgx/commit/b4a8966ab0245e51082744208cc931ff1750c7b3))
+
 # [0.3.0](https://github.com/aatrooox/imgx/compare/0.2.5...0.3.0) (2025-02-13)
 
 
