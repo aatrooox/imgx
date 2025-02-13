@@ -20,11 +20,20 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     'shadcn-nuxt',
     'motion-v/nuxt',
-    'unplugin-font-to-buffer/nuxt'
+    'unplugin-font-to-buffer/nuxt',
+    '@nuxt/icon'
   ],
   shadcn: {
     prefix: '',
     componentDir: './components/ui'
+  },
+  icon: {
+    componentName: 'NuxtIcon',
+    clientBundle: {
+      scan: true,
+      includeCustomCollections: true,
+      // sizeLimitKb: 256,
+    }
   },
   colorMode: {
     preference: 'dark',

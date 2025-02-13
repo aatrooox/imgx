@@ -11,7 +11,7 @@
       </h1>
       <em class="ml-2 text-zinc-400">v{{ config.public.appVersion }}</em>
     </div>
-    <div class="options flex gap-4 w-full max-w-xl">
+    <div class="options flex items-center gap-4 w-full max-w-xl">
 
       <!-- 预设选择 -->
       <Select v-model="preset">
@@ -40,6 +40,17 @@
           </SelectGroup>
         </SelectContent>
       </Select>
+      <!-- 是否居中 -->
+      <div
+        class="icon-btn cursor-pointer w-[30px] h-[30px] border flex justify-center items-center box-border p-1 rounded-lg"
+        :class="{ 'bg-zinc-800': isCenter }" @click="isCenter = !isCenter">
+        <NuxtIcon name="material-symbols:recenter-rounded" size="1.5em" mode="svg"
+          :style="{ color: isCenter ? 'white' : '#27272a' }"></NuxtIcon>
+      </div>
+      <!-- 是否是 2 倍图 -->
+      <NuxtIcon class="cursor-pointer"
+        :name="isHighRatio ? 'material-symbols:high-quality' : 'material-symbols:high-quality-outline'" size="3em"
+        mode="svg" @click="isHighRatio = !isHighRatio"></NuxtIcon>
     </div>
     <div class="bgColor-selector w-full max-w-xl flex gap-2">
       <div v-for="color in bgColors" class="rounded-full w-[30px] h-[30px] cursor-pointer"
@@ -47,43 +58,48 @@
         :style="{ backgroundImage: `linear-gradient(to right, #${color[0]}, #${color[1]})` }"
         @click="customColor = color">
       </div>
+      <Button variant="secondary" size="sm" @click="reRandomBgColors">随机</Button>
     </div>
+    <!-- <div class="bgColor-selector w-full max-w-xl flex gap-2">
+      <div v-for="color in bgColors" class="rounded-full w-[30px] h-[30px] cursor-pointer"
+        :class="{ 'border-4 border-black': color[0] === customColor[0] }"
+        :style="{ backgroundImage: `linear-gradient(to right, #${color[0]}, #${color[1]})` }"
+        @click="customColor = color">
+      </div>
+      <Button variant="secondary" size="sm" @click="reRandomBgColors">随机</Button>
+    </div> -->
     <div class="options w-full max-w-xl flex gap-2">
       <div class="flex items-center space-x-2">
-        <Switch id="airplane-mode" v-model:checked="isCenter" />
-        <Label for="airplane-mode">全部居中</Label>
+        <Switch id="airplane-mode-3" v-model:checked="isRelativeWithBgColors" />
+        <Label for="airplane-mode-3" class="font-bold px-2"
+          :style="{ backgroundImage: `linear-gradient(to right, #${customColor[0]}, #${customColor[1]})`, color: `#${curstomFontColor}` }">IMGX</Label>
       </div>
-      <div class="flex items-center space-x-2">
-        <Switch id="airplane-mode" v-model:checked="isHighRatio" />
-        <Label for="airplane-mode">高清</Label>
-      </div>
-      <Button @click="generateImage">
+      <Button size="sm" @click="generateImage">
         生成图片
       </Button>
     </div>
     <div class="w-full max-w-xl">
-
-
       <Accordion type="single" collapsible>
         <AccordionItem value="item-1">
-          <AccordionTrigger>小提示！</AccordionTrigger>
+          <AccordionTrigger>Tips！</AccordionTrigger>
           <AccordionContent>
             <div class="tip text-sm mb-1">
               现阶段<strong class="text-cyan-500">API</strong>还在频繁调整中，建议<strong class="text-cyan-500">下载图片进行使用</strong>
             </div>
-            <div class="tip w-full max-w-xl text-sm">
+            <div class="tip w-full max-w-xl text-sm mb-2">
               <strong class="text-cyan-500">预览时</strong>文字位置展示和实际图片<strong class="text-cyan-500">有差异</strong>，建议<strong
                 class="text-cyan-500">仅用来调整配色和预览排版</strong>
+            </div>
+            <div class="api w-full text-sm text-zinc-500 underline">
+              API演示( <strong class="text-cyan-500">点击生成后的链接</strong>)：{{ generateUrl }}
             </div>
           </AccordionContent>
         </AccordionItem>
       </Accordion>
     </div>
-    <div class="api w-full max-w-xl text-sm text-zinc-500 underline">
-      {{ generateUrl }}
-    </div>
+
     <div class="w-full flex justify-center">
-      <IInput placeholder="输入内容" container-class="w-full max-w-xl" class="h-16" v-model="text"></IInput>
+      <IInput placeholder="输入内容" container-class="w-full max-w-xl" class="h-20 text-lg" v-model="text"></IInput>
     </div>
 
     <div>
@@ -101,7 +117,8 @@
         @click="switchPerviewCard(true)">
         <ClientOnly>
           <PreviewWraper :presetCode="preset">
-            <component :is="curComponent" :title="text" :center="isCenter" :bgColor="customColor.join('-')">
+            <component :is="curComponent" :title="text" :center="isCenter" :bgColor="customColor!.join('-')"
+              :color="`#${curstomFontColor}`">
             </component>
           </PreviewWraper>
         </ClientOnly>
@@ -128,22 +145,16 @@ const isLoadingImg = ref(true)
 const isCenter = ref(false)
 const isHighRatio = ref(false)
 const imgDownloadRef = ref()
+// 是否跟随背景色自动变化
+const isRelativeWithBgColors = ref(true)
+const fixedFontColor = ref('000000')
+const bgColors = ref<Array<GradientColors>>()
+const customColor = ref<GradientColors>(['7a24d6', '88e524'])
 
-
-const bgColors = ref([
-  ['ff7e5f', 'feb47b'],
-  ['4facfe', '00f2fe'],
-  ['a18cd1', 'fbc2eb'],
-  ['43e97b', '38f9d7'],
-  ['606c88', '3f4c6b'],
-  ['ff0844', 'ffb199'],
-  ['89f7fe', '66a6ff'],
-  ['f6d365', 'fda085'],
-  ['30cfd0', '330867'],
-  ['ff758c', 'ff7eb3']
-])
-
-const customColor = ref<string[]>(bgColors.value[0])
+// 自定义颜色？
+const curstomFontColor = computed(() => {
+  return isRelativeWithBgColors.value ? getGradientTextColor(customColor.value as GradientColors) : fixedFontColor.value
+})
 
 useHead({
   title: 'IMGX@早早集市',
@@ -191,7 +202,7 @@ const getCardStyle = (isTop: boolean) => ({
   opacity: isTop ? 1 : 0.6
 })
 
-watch([template, preset, ratio, customColor], () => {
+watch([template, preset, ratio, customColor, isCenter], () => {
   switchPerviewCard(true)
 })
 
@@ -202,7 +213,7 @@ const switchPerviewCard = (flag?: boolean) => {
 const generateImage = async () => {
   const img = new Image();
   isLoadingImg.value = true
-  generateUrl.value = `/api/img/${preset.value}/${template.value}/${text.value}?ratio=${ratio.value}&center=${isCenter.value ? 1 : 0}&bgColor=${customColor.value[0]}-${customColor.value[1]}`
+  generateUrl.value = `/api/img/${preset.value}/${template.value}/${text.value}?ratio=${ratio.value}&center=${isCenter.value ? 1 : 0}&bgColor=${customColor.value[0]}-${customColor.value[1]}&color=${curstomFontColor.value}`
   img.src = generateUrl.value;
   img.onload = () => {
     console.log(`加载完成`);
@@ -224,7 +235,23 @@ const generateImage = async () => {
 
 }
 
+const reRandomBgColors = () => {
+  bgColors.value = [
+    // 互补色 ： 活力
+    randomGradientColors('complementary'),
+    randomGradientColors('complementary'),
+    randomGradientColors('adjacent'),
+    randomGradientColors('adjacent'),
+    randomGradientColors('monochromatic'),
+    randomGradientColors('monochromatic'),
+
+  ]
+
+  customColor.value = bgColors.value[0]
+}
+
 onMounted(() => {
+  reRandomBgColors();
   setTimeout(() => {
     generateImage()
   }, 1000);

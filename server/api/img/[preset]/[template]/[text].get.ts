@@ -71,7 +71,7 @@ export default defineEventHandler(async (event) => {
       style: 'normal',
     }],
   })
-  console.log(`imgx => ${presets[preset].width} x ${presets[preset].height} x ${ratio} - center:${bgColor} - accentColor:${accentColor} - color:${color}`)
+  console.log(`imgx => ${presets[preset].width} x ${presets[preset].height} x ${ratio} - center:${center} - accentColor:${accentColor} - color:${color}`)
   const resvg = new Resvg(svg, {
     fitTo: {
       mode: 'original',
