@@ -86,7 +86,7 @@ API格式：https://imgx.zzao.club/api/img/[比例编号]/[模板编号]/[文本
 ## 新模板、功能建议、围观
 发邮件给我：gnakzz@qq.com
 
-添加微信好友：
+添加微信好友 (请备注 IMGX)：
 
 ![](https://img.zzao.club/article/202412301618241.jpg)
 
