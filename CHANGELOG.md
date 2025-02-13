@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.3](https://github.com/aatrooox/imgx/compare/v0.2.2...v0.2.3) (2025-02-13)
+
+
+### 🔨 其他
+
+* chore: 测试 release-it ([07d7d85](https://github.com/aatrooox/blog.zzao.club/commit/07d7d85d4fe11561284e21174b6249a39e96ffd3))
+* chore: release-it changelog 版本号错误 ([9bef6d2](https://github.com/aatrooox/blog.zzao.club/commit/9bef6d2588bbd1895e5741ba52d1eba3ce17db5c))
+
 ## [0.3.0](https://github.com/aatrooox/imgx/compare/0.2.0...0.3.0) (2025-02-13)
 
 
