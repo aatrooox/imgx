@@ -94,7 +94,7 @@
     "addUntrackedFiles": false,
     "commit": true,
     "commitMessage": "chore: release v${version}",
-    "tag": true,
+    "tagName": "v${version}",
     "push": false,
     "changelog": true
   },
