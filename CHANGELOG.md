@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.3.0](https://github.com/aatrooox/imgx/compare/0.2.0...0.3.0) (2025-02-13)
+
+
+### ✨ 新功能
+
+* feat: 预览组件；更新文档说明 ([3137c55](https://github.com/aatrooox/blog.zzao.club/commit/3137c551ef7137aa67369e04e34cf0839fad35dc))
+
+### 📝 文档
+
+* docs: 更新仓库信息 ([11488d9](https://github.com/aatrooox/blog.zzao.club/commit/11488d9bc85d88bfec9e4383694c2d6de93c10c3))
+
 ## [0.2.0](https://github.com/aatrooox/imgx/compare/0.1.10...0.2.0) (2025-02-12)
 
 
