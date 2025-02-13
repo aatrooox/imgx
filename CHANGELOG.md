@@ -1,5 +1,12 @@
 # Changelog
 
+# [0.3.0](https://github.com/aatrooox/imgx/compare/0.2.5...0.3.0) (2025-02-13)
+
+
+### Features
+
+* 接口默认开启随机颜色 ([51e5dcc](https://github.com/aatrooox/imgx/commit/51e5dcc5d121e24f8e0d8deb6fdfc31019b9fed5))
+
 # [0.3.0](https://github.com/aatrooox/imgx/compare/0.2.4...0.3.0) (2025-02-13)
 
 
