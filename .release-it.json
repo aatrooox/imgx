@@ -87,16 +87,7 @@
     "release": true
   },
   "git": {
-    "requireCleanWorkingDir": true,
-    "requireBranch": false,
-    "requireUpstream": false,
-    "requireCommits": true,
-    "addUntrackedFiles": false,
-    "commit": true,
-    "commitMessage": "chore: release v${version}",
-    "tagName": "v${version}",
-    "push": false,
-    "changelog": true
+    "commitMessage": "chore: release v${version}"
   },
   "hooks": {
     "after:release": "git push origin --follow-tags"
