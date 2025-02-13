@@ -61,8 +61,23 @@
         生成图片
       </Button>
     </div>
-    <div class="tip w-full max-w-xl text-sm">
-      现阶段<strong>API</strong>还在频繁调整中，建议<strong>下载图片进行使用</strong>
+    <div class="w-full max-w-xl">
+
+
+      <Accordion type="single" collapsible>
+        <AccordionItem value="item-1">
+          <AccordionTrigger>小提示！</AccordionTrigger>
+          <AccordionContent>
+            <div class="tip text-sm mb-1">
+              现阶段<strong class="text-cyan-500">API</strong>还在频繁调整中，建议<strong class="text-cyan-500">下载图片进行使用</strong>
+            </div>
+            <div class="tip w-full max-w-xl text-sm">
+              <strong class="text-cyan-500">预览时</strong>文字位置展示和实际图片<strong class="text-cyan-500">有差异</strong>，建议<strong
+                class="text-cyan-500">仅用来调整配色和预览排版</strong>
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
     </div>
     <div class="api w-full max-w-xl text-sm text-zinc-500 underline">
       {{ generateUrl }}
@@ -74,23 +89,23 @@
     <div>
     </div>
     <div class="toggle-box relative w-full max-w-xl">
-      <div class="img-preview box-border max-w-xl transition-all duration-500" v-if="generateUrl"
+      <div class="img-preview box-border absolute max-w-xl transition-all duration-500" v-if="generateUrl"
         :class="{ 'z-10': !isFirstOnTop, 'delay-200': !isFirstOnTop }" :style="getCardStyle(!isFirstOnTop)">
         <a :href="generateUrl" :download="`imgx-${preset}-${template}-@x${ratio}.png`" ref="imgDownloadRef">
           <!-- <img alt="imgx" ref="imgRef"> -->
         </a>
         <BorderBeam class="box-border" :size="200" :duration="2" :delay="9" :border-width="5" v-if="isLoadingImg" />
       </div>
-      <!-- <div class="max-w-[90%] h-auto absolute transition-all duration-500 cursor-pointer"
+      <div class="w-full max-w-xl h-auto absolute transition-all duration-500 cursor-pointer"
         :class="{ 'z-10': isFirstOnTop, 'delay-200': isFirstOnTop }" :style="getCardStyle(isFirstOnTop)"
         @click="switchPerviewCard(true)">
         <ClientOnly>
-          <PreviewWraper :presetCode="preset" :ratio="ratio">
-            <component :is="curComponent" :title="text" :fontSize="ratio * presets[preset].fontSize" :center="isCenter">
+          <PreviewWraper :presetCode="preset">
+            <component :is="curComponent" :title="text" :center="isCenter" :bgColor="customColor.join('-')">
             </component>
           </PreviewWraper>
         </ClientOnly>
-      </div> -->
+      </div>
     </div>
 
     <!-- <div class="w-full max-w-xl mt-[250px]">
@@ -176,10 +191,8 @@ const getCardStyle = (isTop: boolean) => ({
   opacity: isTop ? 1 : 0.6
 })
 
-watch([template, preset, ratio], () => {
-  // generateUrl.value = '';
-  // isFirstOnTop.value = true;
-  // generateImage()
+watch([template, preset, ratio, customColor], () => {
+  switchPerviewCard(true)
 })
 
 const switchPerviewCard = (flag?: boolean) => {

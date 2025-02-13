@@ -28,7 +28,7 @@ const {
           <div class="font-bold flex" :class="{ 'justify-center': center }">
             <!-- <span>{{ text }}</span> -->
             <template v-for="(part, index) in getParsedText(text)" :key="index">
-              <span :style="{ color: part.isTag && accentColor || '' }">
+              <span class="text-nowrap" :style="{ color: part.isTag && accentColor || '' }">
                 {{ part.text }}
               </span>
             </template>
