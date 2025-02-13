@@ -110,7 +110,8 @@
                 class="text-cyan-500">仅用来调整配色和预览排版</strong>
             </div>
             <div class="api w-full text-sm text-zinc-500 underline">
-              API演示( <strong class="text-cyan-500">点击生成后的链接</strong>)：{{ generateUrl }}
+              API演示( <strong class="text-cyan-500">点击生成后的链接</strong>)：<a :href="generateUrl" target="_blank">{{
+                generateUrl }}</a>
             </div>
           </AccordionContent>
         </AccordionItem>
