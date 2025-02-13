@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.8](https://github.com/aatrooox/imgx/compare/0.2.7...0.2.8) (2025-02-13)
+
+
+### Bug Fixes
+
+* fontSize失效问题 ([1b6392d](https://github.com/aatrooox/imgx/commit/1b6392dd11e445826114ecd8acb2ae747186a3b4))
+
 # [0.3.0](https://github.com/aatrooox/imgx/compare/0.2.6...0.3.0) (2025-02-13)
 
 
