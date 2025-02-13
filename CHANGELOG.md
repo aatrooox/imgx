@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.2.3](https://github.com/aatrooox/imgx/compare/v0.2.2...0.2.3) (2025-02-13)
+
+### 🔨 其他
+
+* 测试 release-it ([f2683bc](https://github.com/aatrooox/imgx/commit/f2683bc592af516fd04cacf13ac0e64c2640d7eb))
+* 测试 release-it ([07d7d85](https://github.com/aatrooox/imgx/commit/07d7d85d4fe11561284e21174b6249a39e96ffd3))
+* release v0.2.2 ([cf1f27c](https://github.com/aatrooox/imgx/commit/cf1f27c4bf7e524b052510c1731c6590d1e10e48))
+* release-it changelog 版本号错误 ([9bef6d2](https://github.com/aatrooox/imgx/commit/9bef6d2588bbd1895e5741ba52d1eba3ce17db5c))
+
 ## [0.2.3](https://github.com/aatrooox/imgx/compare/v0.2.2...v0.2.3) (2025-02-13)
 
 
