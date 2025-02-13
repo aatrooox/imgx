@@ -6,6 +6,7 @@ import type { PresetCode } from '~/lib/preset';
 import { serverTemplates } from '~/lib/template';
 import type { TemplateCode } from '~/lib/template'
 import type { Component } from 'vue';
+import { getGradientTextColor, getTextColor, randomBrightHexColor, randomGradientColors, randomHexColor } from '~/utils/color';
 export async function getComponent(name: TemplateCode): Promise<Component> {
   const module = await serverTemplates[name]()
   return module.default
@@ -52,12 +53,19 @@ export default defineEventHandler(async (event) => {
   const center = query.center === '1' ? 1 : 0;
   const ratio = query.ratio ? +query.ratio : 1;
   const props: any = { title:  parsedText }
+  const colorRandom = query.cr !== '0'; // 随机颜色
   if (template === '001') {
     if (bgColor) props.bgColor = `${bgColor}`
     if (color) props.color = `#${color}`
     if (accentColor) props.accentColor = `#${accentColor}`
     if (center === 1) props.center = true
     props.fontSize = ratio * presets[preset].fontSize
+    if (colorRandom) {
+      const bgColors = randomGradientColors('adjacent')
+      props.bgColor = props.bgColor || bgColors.join('-')
+      props.color = props.color || `#${getGradientTextColor(bgColors)}`
+      props.accentColor = props.accentColor || `#${randomBrightHexColor()}`
+    }
   }
   const componnet = await getComponent(template)
   const svg = await satori(componnet, {

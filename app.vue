@@ -49,7 +49,7 @@
       </div>
       <!-- 是否是 2 倍图 -->
       <NuxtIcon class="cursor-pointer"
-        :name="isHighRatio ? 'material-symbols:high-quality' : 'material-symbols:high-quality-outline'" size="3em"
+        :name="isHighRatio ? 'material-symbols:high-quality' : 'material-symbols:high-quality-outline'" size="2em"
         mode="svg" @click="isHighRatio = !isHighRatio"></NuxtIcon>
     </div>
     <div class="bgColor-selector w-full max-w-xl flex gap-2">
