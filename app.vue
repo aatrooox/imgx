@@ -61,18 +61,17 @@
       <Button variant="secondary" size="sm" @click="reRandomBgColors">随机</Button>
     </div>
     <div class="bgColor-selector w-full max-w-xl flex items-center gap-2">
-      <!-- <div v-for="color in bgColors" class="rounded-full w-[30px] h-[30px] cursor-pointer"
-        :class="{ 'border-4 border-black': color[0] === customColor[0] }"
-        :style="{ backgroundImage: `linear-gradient(to right, #${color[0]}, #${color[1]})` }"
-        @click="customColor = color">
-      </div> -->
       <div class="font-bold px-2 cursor-pointer" :style="{ color: '#ffffff', backgroundColor: '#000000' }"
         @click="setFixedFontColor('ffffff')">IMGX</div>
       <div class="font-bold px-2 cursor-pointer" :style="{ color: '#000000', backgroundColor: '#ffffff' }"
         @click="setFixedFontColor('000000')">IMGX</div>
       <div class="font-bold px-2 cursor-pointer"
         :style="{ backgroundImage: `linear-gradient(to right, #${customColor[0]}, #${customColor[1]})`, color: `#${curstomFontColor}` }"
-        @click="setFixedFontColor(randomHexColor())">随机</div>
+        @click="setFixedFontColor(randomHexColor())">随机基础色</div>
+
+      <div class="font-bold px-2 cursor-pointer"
+        :style="{ backgroundImage: `linear-gradient(to right, #${customColor[0]}, #${customColor[1]})`, color: `#${accentFontColor}` }"
+        @click="setAccentFontColor(randomHexColor())">随机强调色</div>
     </div>
     <div class="options w-full max-w-xl flex gap-2">
       <div class="flex items-center space-x-2">
@@ -240,7 +239,7 @@ const switchPerviewCard = (flag?: boolean) => {
 const generateImage = async () => {
   const img = new Image();
   isLoadingImg.value = true
-  generateUrl.value = `/api/img/${preset.value}/${template.value}/${text.value}?ratio=${ratio.value}&center=${isCenter.value ? 1 : 0}&bgColor=${customColor.value[0]}-${customColor.value[1]}&color=${curstomFontColor.value}`
+  generateUrl.value = `/api/img/${preset.value}/${template.value}/${text.value}?ratio=${ratio.value}&center=${isCenter.value ? 1 : 0}&bgColor=${customColor.value[0]}-${customColor.value[1]}&color=${curstomFontColor.value}&accentColor=${accentFontColor.value}`
   img.src = generateUrl.value;
   img.onload = () => {
     console.log(`加载完成`);
