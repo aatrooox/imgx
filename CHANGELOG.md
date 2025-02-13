@@ -1,3 +1,14 @@
+# Changelog
+
+# [0.3.0](https://github.com/aatrooox/imgx/compare/0.2.3...0.3.0) (2025-02-13)
+
+
+### Features
+
+* **GUI:** 完善随机色渐变机制：互补色渐变、同色系渐变、相邻色渐变；增加跟随背景色自动设置文字颜色； ([32df524](https://github.com/aatrooox/imgx/commit/32df52496e3770221730644dbc7f410b418f6822))
+* **GUI:** 增加随机强调色 ([8a41ace](https://github.com/aatrooox/imgx/commit/8a41acef713a500c9f004f42591f9df13a953ca7))
+* **GUI:** 增加选择文字页面/随机文字颜色 ([8556025](https://github.com/aatrooox/imgx/commit/8556025411b55d26c5e0e4b44c599f5c17446185))
+
 ## [0.2.3](https://github.com/aatrooox/imgx/compare/v0.2.2...0.2.3) (2025-02-13)
 
 
@@ -139,6 +150,3 @@
 * 初始化 ([0dff931](https://github.com/aatrooox/imgx/commit/0dff931390233ff6a75c6afeed11f96cceb8889c))
 * 增加 changelog 包 ([bfa7ff8](https://github.com/aatrooox/imgx/commit/bfa7ff874f6fecd91458d87bdb12068974780a22))
 * 增加 release-it ([64fc970](https://github.com/aatrooox/imgx/commit/64fc970523086b97d0bf44a7975f75a2db6327e7))
-
-
-
