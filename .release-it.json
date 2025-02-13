@@ -76,20 +76,15 @@
         ]
       },
       "infile": "CHANGELOG.md",
-      "header": "# Changelog",
-      "writerOpts": {
-        "commitPartial": "* {{header}} ([{{shortHash}}](https://github.com/aatrooox/blog.zzao.club/commit/{{hash}}))\n",
-        "mainTemplate": "{{> header}}\n\n{{#each commitGroups}}\n\n{{#if title}}\n### {{title}}\n\n{{/if}}\n{{#each commits}}\n{{> commit root=@root}}\n{{/each}}\n{{/each}}\n\n{{> footer}}"
-      }
+      "header": "# Changelog"
     }
   },
   "github": {
     "release": true
   },
   "git": {
-    "commitMessage": "chore: release v${version}"
-  },
-  "hooks": {
-    "after:release": "git push origin --follow-tags"
+    "commitMessage": "chore: release v${version}",
+    "tagName": "${version}",
+    "push": true
   }
 }
