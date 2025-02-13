@@ -60,7 +60,7 @@ export default defineEventHandler(async (event) => {
     if (color) props.color = `#${color}`
     if (accentColor) props.accentColor = `#${accentColor}`
     if (center === 1) props.center = true
-    if (fontSize) props.fontSize = fontSize || ratio * presets[preset].fontSize
+    props.fontSize = fontSize || ratio * presets[preset].fontSize
     if (colorRandom) {
       const bgColors = randomGradientColors('adjacent')
       props.bgColor = props.bgColor || bgColors.join('-')
