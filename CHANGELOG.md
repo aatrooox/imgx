@@ -1,5 +1,12 @@
 # Changelog
 
+# [0.3.0](https://github.com/aatrooox/imgx/compare/0.2.4...0.3.0) (2025-02-13)
+
+
+### Features
+
+* api 点击直达 ([458912d](https://github.com/aatrooox/imgx/commit/458912d0b452884c7e7d47eb0b2c0d73f212ff3b))
+
 # [0.3.0](https://github.com/aatrooox/imgx/compare/0.2.3...0.3.0) (2025-02-13)
 
 
