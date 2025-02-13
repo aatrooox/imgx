@@ -52,6 +52,7 @@ export default defineEventHandler(async (event) => {
   const accentColor = query.accentColor;
   const center = query.center === '1' ? 1 : 0;
   const ratio = query.ratio ? +query.ratio : 1;
+  const fontSize = query.fs ? isNaN(+query.fs) ? 0 : +query.fs : 0
   const props: any = { title:  parsedText }
   const colorRandom = query.cr !== '0'; // 随机颜色
   if (template === '001') {
@@ -59,7 +60,7 @@ export default defineEventHandler(async (event) => {
     if (color) props.color = `#${color}`
     if (accentColor) props.accentColor = `#${accentColor}`
     if (center === 1) props.center = true
-    props.fontSize = ratio * presets[preset].fontSize
+    if (fontSize) props.fontSize = fontSize || ratio * presets[preset].fontSize
     if (colorRandom) {
       const bgColors = randomGradientColors('adjacent')
       props.bgColor = props.bgColor || bgColors.join('-')
