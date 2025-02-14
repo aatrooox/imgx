@@ -1,5 +1,7 @@
 # Changelog
 
+## [0.2.9](https://github.com/aatrooox/imgx/compare/0.2.8...0.2.9) (2025-02-14)
+
 ## [0.2.8](https://github.com/aatrooox/imgx/compare/0.2.7...0.2.8) (2025-02-13)
 
 
