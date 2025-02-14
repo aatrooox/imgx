@@ -1,4 +1,4 @@
-export const presets = {
+export const sizes = {
   // 2.35:1 公众号封面
   '001': {
     width: 500,
@@ -41,4 +41,4 @@ export const presets = {
   }
 }
 
-export type PresetCode = keyof typeof presets;
+export type SizeCode = keyof typeof sizes;

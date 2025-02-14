@@ -93,7 +93,7 @@
                 <NuxtIcon name="material-symbols:recenter-rounded" size="2em" mode="svg"></NuxtIcon> 是否居中
               </div>
               <div class="flex items-center gap-2">
-                <NuxtIcon name="material-symbols:high-quality" size="2em" mode="svg"></NuxtIcon>是否高清
+                <NuxtIcon name="material-symbols:high-quality" size="3em" mode="svg"></NuxtIcon>是否高清
               </div>
               <div class="flex">
                 <div class="font-bold px-2"
@@ -136,7 +136,7 @@
         :class="{ 'z-10': isFirstOnTop, 'delay-200': isFirstOnTop }" :style="getCardStyle(isFirstOnTop)"
         @click="switchPerviewCard(true)">
         <ClientOnly>
-          <PreviewWraper :presetCode="preset">
+          <PreviewWraper :SizeCode="preset">
             <component :is="curComponent" :title="text" :center="isCenter" :bgColor="customColor!.join('-')"
               :color="`#${curstomFontColor}`" :accentColor="`#${accentFontColor}`">
             </component>
@@ -159,7 +159,7 @@
 
 <script lang="ts" setup>
 import { templates, type TemplateCode } from '@/lib/template';
-import { presets, type PresetCode } from '@/lib/preset';
+import { sizes, type SizeCode } from '~/lib/sizes';
 const isFirstOnTop = ref(true)
 const isLoadingImg = ref(true)
 const isCenter = ref(false)
@@ -198,15 +198,15 @@ const templateOptions = computed(() => {
 })
 
 const presetOptions = computed(() => {
-  return Object.keys(presets).map((key) => ({
+  return Object.keys(sizes).map((key) => ({
     value: key,
-    label: `尺寸-${key}-${presets[key as PresetCode].desc}`
+    label: `尺寸-${key}-${sizes[key as SizeCode].desc}`
   }))
 })
 
 const config = useRuntimeConfig();
 
-const preset = ref<PresetCode>('001')
+const preset = ref<SizeCode>('001')
 const template = ref<TemplateCode>('001')
 const ratio = computed(() => {
   return isHighRatio.value ? 2 : 1

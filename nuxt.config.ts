@@ -11,7 +11,7 @@ const packageJson = JSON.parse(
 
 const appVersion = packageJson.version
 export default defineNuxtConfig({
-  compatibilityDate: '2024-11-01',
+  compatibilityDate: '2025-02-08',
   devtools: { enabled: true },
   // future: {
   //   compatibilityVersion: 4
@@ -29,11 +29,11 @@ export default defineNuxtConfig({
   },
   icon: {
     componentName: 'NuxtIcon',
-    clientBundle: {
-      scan: true,
-      includeCustomCollections: true,
-      // sizeLimitKb: 256,
-    }
+    // clientBundle: {
+    //   scan: true,
+    //   includeCustomCollections: true,
+    //   sizeLimitKb: 256,
+    // }
   },
   colorMode: {
     preference: 'dark',

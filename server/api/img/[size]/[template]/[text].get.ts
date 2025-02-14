@@ -1,12 +1,15 @@
 import { Resvg } from '@resvg/resvg-js'
 import { satori, html } from '~/utils/satori';
 import BiaoTiHei from '~/assets/fonts/YouSheBiaoTiHei-2.ttf';
-import { presets } from '~/lib/preset';
-import type { PresetCode } from '~/lib/preset';
+import { sizes } from '~/lib/sizes';
+import type { SizeCode } from '~/lib/sizes';
 import { serverTemplates } from '~/lib/template';
 import type { TemplateCode } from '~/lib/template'
+import { getBase64IconURL } from '~/lib/icons';
+
 import type { Component } from 'vue';
 import { getGradientTextColor, getTextColor, randomBrightHexColor, randomGradientColors, randomHexColor } from '~/utils/color';
+
 export async function getComponent(name: TemplateCode): Promise<Component> {
   const module = await serverTemplates[name]()
   return module.default
@@ -15,7 +18,7 @@ export async function getComponent(name: TemplateCode): Promise<Component> {
 export default defineEventHandler(async (event) => {
   const text = decodeURI(getRouterParam(event, 'text') || '')
   const query = getQuery(event);
-  const preset = getRouterParam(event, 'preset') as PresetCode;
+  const size = getRouterParam(event, 'size') as SizeCode;
   const template = getRouterParam(event, 'template') as TemplateCode;
   if (!!!text) {
     throw createError({
@@ -33,7 +36,7 @@ export default defineEventHandler(async (event) => {
 
   const parsedText = text.replace(/\//g, '')
 
-  if (!presets[preset]) {
+  if (!sizes[size]) {
     throw createError({
       statusCode: 400,
       statusMessage: '预设不存在',
@@ -53,14 +56,34 @@ export default defineEventHandler(async (event) => {
   const center = query.center === '1' ? 1 : 0;
   const ratio = query.ratio ? +query.ratio : 1;
   const fontSize = query.fs ? isNaN(+query.fs) ? 0 : +query.fs : 0
-  const props: any = { title:  parsedText }
   const colorRandom = query.cr !== '0'; // 随机颜色
+  // const iconName = query.icon as string
+
+  const props: any = { title:  parsedText }
+
+  // 字号
+  props.fontSize = fontSize || ratio * sizes[size].fontSize   
+  // emoji 默认和字号一样大
+  const iconSize = query.iconSize ?  +query.iconSize : props.fontSize
+  // console.log(`iconData`, iconData)
+  // Use it to render icon
+  props.iconSize = iconSize;
+  
   if (template === '001') {
     if (bgColor) props.bgColor = `${bgColor}`
     if (color) props.color = `#${color}`
     if (accentColor) props.accentColor = `#${accentColor}`
     if (center === 1) props.center = true
-    props.fontSize = fontSize || ratio * presets[preset].fontSize
+     
+    // if (!!iconName) {
+      // console.log(`iconName`, iconName)
+    //   const iconData = getBase64IconURL(iconName, iconSize);
+    //   if (iconData) {
+    //     props.icon = iconData
+    //     props.iconSize = iconSize
+    //   }
+    // }
+    
     if (colorRandom) {
       const bgColors = randomGradientColors('adjacent')
       props.bgColor = props.bgColor || bgColors.join('-')
@@ -71,16 +94,19 @@ export default defineEventHandler(async (event) => {
   const componnet = await getComponent(template)
   const svg = await satori(componnet, {
     props,
-    width: presets[preset].width * ratio,
-    height: presets[preset].height * ratio,
+    width: sizes[size].width * ratio,
+    height: sizes[size].height * ratio,
     fonts: [{
       name: 'YouSheBiaoTiHei',
       data: BiaoTiHei,
       weight: 400,
       style: 'normal',
     }],
+    graphemeImages: {
+      
+    }
   })
-  console.log(`imgx => ${presets[preset].width} x ${presets[preset].height} x ${ratio} - center:${center} - accentColor:${accentColor} - color:${color}`)
+  console.log(`imgx => ${sizes[size].width} x ${sizes[size].height} x ${ratio} - center:${center} - accentColor:${accentColor} - color:${color}`)
   const resvg = new Resvg(svg, {
     fitTo: {
       mode: 'original',
