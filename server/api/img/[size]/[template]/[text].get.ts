@@ -27,7 +27,7 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  if(text.length > 50) {
+  if(text.length > 200) {
     throw createError({
       statusCode: 400,
       statusMessage: '文本过长',

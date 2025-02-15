@@ -211,7 +211,7 @@ const template = ref<TemplateCode>('001')
 const ratio = computed(() => {
   return isHighRatio.value ? 2 : 1
 })
-const text = ref('最新最全的[Nuxt]实战教程+blog.zzao.club')
+const text = ref('*Deepseek*的 + 108大使用技巧+[twemoji:face-with-hand-over-mouth]')
 const generateUrl = ref(``)
 const curComponent = computed(() => {
   return templates[template.value]
