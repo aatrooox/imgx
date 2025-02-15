@@ -56,9 +56,10 @@ export function getParsedText(content: string) {
     // 判断是哪种标记并添加相应的文本
     if (match[1] !== undefined) {
       // [] 标记的内容 表情
+      const base64URL = getBase64IconURL(match[1], 30)
       parts.push({
         text: match[1],
-        type: 'emoji',
+        type: base64URL && 'emoji' || 'text',
         url: getBase64IconURL(match[1], 30)
       })
     } else if (match[2] !== undefined) {

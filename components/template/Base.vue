@@ -35,8 +35,8 @@ const {
             <!-- <span>{{ text }}</span> -->
             <template v-for="(part, index) in getParsedText(text)" :key="index">
               <span class="flex" v-if="part.type === 'emoji'"
-                :style="{ width: part.type === 'emoji' ? (iconSize || fontSize) + 'px' : 'auto', height: part.type === 'emoji' ? (iconSize || fontSize) + 'px' : 'auto', backgroundImage: `url(${part.url})`, backgroundRepeat: 'no-repeat', backgroundSize: '100% 100%' }"></span>
-              <span class="text-nowrap" v-else :style="{ color: part.type === 'accent' ? accentColor : '' }">
+                :style="{ width: (iconSize || fontSize) + 'px', height: (iconSize || fontSize) + 'px', backgroundImage: `url(${part.url})`, backgroundRepeat: 'no-repeat', backgroundSize: '100% 100%' }"></span>
+              <span class="text-nowrap" v-else :style="{ color: part.type === 'accent' ? (accentColor || '') : '' }">
                 {{ part.text }}
               </span>
             </template>
