@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.1](https://github.com/aatrooox/imgx/compare/0.3.0...0.3.1) (2025-02-15)
+
+
+### Bug Fixes
+
+* 修复错误的emoji名称问题 ([330a4df](https://github.com/aatrooox/imgx/commit/330a4df429c189498d85f691bed95ebb208e5dd6))
+
 ## [0.2.9](https://github.com/aatrooox/imgx/compare/0.2.8...0.2.9) (2025-02-14)
 
 ## [0.2.8](https://github.com/aatrooox/imgx/compare/0.2.7...0.2.8) (2025-02-13)
