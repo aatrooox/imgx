@@ -1,5 +1,12 @@
 # Changelog
 
+# [0.4.0](https://github.com/aatrooox/imgx/compare/0.3.1...0.4.0) (2025-02-15)
+
+
+### Features
+
+* 修改首页示例；增加文本长度限制 ([95f99d8](https://github.com/aatrooox/imgx/commit/95f99d827079cec6c64c2fa7e177d14c369fa162))
+
 ## [0.3.1](https://github.com/aatrooox/imgx/compare/0.3.0...0.3.1) (2025-02-15)
 
 
