@@ -46,7 +46,8 @@ API格式：https://imgx.zzao.club/api/img/[比例编号]/[模板编号]/[文本
 ## 语法
 | 语法 | 含义 | 说明 |
 | --- | --- | --- |
-| `[]` | 强调文字 | 支持配置强调色，**后续**会支持多种强调方式 |
+| `**` | 强调文字 | 支持配置强调色，**后续**会支持多种强调方式 |
+| `[xxx]` | emoji | [twemoji](https://icon-sets.iconify.design/twemoji/?category=Emoji) |
 | `+` | 换行 | 文字主动换行，**后续**支持每行文字设置不同颜色 |
 
 ## 参数
@@ -58,8 +59,9 @@ API格式：https://imgx.zzao.club/api/img/[比例编号]/[模板编号]/[文本
 | color | 文字颜色 | ffffff |  当前表示所有文字的配色，即将支持多个颜色，匹配每行文字|
 | ratio | 几倍图 | 1 | 要么 1 要么 2 |
 | center | 是否居中 | 1 | 默认左对齐，居中时为整体文字都居中 |
-| fs | 字号 | 30 | - |
-| cr | color-random 随机颜色 | 1 | 默认开启；传入指定颜色时，不会随机指定的属性 |
+| fontSize | 字号 | 30 | - |
+| iconSize | Emoji大小 | 30 | 默认和 fontSize 一致 |
+| colorRandom | 随机颜色 | 1 | 默认开启；传入指定颜色时，不会随机指定的属性 |
 
 ## 功能规划
 

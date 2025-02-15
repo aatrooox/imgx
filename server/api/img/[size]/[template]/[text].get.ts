@@ -55,8 +55,8 @@ export default defineEventHandler(async (event) => {
   const accentColor = query.accentColor;
   const center = query.center === '1' ? 1 : 0;
   const ratio = query.ratio ? +query.ratio : 1;
-  const fontSize = query.fs ? isNaN(+query.fs) ? 0 : +query.fs : 0
-  const colorRandom = query.cr !== '0'; // 随机颜色
+  const fontSize = query.fontSize ? isNaN(+query.fontSize) ? 0 : +query.fontSize : 0
+  const colorRandom = query.colorRandom !== '0'; // 随机颜色
   // const iconName = query.icon as string
 
   const props: any = { title:  parsedText }
