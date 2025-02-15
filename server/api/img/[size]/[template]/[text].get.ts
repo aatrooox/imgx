@@ -3,7 +3,7 @@ import { satori, html } from '~/utils/satori';
 import BiaoTiHei from '~/assets/fonts/YouSheBiaoTiHei-2.ttf';
 import { sizes } from '~/lib/sizes';
 import type { SizeCode } from '~/lib/sizes';
-import { serverTemplates } from '~/lib/template';
+import { getParsedBgColor, serverTemplates } from '~/lib/template';
 import type { TemplateCode } from '~/lib/template'
 import { getBase64IconURL } from '~/lib/icons';
 
@@ -50,13 +50,23 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  const bgColor = query.bgColor;
+  const _bgColor = query.bgColor;
   const color = query.color;
   const accentColor = query.accentColor;
   const center = query.center === '1' ? 1 : 0;
   const ratio = query.ratio ? +query.ratio : 1;
   const fontSize = query.fontSize ? isNaN(+query.fontSize) ? 0 : +query.fontSize : 0
   const colorRandom = query.colorRandom !== '0'; // 随机颜色
+  // padding?: string
+  // textWrapBgColor?: string
+  // textWrapShadow?: string
+  // textWrapPadding?: string
+  // textWrapRounded?: string
+  const padding = query.padding ?? 0
+  const textWrapBgColor = query.textWrapBgColor ?? ''
+  const textWrapShadow = query.textWrapShadow ?? 'none'
+  const textWrapPadding = query.textWrapPadding ?? '0px'
+  const textWrapRounded = query.textWrapRounded ?? 'none'
   // const iconName = query.icon as string
 
   const props: any = { title:  parsedText }
@@ -70,20 +80,34 @@ export default defineEventHandler(async (event) => {
   props.iconSize = iconSize;
   
   if (template === '001') {
-    if (bgColor) props.bgColor = `${bgColor}`
+    if (_bgColor) {
+      const { bgColor, bgImage } = getParsedBgColor(_bgColor as string)
+      if (bgColor) {
+        props.bgColor = bgColor;
+      }
+
+      if (bgImage) {
+        props.bgImage = bgImage;
+      }
+
+    }
+    console.log(`pros.bgColor`, props.bgColor)
     if (color) props.color = `#${color}`
     if (accentColor) props.accentColor = `#${accentColor}`
     if (center === 1) props.center = true
-     
-    // if (!!iconName) {
-      // console.log(`iconName`, iconName)
-    //   const iconData = getBase64IconURL(iconName, iconSize);
-    //   if (iconData) {
-    //     props.icon = iconData
-    //     props.iconSize = iconSize
-    //   }
-    // }
-    
+    if (padding) props.padding = padding 
+    if (textWrapBgColor) {
+      const { bgColor, bgImage } = getParsedBgColor(textWrapBgColor as string)
+
+      if (bgColor) {
+        props.textWrapBgColor = bgColor
+      }
+      
+    }
+    props.textWrapShadow = textWrapShadow
+    props.textWrapPadding = textWrapPadding
+    props.textWrapRounded = textWrapRounded
+
     if (colorRandom) {
       const bgColors = randomGradientColors('adjacent')
       props.bgColor = props.bgColor || bgColors.join('-')

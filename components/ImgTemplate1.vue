@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getParsedText, getParsetBgColor } from '~/lib/template';
+import { getParsedText, getParsedBgColor } from '~/lib/template';
 const {
   title = 'IMGX',
   bgColor = 'f6d365-fda085',
@@ -21,7 +21,7 @@ const {
 
 <template>
   <div class="w-full h-full flex items-center justify-center p-8"
-    :style="{ ...getParsetBgColor(bgColor), color: color, fontSize: fontSize + 'px' }">
+    :style="{ backgroundColor: bgColor, color: color, fontSize: fontSize + 'px' }">
     <div class="text-wrap flex w-full h-full" :class="{ 'justify-center': center, 'items-center': center }">
       <div class="flex flex-col w-full">
         <template v-for="text in title.split('+')">

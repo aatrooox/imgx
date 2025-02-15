@@ -15,22 +15,25 @@ export const serverTemplates = {
 
 export type TemplateCode = keyof typeof templates;
 
-export function getParsetBgColor(color: string) {
+export function getParsedBgColor(color: string) {
   const colors = color.split('-');
+  function getSingleColor(color: string) {
+    return color.includes('#') ? color : `#${color}`
+  }
   if (colors.length === 1) {
     return {
-      backgroundColor: colors[0].includes(',') ? colors[0] : `#${colors[0]}`
+      bgColor: colors[0].includes(',') ? colors[0] : getSingleColor(colors[0])
     }
   }
 
   if (colors.length >= 2) {
     return {
-      backgroundImage: `linear-gradient(to right, #${colors[0]}, #${colors[1]})`
+      bgImage: `linear-gradient(to right, ${getSingleColor(colors[0])}, ${getSingleColor(colors[1])})`
     }
   }
 
   return {
-    backgroundColor: `rgba(243,244,212)`
+    bgColor: `rgba(243,244,212)`
   }
 }
 

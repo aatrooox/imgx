@@ -136,8 +136,9 @@
         :class="{ 'z-10': isFirstOnTop, 'delay-200': isFirstOnTop }" :style="getCardStyle(isFirstOnTop)"
         @click="switchPerviewCard(true)">
         <PreviewWraper :SizeCode="preset">
-          <component :is="curComponent" :title="text" :center="isCenter" :bgColor="customColor!.join('-')"
-            :color="`#${curstomFontColor}`" :accentColor="`#${accentFontColor}`">
+          <component :is="curComponent" :title="text" :center="isCenter" :bgColor="curBgColor" :bgImage="curBgImage"
+            :color="`#${curstomFontColor}`" :accentColor="`#${accentFontColor}`" :textWrapBgColor="textWrapBgColor"
+            :textWrapPadding="textWrapPadding" :textWrapRounded="textWrapRounded" :textWrapShadow="textWrapShadow">
           </component>
         </PreviewWraper>
       </div>
@@ -156,7 +157,7 @@
 </template>
 
 <script lang="ts" setup>
-import { templates, type TemplateCode } from '@/lib/template';
+import { getParsedBgColor, templates, type TemplateCode } from '@/lib/template';
 import { sizes, type SizeCode } from '~/lib/sizes';
 const isFirstOnTop = ref(true)
 const isLoadingImg = ref(true)
@@ -170,9 +171,24 @@ const fixedFontColor = ref('000000')
 // 强调色
 const accentFontColor = ref('0088a9');
 
+const textWrapBgColor = ref('rgba(255,255,255,0.7)')
+const textWrapPadding = ref('20px')
+const textWrapRounded = ref('lg')
+const textWrapShadow = ref('lg')
+
 const bgColors = ref<Array<GradientColors>>()
 const customColor = ref<GradientColors>(['7a24d6', '88e524'])
 
+const curBgColor = computed(() => {
+  const { bgColor, bgImage } = getParsedBgColor(customColor.value.join('-'))
+  console.log(`bgColor`, bgColor, customColor.value.join('-'))
+  return bgColor || null
+})
+
+const curBgImage = computed(() => {
+  const { bgColor, bgImage } = getParsedBgColor(customColor.value.join('-'))
+  return bgImage || null
+})
 // 自定义颜色？
 const curstomFontColor = computed(() => {
   return isRelativeWithBgColors.value ? getGradientTextColor(customColor.value as GradientColors) : fixedFontColor.value
@@ -227,7 +243,7 @@ const getCardStyle = (isTop: boolean) => ({
   opacity: isTop ? 1 : 0.6
 })
 
-watch([template, preset, ratio, customColor, isCenter], () => {
+watch([template, preset, ratio, customColor, accentFontColor, isCenter], () => {
   switchPerviewCard(true)
 })
 
@@ -238,7 +254,7 @@ const switchPerviewCard = (flag?: boolean) => {
 const generateImage = async () => {
   const img = new Image();
   isLoadingImg.value = true
-  generateUrl.value = `/api/img/${preset.value}/${template.value}/${text.value}?ratio=${ratio.value}&center=${isCenter.value ? 1 : 0}&bgColor=${customColor.value[0]}-${customColor.value[1]}&color=${curstomFontColor.value}&accentColor=${accentFontColor.value}`
+  generateUrl.value = `/api/img/${preset.value}/${template.value}/${text.value}?ratio=${ratio.value}&center=${isCenter.value ? 1 : 0}&bgColor=${customColor.value[0]}-${customColor.value[1]}&color=${curstomFontColor.value}&accentColor=${accentFontColor.value}&textWrapBgColor=${textWrapBgColor.value}&textWrapPadding=${textWrapPadding.value}&textWrapRounded=${textWrapRounded.value}&textWrapShadow=${textWrapShadow.value}`
   img.src = generateUrl.value;
   img.onload = () => {
     console.log(`加载完成`);
