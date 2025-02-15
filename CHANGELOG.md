@@ -1,5 +1,7 @@
 # Changelog
 
+## [0.3.3](https://github.com/aatrooox/imgx/compare/0.3.2...0.3.3) (2025-02-15)
+
 # [0.4.0](https://github.com/aatrooox/imgx/compare/0.3.1...0.4.0) (2025-02-15)
 
 
