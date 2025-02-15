@@ -1,5 +1,12 @@
 # Changelog
 
+# [0.4.0](https://github.com/aatrooox/imgx/compare/0.3.3...0.4.0) (2025-02-15)
+
+
+### Features
+
+* 增加内容区域样式配置；更新文档 ([5b031e2](https://github.com/aatrooox/imgx/commit/5b031e2c6b4907dae0e0b9881bbb96c156fac687))
+
 ## [0.3.3](https://github.com/aatrooox/imgx/compare/0.3.2...0.3.3) (2025-02-15)
 
 # [0.4.0](https://github.com/aatrooox/imgx/compare/0.3.1...0.4.0) (2025-02-15)
