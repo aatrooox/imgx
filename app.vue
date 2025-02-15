@@ -135,13 +135,11 @@
       <div class="w-full max-w-xl h-auto absolute transition-all duration-500 cursor-pointer"
         :class="{ 'z-10': isFirstOnTop, 'delay-200': isFirstOnTop }" :style="getCardStyle(isFirstOnTop)"
         @click="switchPerviewCard(true)">
-        <ClientOnly>
-          <PreviewWraper :SizeCode="preset">
-            <component :is="curComponent" :title="text" :center="isCenter" :bgColor="customColor!.join('-')"
-              :color="`#${curstomFontColor}`" :accentColor="`#${accentFontColor}`">
-            </component>
-          </PreviewWraper>
-        </ClientOnly>
+        <PreviewWraper :SizeCode="preset">
+          <component :is="curComponent" :title="text" :center="isCenter" :bgColor="customColor!.join('-')"
+            :color="`#${curstomFontColor}`" :accentColor="`#${accentFontColor}`">
+          </component>
+        </PreviewWraper>
       </div>
     </div>
 

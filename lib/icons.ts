@@ -1,12 +1,12 @@
-import { icons } from '@iconify-json/material-symbols';
+// import { icons } from '@iconify-json/material-symbols';
 import { icons as emojiIcons } from '@iconify-json/twemoji'
 import { getIconData, iconToSVG, iconToHTML, replaceIDs } from '@iconify/utils';
 
 type IconName = string
-type SupportedSetName = 'twemoji' | 'material-symbols'
+type SupportedSetName = 'twemoji'
 const supportedIcons = {
   'twemoji': emojiIcons,
-  'material-symbols': icons
+  // 'material-symbols': icons
 }
 /**
  * 返回在 backgroundImage 中使用的url内容
