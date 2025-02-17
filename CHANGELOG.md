@@ -1,6 +1,24 @@
 # Changelog
 
 
+## v0.4.6
+
+[compare changes](https://github.com/aatrooox/imgx/compare/v0.4.5...v0.4.6)
+
+### 🏡 Chore
+
+- 移除 release-it 相关依赖 ([4e0d298](https://github.com/aatrooox/imgx/commit/4e0d298))
+- Scripts ([153ae2e](https://github.com/aatrooox/imgx/commit/153ae2e))
+
+### 🤖 CI
+
+- 修改部署条件 ([26a2493](https://github.com/aatrooox/imgx/commit/26a2493))
+- 增加飞书 webhook 通知 ([64183ee](https://github.com/aatrooox/imgx/commit/64183ee))
+
+### ❤️ Contributors
+
+- Gnak <gnakzz@qq.com>
+
 ## v0.4.5
 
 [compare changes](https://github.com/aatrooox/imgx/compare/v0.4.4...v0.4.5)
