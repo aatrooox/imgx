@@ -59,24 +59,29 @@ jobs:
           curl -X POST \
             -H "Content-Type: application/json" \
             -d '{
-              "msg_type": "interactive",
-              "card": {
-                "header": {
-                  "title": {
-                    "tag": "plain_text",
-                    "content": "部署通知"
-                  },
-                  "template": "${{ job.status == '\''success'\'' ? '\''blue'\'' : '\''red'\'' }}"
-                },
-                "elements": [
-                  {
-                    "tag": "div",
-                    "text": {
-                      "tag": "lark_md",
-                      "content": "**部署状态：**${{ job.status }}\n**仓库：**${{ github.repository }}\n**提交：**${{ github.sha }}"
-                    }
+              "msg_type": "post",
+              "content": {
+                "post": {
+                  "zh_cn": {
+                    "title": "${{ github.repository }} 部署完成",
+                    "content": [
+                      [
+                        {
+                          "tag": "text",
+                          "text": "最新提交: ${{ github.event.head_commit.message }}\n"
+                        },
+                        {
+                          "tag": "text",
+                          "text": "部署状态: ${{ job.status }}"
+                        },
+                        {
+                          "tag": "at",
+                          "user_id": "${{ vars.FEISHU_USER_ID }}"
+                        }
+                      ]
+                    ]
                   }
-                ]
+                }
               }
             }' \
             "${{ vars.FEISHU_WEBHOOK }}"
