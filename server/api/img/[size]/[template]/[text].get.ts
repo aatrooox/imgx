@@ -110,7 +110,15 @@ export default defineEventHandler(async (event) => {
 
     if (colorRandom) {
       const bgColors = randomGradientColors('adjacent')
-      props.bgColor = props.bgColor || bgColors.join('-')
+      const { bgColor, bgImage } = getParsedBgColor(bgColors.join('-'))
+      if (bgColor) {
+        props.bgColor = props.bgColor || bgColor;
+      }
+
+      if (bgImage) {
+        props.bgImage = props.bgImage || bgImage;
+      }
+      // props.bgColor = props.bgColor || bgColors.join('-')
       props.color = props.color || `#${getGradientTextColor(bgColors)}`
       props.accentColor = props.accentColor || `#${randomBrightHexColor()}`
     }
