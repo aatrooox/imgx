@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.4.7
+
+[compare changes](https://github.com/aatrooox/imgx/compare/v0.4.6...v0.4.7)
+
+### 🩹 Fixes
+
+- **ci:** 配置文件错误 ([9ca8f4a](https://github.com/aatrooox/imgx/commit/9ca8f4a))
+
+### ❤️ Contributors
+
+- Gnak <gnakzz@qq.com>
+
 ## v0.4.6
 
 [compare changes](https://github.com/aatrooox/imgx/compare/v0.4.5...v0.4.6)
