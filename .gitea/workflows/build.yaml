@@ -8,7 +8,7 @@ jobs:
   Explore-Gitea-Actions:
     runs-on: debian
     # 发版时才会部署，正常提交不部署
-    if: "contains(github.event.head_commit.message, 'chore(release)')"
+    if: "contains(gitea.event.head_commit.message, 'chore(release)')"
     steps:
       - run: echo "  The job was automatically triggered by a ${{ gitea.event_name }} event."
       - run: echo "  This job is now running on a ${{ runner.os }} server hosted by Gitea!"
@@ -64,17 +64,21 @@ jobs:
               "content": {
                 "post": {
                   "zh_cn": {
-                    "title": "${{ gitea.repository }} 部署完成",
+                    "title": "${{ gitea.repository }} released",
                     "content": [
                       [
                         {
                           "tag": "text",
-                          "text": "最新提交: ${{ gitea.ref_name }}"
-                        },
+                          "text": "HEAD: ${{ gitea.event.head_commit.message }}"
+                        }
+                      ],
+                      [
                         {
                           "tag": "text",
-                          "text": "部署状态: ${{ job.status }}"
-                        },
+                          "text": "status: ${{ job.status }}"
+                        }
+                      ],
+                      [
                         {
                           "tag": "at",
                           "user_id": "${{ vars.FEISHU_USER_ID }}"
