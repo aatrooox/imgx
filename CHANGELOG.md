@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.4.5
+
+[compare changes](https://github.com/aatrooox/imgx/compare/v0.4.4...v0.4.5)
+
+### 🏡 Chore
+
+- 测试自动提交 ([622b42a](https://github.com/aatrooox/imgx/commit/622b42a))
+
+### ❤️ Contributors
+
+- Gnak <gnakzz@qq.com>
+
 ## v0.4.4
 
 [compare changes](https://github.com/aatrooox/imgx/compare/v0.4.3...v0.4.4)
