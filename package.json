@@ -3,7 +3,7 @@
   "private": true,
   "homepage": "https://imgx.zzao.club",
   "description": "a img tool power by nuxt",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/aatrooox/imgx.git"
@@ -20,7 +20,7 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "release": "dotenv release-it --"
+    "release": "npx changelogen@latest --release"
   },
   "dependencies": {
     "@iconify/utils": "^2.3.0",
