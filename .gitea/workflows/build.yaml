@@ -55,9 +55,11 @@ jobs:
       # 添加 webhook 通知步骤
       - name: Send Webhook Notification
         if: always()
+        env:
+          COMMIT_MSG: ${{ gitea.event.head_commit.message }}
         run: |
-          MESSAGE=$(echo "${{ gitea.event.head_commit.message }}" | tr '\n' ' ')
-          echo " ${{ gitea.repository }} - ${{ MESSAGE }} - ${{ job.status }}"
+          MESSAGE=$(echo "$COMMIT_MSG" | sed ':a;N;$!ba;s/\n/ /g')
+          echo " ${{ gitea.repository }} - ${MESSAGE} - ${{ job.status }}"
           curl -X POST \
             -H "Content-Type: application/json" \
             -d '{
@@ -70,7 +72,7 @@ jobs:
                       [
                         {
                           "tag": "text",
-                          "text": "HEAD: ${{ MESSAGE }}"
+                          "text": "HEAD: ${MESSAGE}"
                         }
                       ],
                       [
