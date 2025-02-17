@@ -56,7 +56,7 @@ jobs:
       - name: Send Webhook Notification
         if: always()
         run: |
-          echo " ${{ gitea.repository }} - ${{ gitea.ref_name }} - ${{ job.status}}"
+          echo " ${{ gitea.repository }} - ${{ gitea.event.head_commit.message }} - ${{ job.status }}"
           curl -X POST \
             -H "Content-Type: application/json" \
             -d '{
@@ -76,9 +76,7 @@ jobs:
                         {
                           "tag": "text",
                           "text": "status: ${{ job.status }}"
-                        }
-                      ],
-                      [
+                        },
                         {
                           "tag": "at",
                           "user_id": "${{ vars.FEISHU_USER_ID }}"
