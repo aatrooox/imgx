@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.1](https://github.com/aatrooox/imgx/compare/0.4.0...0.4.1) (2025-02-17)
+
+
+### Bug Fixes
+
+* 随机颜色问题 ([2a77f32](https://github.com/aatrooox/imgx/commit/2a77f32e99820e3da309d83937f07b7267896d7e))
+
 # [0.4.0](https://github.com/aatrooox/imgx/compare/0.3.3...0.4.0) (2025-02-15)
 
 
