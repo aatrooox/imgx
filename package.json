@@ -46,12 +46,9 @@
     "@iconify-json/material-symbols": "^1.2.14",
     "@iconify-json/twemoji": "^1.2.2",
     "@inspira-ui/plugins": "^0.0.1",
-    "@release-it/conventional-changelog": "^10.0.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "dotenv-cli": "^8.0.0",
-    "release-it": "^18.1.2",
-    "release-it-pnpm": "^4.6.4",
     "tailwind-merge": "^3.0.1",
     "tailwindcss-animate": "^1.0.7",
     "unplugin-font-to-buffer": "^0.2.0"
