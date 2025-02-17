@@ -20,7 +20,8 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "release": "npx changelogen@latest --release"
+    "release": "npx changelogen@latest --release",
+    "gh-release": "npx changelogen@latest gh release"
   },
   "dependencies": {
     "@iconify/utils": "^2.3.0",
