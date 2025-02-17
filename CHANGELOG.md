@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.4.9
+
+[compare changes](https://github.com/aatrooox/imgx/compare/v0.4.8...v0.4.9)
+
+### ✅ Tests
+
+- 测试飞书通知 ([eda748e](https://github.com/aatrooox/imgx/commit/eda748e))
+
+### ❤️ Contributors
+
+- Gnak <gnakzz@qq.com>
+
 ## v0.4.8
 
 [compare changes](https://github.com/aatrooox/imgx/compare/v0.4.7...v0.4.8)
