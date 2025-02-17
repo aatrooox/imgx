@@ -20,7 +20,10 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "release": "npx changelogen@latest --release --push",
+    "release": "pnpm release:patch",
+    "release:patch": "npx changelogen@latest --release --patch --push",
+    "release:minor": "npx changelogen@latest --release --minor --push",
+    "release:major": "npx changelogen@latest --release --major --push",
     "gh-release": "npx changelogen@latest gh release"
   },
   "dependencies": {
