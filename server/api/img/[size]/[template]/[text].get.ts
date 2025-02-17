@@ -7,6 +7,7 @@ import type { SizeCode } from '~/lib/sizes';
 import { getParsedBgColor, serverTemplates } from '~/lib/template';
 import type { TemplateCode } from '~/lib/template'
 import { getBase64IconURL } from '~/lib/icons';
+import { getParsedContent } from '~/lib/content';
 
 import type { Component } from 'vue';
 import { getGradientTextColor, getTextColor, randomBrightHexColor, randomGradientColors, randomHexColor } from '~/utils/color';
@@ -51,6 +52,8 @@ export default defineEventHandler(async (event) => {
     })
   }
 
+  // console.log(` ====== parsed content ======`)
+  // console.log(`getParsedContent`, getParsedContent(text, {}, '+'))
   const _bgColor = query.bgColor;
   const color = query.color;
   const accentColor = query.accentColor;
