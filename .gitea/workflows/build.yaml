@@ -54,29 +54,29 @@ jobs:
       - run: echo "  This job's status is ${{ job.status }}."
       # 添加 webhook 通知步骤
       - name: Send Webhook Notification
-        if: always()  # 无论前面步骤成功与否都执行
+        if: always()
         run: |
-    curl -X POST \
-      -H "Content-Type: application/json" \
-      -d '{
-        "msg_type": "interactive",
-        "card": {
-          "header": {
-            "title": {
-              "tag": "plain_text",
-              "content": "部署通知"
-            },
-            "template": "${{ job.status == ''success'' ? "blue" : "red" }}"
-          },
-          "elements": [
-            {
-              "tag": "div",
-              "text": {
-                "tag": "lark_md",
-                "content": "**部署状态：**${{ job.status }}\n**仓库：**${{ github.repository }}\n**提交：**${{ github.sha }}"
+          curl -X POST \
+            -H "Content-Type: application/json" \
+            -d '{
+              "msg_type": "interactive",
+              "card": {
+                "header": {
+                  "title": {
+                    "tag": "plain_text",
+                    "content": "部署通知"
+                  },
+                  "template": "${{ job.status == '\''success'\'' ? '\''blue'\'' : '\''red'\'' }}"
+                },
+                "elements": [
+                  {
+                    "tag": "div",
+                    "text": {
+                      "tag": "lark_md",
+                      "content": "**部署状态：**${{ job.status }}\n**仓库：**${{ github.repository }}\n**提交：**${{ github.sha }}"
+                    }
+                  }
+                ]
               }
-            }
-          ]
-        }
-      }' \
-      "${{vars.FEISHU_WEBHOOK}}"
+            }' \
+            "${{ vars.FEISHU_WEBHOOK }}"
