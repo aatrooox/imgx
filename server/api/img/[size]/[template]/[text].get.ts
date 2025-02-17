@@ -1,6 +1,7 @@
 import { Resvg } from '@resvg/resvg-js'
 import { satori, html } from '~/utils/satori';
 import BiaoTiHei from '~/assets/fonts/YouSheBiaoTiHei-2.ttf';
+import DouyinBold from '~/assets/fonts/DouyinSansBold.otf';
 import { sizes } from '~/lib/sizes';
 import type { SizeCode } from '~/lib/sizes';
 import { getParsedBgColor, serverTemplates } from '~/lib/template';
@@ -56,6 +57,7 @@ export default defineEventHandler(async (event) => {
   const center = query.center === '1' ? 1 : 0;
   const ratio = query.ratio ? +query.ratio : 1;
   const fontSize = query.fontSize ? isNaN(+query.fontSize) ? 0 : +query.fontSize : 0
+  const fontFamily = query.fontFamily
   const colorRandom = query.colorRandom !== '0'; // 随机颜色
   // padding?: string
   // textWrapBgColor?: string
@@ -73,6 +75,7 @@ export default defineEventHandler(async (event) => {
 
   // 字号
   props.fontSize = fontSize || ratio * sizes[size].fontSize   
+  props.fontFamily = fontFamily || 'YouSheBiaoTiHei'
   // emoji 默认和字号一样大
   const iconSize = query.iconSize ?  +query.iconSize : props.fontSize
   // console.log(`iconData`, iconData)
@@ -128,12 +131,20 @@ export default defineEventHandler(async (event) => {
     props,
     width: sizes[size].width * ratio,
     height: sizes[size].height * ratio,
-    fonts: [{
-      name: 'YouSheBiaoTiHei',
-      data: BiaoTiHei,
-      weight: 400,
-      style: 'normal',
-    }],
+    fonts: [
+      {
+        name: 'YouSheBiaoTiHei',
+        data: BiaoTiHei,
+        weight: 400,
+        style: 'normal',
+      },
+      {
+        name: 'DouyinSansBold',
+        data: DouyinBold,
+        weight: 400,
+        style: 'normal',
+      }
+    ],
     graphemeImages: {
       
     }

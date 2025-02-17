@@ -7,6 +7,7 @@ const {
   accentColor = '#0088a9',
   center = false,
   fontSize = 30,
+  fontFamily = 'YouSheBiaoTiHei',
   padding = '30px',
   bgImage = 'linear-gradient(to right, transparent, transparent)',
   textWrapBgColor = 'transparent',
@@ -21,6 +22,7 @@ const {
   accentColor?: string,
   center?: boolean
   fontSize?: number
+  fontFamily?: string
   icon?: string
   iconSize?: number
   padding?: string
@@ -35,7 +37,7 @@ const {
 
 <template>
   <div class="w-full h-full flex items-center justify-center transition-all duration-300"
-    :style="{ backgroundColor: bgColor ?? 'transparent', backgroundImage: bgImage ?? 'linear-gradient(to right, transparent, transparent)', color: color, fontSize: fontSize + 'px', padding: padding }">
+    :style="{ backgroundColor: bgColor ?? 'transparent', backgroundImage: bgImage ?? 'linear-gradient(to right, transparent, transparent)', color: color, fontSize: fontSize + 'px', padding: padding, fontFamily: fontFamily }">
     <div
       :class="[`text-wrap flex w-full h-full rounded-${textWrapRounded} shadow-${textWrapShadow}`, center && 'justify-center items-center']"
       :style="{ backgroundColor: textWrapBgColor, padding: textWrapPadding }">
