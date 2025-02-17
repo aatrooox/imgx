@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.4.4
+
+[compare changes](https://github.com/aatrooox/imgx/compare/v0.4.3...v0.4.4)
+
+### 🏡 Chore
+
+- 更换 release 包, 重新生成 changelog 记录 ([ecc2a4e](https://github.com/aatrooox/imgx/commit/ecc2a4e))
+
+### ❤️ Contributors
+
+- Gnak <gnakzz@qq.com>
+
 ## 0.4.0...v0.4.3
 
 [compare changes](https://github.com/aatrooox/imgx/compare/0.4.0...v0.4.3)
