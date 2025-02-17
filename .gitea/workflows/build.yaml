@@ -56,6 +56,7 @@ jobs:
       - name: Send Webhook Notification
         if: always()
         run: |
+          echo " ${{ gitea.repository }} - ${{ gitea.ref_name }} - ${{ job.status}}"
           curl -X POST \
             -H "Content-Type: application/json" \
             -d '{
@@ -63,12 +64,12 @@ jobs:
               "content": {
                 "post": {
                   "zh_cn": {
-                    "title": "${{ github.repository }} 部署完成",
+                    "title": "${{ gitea.repository }} 部署完成",
                     "content": [
                       [
                         {
                           "tag": "text",
-                          "text": "最新提交: ${{ github.event.head_commit.message }}\n"
+                          "text": "最新提交: ${{ gitea.ref_name }}"
                         },
                         {
                           "tag": "text",
