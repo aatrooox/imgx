@@ -58,11 +58,10 @@ jobs:
         env:
           COMMIT_MSG: ${{ gitea.event.head_commit.message }}
         run: |
-          MESSAGE=$(echo "$COMMIT_MSG" | sed ':a;N;$!ba;s/\n/ /g')
-          echo " ${{ gitea.repository }} - ${MESSAGE} - ${{ job.status }}"
-          curl -X POST \
-            -H "Content-Type: application/json" \
-            -d '{
+            MESSAGE=$(echo "$COMMIT_MSG" | sed ':a;N;$!ba;s/\n/ /g')
+            echo " ${{ gitea.repository }} - ${MESSAGE} - ${{ job.status }}"
+            JSON_DATA=$(cat <<EOF
+            {
               "msg_type": "post",
               "content": {
                 "post": {
@@ -89,5 +88,10 @@ jobs:
                   }
                 }
               }
-            }' \
-            "${{ vars.FEISHU_WEBHOOK }}"
+            }
+        EOF
+            )
+            curl -X POST \
+              -H "Content-Type: application/json" \
+              -d "$JSON_DATA" \
+              "${{ vars.FEISHU_WEBHOOK }}"
