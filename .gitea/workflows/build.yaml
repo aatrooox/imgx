@@ -13,9 +13,6 @@ jobs:
       - run: echo "  The job was automatically triggered by a ${{ gitea.event_name }} event."
       - run: echo "  This job is now running on a ${{ runner.os }} server hosted by Gitea!"
       - run: echo "  The name of your branch is ${{ gitea.ref }} and your repository is ${{ gitea.repository }}."
-      - name: Get commit message
-        id: get_message
-        run: echo "message=$(git log -1 --pretty=%B | tr '\n' ' ' | sed 's/"/\\"/g')" >> $GITHUB_OUTPUT
       - name: Check out repository code
         uses: actions/checkout@v4
       - name: Install dependencies
@@ -59,7 +56,8 @@ jobs:
       - name: Send Webhook Notification
         if: always()
         run: |
-          echo " ${{ gitea.repository }} - ${{ steps.get_message.outputs.message }} - ${{ job.status }}"
+          MESSAGE=$(echo "${{ gitea.event.head_commit.message }}" | tr '\n' ' ')
+          echo " ${{ gitea.repository }} - ${{ MESSAGE }} - ${{ job.status }}"
           curl -X POST \
             -H "Content-Type: application/json" \
             -d '{
@@ -72,7 +70,7 @@ jobs:
                       [
                         {
                           "tag": "text",
-                          "text": "HEAD: ${{ steps.get_message.outputs.message }}"
+                          "text": "HEAD: ${{ MESSAGE }}"
                         }
                       ],
                       [
