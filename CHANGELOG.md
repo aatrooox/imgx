@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.4.8
+
+[compare changes](https://github.com/aatrooox/imgx/compare/v0.4.7...v0.4.8)
+
+### ✅ Tests
+
+- 测试飞书通知 ([fbd6038](https://github.com/aatrooox/imgx/commit/fbd6038))
+
+### ❤️ Contributors
+
+- Gnak <gnakzz@qq.com>
+
 ## v0.4.7
 
 [compare changes](https://github.com/aatrooox/imgx/compare/v0.4.6...v0.4.7)
