@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.4.11
+
+[compare changes](https://github.com/aatrooox/imgx/compare/v0.4.10...v0.4.11)
+
+### ✅ Tests
+
+- 测试飞书通知 ([42c666c](https://github.com/aatrooox/imgx/commit/42c666c))
+
+### ❤️ Contributors
+
+- Gnak <gnakzz@qq.com>
+
 ## v0.4.10
 
 [compare changes](https://github.com/aatrooox/imgx/compare/v0.4.9...v0.4.10)
