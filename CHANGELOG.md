@@ -1,166 +1,40 @@
 # Changelog
 
+# 0.4.0...v0.5.1
 
-## v0.5.1
+[compare changes](https://github.com/aatrooox/imgx/compare/0.4.0...v0.5.1)
 
-[compare changes](https://github.com/aatrooox/imgx/compare/v0.4.22...v0.5.1)
+### 🚀 Enhancements
+
+- 新增抖音美好体 ([96d59c3](https://github.com/aatrooox/imgx/commit/96d59c3))
+- 内容处理、参数处理函数 ([f692efa](https://github.com/aatrooox/imgx/commit/f692efa))
+- 重构模板；支持传入多个color/多个 accentColor/多个 align； ([4b14cd2](https://github.com/aatrooox/imgx/commit/4b14cd2))
+
+### 🩹 Fixes
+
+- 随机颜色问题 ([2a77f32](https://github.com/aatrooox/imgx/commit/2a77f32))
+- **ci:** 配置文件错误 ([9ca8f4a](https://github.com/aatrooox/imgx/commit/9ca8f4a))
+
+### 💅 Refactors
+
+- 增加 h3-zod; 重构接口; 逻辑分层 ([38be53f](https://github.com/aatrooox/imgx/commit/38be53f))
 
 ### 📖 Documentation
 
+- 更新开发计划 ([9cef2a3](https://github.com/aatrooox/imgx/commit/9cef2a3))
+- 更新文档说明 ([d888de5](https://github.com/aatrooox/imgx/commit/d888de5))
+- 明确在产品线中的定位 ([4ba33f3](https://github.com/aatrooox/imgx/commit/4ba33f3))
 - 删除无用的信息 ([3166b13](https://github.com/aatrooox/imgx/commit/3166b13))
 
 ### 🏡 Chore
 
-- **release:** V0.5.0 ([f43094c](https://github.com/aatrooox/imgx/commit/f43094c))
-
-### ✅ Tests
-
-- Minor release ([15dc9eb](https://github.com/aatrooox/imgx/commit/15dc9eb))
-- Minor release ([c6a11b6](https://github.com/aatrooox/imgx/commit/c6a11b6))
-- Scripts ([68a2c6d](https://github.com/aatrooox/imgx/commit/68a2c6d))
-
-### ❤️ Contributors
-
-- Gnak <gnakzz@qq.com>
-
-## v0.4.17
-
-[compare changes](https://github.com/aatrooox/imgx/compare/v0.4.16...v0.4.17)
-
-### ✅ Tests
-
-- 测试飞书通知 ([d24155c](https://github.com/aatrooox/imgx/commit/d24155c))
-
-### ❤️ Contributors
-
-- Gnak <gnakzz@qq.com>
-
-## v0.4.16
-
-[compare changes](https://github.com/aatrooox/imgx/compare/v0.4.15...v0.4.16)
-
-### ✅ Tests
-
-- 测试飞书通知 ([b92c2b6](https://github.com/aatrooox/imgx/commit/b92c2b6))
-
-### ❤️ Contributors
-
-- Gnak <gnakzz@qq.com>
-
-## v0.4.15
-
-[compare changes](https://github.com/aatrooox/imgx/compare/v0.4.14...v0.4.15)
-
-### ✅ Tests
-
-- 测试飞书通知 ([7c73217](https://github.com/aatrooox/imgx/commit/7c73217))
-
-### ❤️ Contributors
-
-- Gnak <gnakzz@qq.com>
-
-## v0.4.14
-
-[compare changes](https://github.com/aatrooox/imgx/compare/v0.4.13...v0.4.14)
-
-### ✅ Tests
-
-- 测试飞书通知 ([36fd3e7](https://github.com/aatrooox/imgx/commit/36fd3e7))
-
-### ❤️ Contributors
-
-- Gnak <gnakzz@qq.com>
-
-## v0.4.13
-
-[compare changes](https://github.com/aatrooox/imgx/compare/v0.4.12...v0.4.13)
-
-### ✅ Tests
-
-- 测试飞书通知 ([b55f112](https://github.com/aatrooox/imgx/commit/b55f112))
-
-### ❤️ Contributors
-
-- Gnak <gnakzz@qq.com>
-
-## v0.4.12
-
-[compare changes](https://github.com/aatrooox/imgx/compare/v0.4.11...v0.4.12)
-
-### ✅ Tests
-
-- 测试飞书通知 ([381ec32](https://github.com/aatrooox/imgx/commit/381ec32))
-
-### ❤️ Contributors
-
-- Gnak <gnakzz@qq.com>
-
-## v0.4.11
-
-[compare changes](https://github.com/aatrooox/imgx/compare/v0.4.10...v0.4.11)
-
-### ✅ Tests
-
-- 测试飞书通知 ([42c666c](https://github.com/aatrooox/imgx/commit/42c666c))
-
-### ❤️ Contributors
-
-- Gnak <gnakzz@qq.com>
-
-## v0.4.10
-
-[compare changes](https://github.com/aatrooox/imgx/compare/v0.4.9...v0.4.10)
-
-### ✅ Tests
-
-- 测试飞书通知 ([41b1ac8](https://github.com/aatrooox/imgx/commit/41b1ac8))
-
-### ❤️ Contributors
-
-- Gnak <gnakzz@qq.com>
-
-## v0.4.9
-
-[compare changes](https://github.com/aatrooox/imgx/compare/v0.4.8...v0.4.9)
-
-### ✅ Tests
-
-- 测试飞书通知 ([eda748e](https://github.com/aatrooox/imgx/commit/eda748e))
-
-### ❤️ Contributors
-
-- Gnak <gnakzz@qq.com>
-
-## v0.4.8
-
-[compare changes](https://github.com/aatrooox/imgx/compare/v0.4.7...v0.4.8)
-
-### ✅ Tests
-
-- 测试飞书通知 ([fbd6038](https://github.com/aatrooox/imgx/commit/fbd6038))
-
-### ❤️ Contributors
-
-- Gnak <gnakzz@qq.com>
-
-## v0.4.7
-
-[compare changes](https://github.com/aatrooox/imgx/compare/v0.4.6...v0.4.7)
-
-### 🩹 Fixes
-
-- **ci:** 配置文件错误 ([9ca8f4a](https://github.com/aatrooox/imgx/commit/9ca8f4a))
-
-### ❤️ Contributors
-
-- Gnak <gnakzz@qq.com>
-
-## v0.4.6
-
-[compare changes](https://github.com/aatrooox/imgx/compare/v0.4.5...v0.4.6)
-
-### 🏡 Chore
-
+- Release v0.4.1 ([c7f7375](https://github.com/aatrooox/imgx/commit/c7f7375))
+- Release v0.4.2 ([f97b487](https://github.com/aatrooox/imgx/commit/f97b487))
+- **release:** V0.4.3 ([e19b14a](https://github.com/aatrooox/imgx/commit/e19b14a))
+- 更换 release 包, 重新生成 changelog 记录 ([ecc2a4e](https://github.com/aatrooox/imgx/commit/ecc2a4e))
+- **release:** V0.4.4 ([b1b3f98](https://github.com/aatrooox/imgx/commit/b1b3f98))
+- 测试自动提交 ([622b42a](https://github.com/aatrooox/imgx/commit/622b42a))
+- **release:** V0.4.5 ([dde5369](https://github.com/aatrooox/imgx/commit/dde5369))
 - 移除 release-it 相关依赖 ([4e0d298](https://github.com/aatrooox/imgx/commit/4e0d298))
 - Scripts ([153ae2e](https://github.com/aatrooox/imgx/commit/153ae2e))
 
@@ -172,54 +46,7 @@
 ### ❤️ Contributors
 
 - Gnak <gnakzz@qq.com>
-
-## v0.4.5
-
-[compare changes](https://github.com/aatrooox/imgx/compare/v0.4.4...v0.4.5)
-
-### 🏡 Chore
-
-- 测试自动提交 ([622b42a](https://github.com/aatrooox/imgx/commit/622b42a))
-
-### ❤️ Contributors
-
-- Gnak <gnakzz@qq.com>
-
-## v0.4.4
-
-[compare changes](https://github.com/aatrooox/imgx/compare/v0.4.3...v0.4.4)
-
-### 🏡 Chore
-
-- 更换 release 包, 重新生成 changelog 记录 ([ecc2a4e](https://github.com/aatrooox/imgx/commit/ecc2a4e))
-
-### ❤️ Contributors
-
-- Gnak <gnakzz@qq.com>
-
-## 0.4.0...v0.4.3
-
-[compare changes](https://github.com/aatrooox/imgx/compare/0.4.0...v0.4.3)
-
-### 🩹 Fixes
-
-- 随机颜色问题 ([2a77f32](https://github.com/aatrooox/imgx/commit/2a77f32))
-
-### 📖 Documentation
-
-- 更新开发计划 ([9cef2a3](https://github.com/aatrooox/imgx/commit/9cef2a3))
-- 更新文档说明 ([d888de5](https://github.com/aatrooox/imgx/commit/d888de5))
-
-### 🏡 Chore
-
-- Release v0.4.1 ([c7f7375](https://github.com/aatrooox/imgx/commit/c7f7375))
-- Release v0.4.2 ([f97b487](https://github.com/aatrooox/imgx/commit/f97b487))
-- **release:** V0.4.3 ([e19b14a](https://github.com/aatrooox/imgx/commit/e19b14a))
-
-### ❤️ Contributors
-
-- Gnak <gnakzz@qq.com>
-
+  
 ## 0.3.0...0.4.0
 
 [compare changes](https://github.com/aatrooox/imgx/compare/0.3.0...0.4.0)
