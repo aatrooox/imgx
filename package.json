@@ -22,7 +22,7 @@
     "postinstall": "nuxt prepare",
     "release": "pnpm release:patch",
     "release:patch": "npx changelogen@latest --patch --release --push",
-    "release:minor": "npx changelogen@latest --minor --release --push",
+    "release:minor": "npx changelogen@latest --minor",
     "release:major": "npx changelogen@latest --major --release --push",
     "gh-release": "npx changelogen@latest gh release"
   },
