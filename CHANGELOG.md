@@ -4,6 +4,18 @@
 
 [compare changes](https://github.com/aatrooox/imgx/compare/0.4.0...v0.5.1)
 
+## v0.5.2
+
+[compare changes](https://github.com/aatrooox/imgx/compare/v0.5.1...v0.5.2)
+
+### 📖 Documentation
+
+- Changelog ([d7e1290](https://github.com/aatrooox/imgx/commit/d7e1290))
+
+### ❤️ Contributors
+
+- Gnak <gnakzz@qq.com>
+
 ### 🚀 Enhancements
 
 - 新增抖音美好体 ([96d59c3](https://github.com/aatrooox/imgx/commit/96d59c3))
