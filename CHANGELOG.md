@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.4.21
+
+[compare changes](https://github.com/aatrooox/imgx/compare/v0.4.20...v0.4.21)
+
+### 🩹 Fixes
+
+- Scripts ([1988c9e](https://github.com/aatrooox/imgx/commit/1988c9e))
+
+### ❤️ Contributors
+
+- Gnak <gnakzz@qq.com>
+
 ## v0.4.20
 
 [compare changes](https://github.com/aatrooox/imgx/compare/v0.4.19...v0.4.20)
