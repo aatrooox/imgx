@@ -3,7 +3,7 @@
   "private": true,
   "homepage": "https://imgx.zzao.club",
   "description": "a img tool power by nuxt",
-  "version": "0.4.22",
+  "version": "0.4.23",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/aatrooox/imgx.git"
@@ -22,7 +22,7 @@
     "postinstall": "nuxt prepare",
     "release": "pnpm release:patch",
     "release:patch": "npx changelogen@latest --patch --release --push",
-    "release:minor": "npx changelogen@latest --bump --minor",
+    "release:minor": "npx changelogen@latest --minor -r 0.5.0 --release",
     "release:major": "npx changelogen@latest --major --release --push",
     "gh-release": "npx changelogen@latest gh release"
   },

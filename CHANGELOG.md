@@ -1,6 +1,19 @@
 # Changelog
 
 
+## v0.4.23
+
+[compare changes](https://github.com/aatrooox/imgx/compare/v0.4.22...v0.4.23)
+
+### ✅ Tests
+
+- Minor release ([15dc9eb](https://github.com/aatrooox/imgx/commit/15dc9eb))
+- Minor release ([c6a11b6](https://github.com/aatrooox/imgx/commit/c6a11b6))
+
+### ❤️ Contributors
+
+- Gnak <gnakzz@qq.com>
+
 ## v0.4.22
 
 [compare changes](https://github.com/aatrooox/imgx/compare/v0.4.21...v0.4.22)
