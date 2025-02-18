@@ -21,9 +21,9 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "release": "pnpm release:patch",
-    "release:patch": "npx changelogen@latest --bump patch --release --push",
-    "release:minor": "npx changelogen@latest --bump minor --release --push",
-    "release:major": "npx changelogen@latest --bump major --release --push",
+    "release:patch": "npx changelogen@latest --bump --patch --release --push",
+    "release:minor": "npx changelogen@latest --bump --minor --release --push",
+    "release:major": "npx changelogen@latest --bump --major --release --push",
     "gh-release": "npx changelogen@latest gh release"
   },
   "dependencies": {
