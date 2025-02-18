@@ -26,6 +26,9 @@ dependencies:
   '@vueuse/core':
     specifier: ^12.5.0
     version: 12.5.0(typescript@5.7.3)
+  h3-zod:
+    specifier: ^0.5.3
+    version: 0.5.3(h3@1.15.0)(zod@3.24.2)
   lucide-vue-next:
     specifier: ^0.474.0
     version: 0.474.0(vue@3.5.13)
@@ -56,6 +59,9 @@ dependencies:
   vue-router:
     specifier: latest
     version: 4.5.0(vue@3.5.13)
+  zod:
+    specifier: ^3.24.2
+    version: 3.24.2
 
 devDependencies:
   '@iconify-json/material-symbols':
@@ -3578,6 +3584,16 @@ packages:
       duplexer: 0.1.2
     dev: false
 
+  /h3-zod@0.5.3(h3@1.15.0)(zod@3.24.2):
+    resolution: {integrity: sha512-wqlRd/d5d9sNYxmNglnL63J4v5HiZZrcXdLIiU2cBsy5gTwxrSH1AqtNrVkuUleshgNOAQldbuO06phdUIxuKA==}
+    peerDependencies:
+      h3: ^1.6.0
+      zod: ^3.21.0
+    dependencies:
+      h3: 1.15.0
+      zod: 3.24.2
+    dev: false
+
   /h3@1.15.0:
     resolution: {integrity: sha512-OsjX4JW8J4XGgCgEcad20pepFQWnuKH+OwkCJjogF3C+9AZ1iYdtB4hX6vAb5DskBiu5ljEXqApINjR8CqoCMQ==}
     dependencies:
@@ -6890,4 +6906,8 @@ packages:
       archiver-utils: 5.0.2
       compress-commons: 6.0.2
       readable-stream: 4.7.0
+    dev: false
+
+  /zod@3.24.2:
+    resolution: {integrity: sha512-lY7CDW43ECgW9u1TcT3IoXHflywfVqDYze4waEz812jR/bZ8FHDsl7pFQoSZTz5N+2NqRXs8GBwnAwo3ZNxqhQ==}
     dev: false

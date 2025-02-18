@@ -1,4 +1,5 @@
-// TODO zod schema
+// 进一步处理参数，提供可供内容使用的数据结构 SafeProps
+import { getGradientTextColor, getTextColor, randomBrightHexColor, randomGradientColors, randomHexColor } from '~/utils/color';
 
 import { getParsedBgColor } from "./template";
 
@@ -8,7 +9,7 @@ interface SafeProps {
   ratio: number
   padding: string
   fontFamily: string
-  colorRandom: boolean
+  closeColorRandom: boolean
 
   textWrapBgColor: string
   textWrapShadow: string
@@ -36,7 +37,7 @@ export function getSafeComponentProps(params: any) {
       ratio = 1,
       padding = '0px',
       fontFamily = 'YouSheBiaoTiHei',
-      colorRandom = true,
+      closeColorRandom = false,
 
       textWrapBgColor = '',
       textWrapShadow = 'none',
@@ -51,19 +52,21 @@ export function getSafeComponentProps(params: any) {
     } = params;
     
     props.fontFamily = fontFamily
-    props.ratio = ratio || 1
+    props.ratio = ratio || 1 
     props.fontSize = fontSize || ratio * 30
+    props.iconSize = iconSize || fontSize
     // 处理是单色值还是渐变色。已经加 # 
-    const { bgColor: parsedBgColor, bgImage: parsedBgImage } = getParsedBgColor(bgColor)
-
-    // 处理背景色
-    if (parsedBgColor) {
-      props.bgColor = parsedBgColor
+    if (bgColor) {
+      const { bgColor: parsedBgColor, bgImage: parsedBgImage } = getParsedBgColor(bgColor)
+      console.log(`parsedBgColor`,parsedBgColor, parsedBgImage )
+      // 处理背景色
+      if (parsedBgColor) {
+        props.bgColor = parsedBgColor
+      } else if (parsedBgImage) {
+        props.bgImage = parsedBgImage
+      }
     }
-
-    if (parsedBgImage) {
-      props.bgImage = parsedBgImage
-    }
+    
 
     // 处理文本颜色为数组（支持每行不同颜色）
     if (color) {
@@ -92,20 +95,21 @@ export function getSafeComponentProps(params: any) {
     props.textWrapRounded = textWrapRounded
 
     // 随机颜色设置 指定颜色优先
-    if (colorRandom) {
+    if (!closeColorRandom) {
+      console.log(` 开始设置随机颜色 ...`, )
       const bgColors = randomGradientColors('adjacent')
       const { bgColor, bgImage } = getParsedBgColor(bgColors.join('-'))
-      if (bgColor) {
-        props.bgColor = props.bgColor || bgColor;
+      if (!props.bgColor && bgColor) {
+        props.bgColor = bgColor;
+      } 
+      
+      if (!props.bgColor && !props.bgImage && bgImage) {
+        props.bgImage = bgImage;
       }
-
-      if (bgImage) {
-        props.bgImage = props.bgImage || bgImage;
-      }
+      
       props.color = props.color || [getGradientTextColor(bgColors)]
       props.accentColor = props.accentColor || [randomBrightHexColor()]
     }
-
     return props
 
 }

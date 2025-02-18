@@ -51,6 +51,18 @@ export default defineNuxtConfig({
       plugins: [
         vue()
       ]
-    }
+    },
+    imports: {
+      presets: [
+        {
+          from: 'zod',
+          imports: ['z']
+        },
+        {
+          from: 'h3-zod',
+          imports: ['useSafeValidatedQuery', 'useSafeValidatedBody', 'useValidatedParams', 'zh']
+        }
+      ]
+    },
   }
 })

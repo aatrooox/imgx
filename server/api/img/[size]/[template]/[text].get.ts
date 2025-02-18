@@ -11,6 +11,8 @@ import { getParsedContent } from '~/lib/content';
 
 import type { Component } from 'vue';
 import { getGradientTextColor, getTextColor, randomBrightHexColor, randomGradientColors, randomHexColor } from '~/utils/color';
+import { getSafeComponentProps } from '~/lib/params';
+import { imgGenerateSchame } from '~/lib/schema';
 
 export async function getComponent(name: TemplateCode): Promise<Component> {
   const module = await serverTemplates[name]()
@@ -19,9 +21,10 @@ export async function getComponent(name: TemplateCode): Promise<Component> {
 
 export default defineEventHandler(async (event) => {
   const text = decodeURI(getRouterParam(event, 'text') || '')
-  const query = getQuery(event);
   const size = getRouterParam(event, 'size') as SizeCode;
   const template = getRouterParam(event, 'template') as TemplateCode;
+
+  const query = await useSafeValidatedQuery(event, imgGenerateSchame)
   if (!!!text) {
     throw createError({
       statusCode: 400,
@@ -51,89 +54,25 @@ export default defineEventHandler(async (event) => {
       statusMessage: '模板不存在',
     })
   }
-
-  // console.log(` ====== parsed content ======`)
-  // console.log(`getParsedContent`, getParsedContent(text, {}, '+'))
-  const _bgColor = query.bgColor;
-  const color = query.color;
-  const accentColor = query.accentColor;
-  const center = query.center === '1' ? 1 : 0;
-  const ratio = query.ratio ? +query.ratio : 1;
-  const fontSize = query.fontSize ? isNaN(+query.fontSize) ? 0 : +query.fontSize : 0
-  const fontFamily = query.fontFamily
-  const colorRandom = query.colorRandom !== '0'; // 随机颜色
-  // padding?: string
-  // textWrapBgColor?: string
-  // textWrapShadow?: string
-  // textWrapPadding?: string
-  // textWrapRounded?: string
-  const padding = query.padding ?? 0
-  const textWrapBgColor = query.textWrapBgColor ?? ''
-  const textWrapShadow = query.textWrapShadow ?? 'none'
-  const textWrapPadding = query.textWrapPadding ?? '0px'
-  const textWrapRounded = query.textWrapRounded ?? 'none'
-  // const iconName = query.icon as string
-
-  const props: any = { title:  parsedText }
-
-  // 字号
-  props.fontSize = fontSize || ratio * sizes[size].fontSize   
-  props.fontFamily = fontFamily || 'YouSheBiaoTiHei'
-  // emoji 默认和字号一样大
-  const iconSize = query.iconSize ?  +query.iconSize : props.fontSize
-  // console.log(`iconData`, iconData)
-  // Use it to render icon
-  props.iconSize = iconSize;
   
-  if (template === '001') {
-    if (_bgColor) {
-      const { bgColor, bgImage } = getParsedBgColor(_bgColor as string)
-      if (bgColor) {
-        props.bgColor = bgColor;
-      }
-
-      if (bgImage) {
-        props.bgImage = bgImage;
-      }
-
+  if (!query.success) {
+      throw createError({
+        statusCode: 400,
+        statusMessage: (query as any).message ?? '参数错误'
+      })
     }
-    console.log(`pros.bgColor`, props.bgColor)
-    if (color) props.color = `#${color}`
-    if (accentColor) props.accentColor = `#${accentColor}`
-    if (center === 1) props.center = true
-    if (padding) props.padding = padding 
-    if (textWrapBgColor) {
-      const { bgColor, bgImage } = getParsedBgColor(textWrapBgColor as string)
+  
+  const params = query.data;
+  const safeProps = getSafeComponentProps(params)
 
-      if (bgColor) {
-        props.textWrapBgColor = bgColor
-      }
-      
-    }
-    props.textWrapShadow = textWrapShadow
-    props.textWrapPadding = textWrapPadding
-    props.textWrapRounded = textWrapRounded
-
-    if (colorRandom) {
-      const bgColors = randomGradientColors('adjacent')
-      const { bgColor, bgImage } = getParsedBgColor(bgColors.join('-'))
-      if (bgColor) {
-        props.bgColor = props.bgColor || bgColor;
-      }
-
-      if (bgImage) {
-        props.bgImage = props.bgImage || bgImage;
-      }
-      // props.bgColor = props.bgColor || bgColors.join('-')
-      props.color = props.color || `#${getGradientTextColor(bgColors)}`
-      props.accentColor = props.accentColor || `#${randomBrightHexColor()}`
-    }
-  }
   const componnet = await getComponent(template)
   const svg = await satori(componnet, {
-    props,
-    width: sizes[size].width * ratio,
-    height: sizes[size].height * ratio,
+    props: {
+      title: parsedText,
+      ...safeProps,
+    },
+    width: sizes[size].width * (safeProps.ratio as number),
+    height: sizes[size].height * (safeProps.ratio as number),
     fonts: [
       {
         name: 'YouSheBiaoTiHei',
@@ -152,7 +91,7 @@ export default defineEventHandler(async (event) => {
       
     }
   })
-  console.log(`imgx => ${sizes[size].width} x ${sizes[size].height} x ${ratio} - center:${center} - accentColor:${accentColor} - color:${color}`)
+  // console.log(`imgx => ${sizes[size].width} x ${sizes[size].height} x ${ratio} - center:${center} - accentColor:${accentColor} - color:${color}`)
   const resvg = new Resvg(svg, {
     fitTo: {
       mode: 'original',

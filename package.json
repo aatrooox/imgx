@@ -34,6 +34,7 @@
     "@resvg/resvg-js": "^2.6.2",
     "@vitejs/plugin-vue": "^5.2.1",
     "@vueuse/core": "^12.5.0",
+    "h3-zod": "^0.5.3",
     "lucide-vue-next": "^0.474.0",
     "motion-v": "^0.9.0",
     "nuxt": "^3.15.4",
@@ -43,7 +44,8 @@
     "shadcn-nuxt": "0.11.3",
     "vaul-vue": "^0.2.1",
     "vue": "latest",
-    "vue-router": "latest"
+    "vue-router": "latest",
+    "zod": "^3.24.2"
   },
   "devDependencies": {
     "@iconify-json/material-symbols": "^1.2.14",

@@ -77,7 +77,7 @@ API格式：https://imgx.zzao.club/api/img/[比例编号]/[模板编号]/[文本
 | center | 是否居中 | 1 | 默认左对齐，居中时为整体文字都居中 |
 | fontSize | 字号 | 30 | - |
 | iconSize | Emoji大小 | 30 | 默认和 fontSize 一致 |
-| colorRandom | 随机颜色 | 1 | 默认开启；但指定颜色优先级更高 |
+| closeColorRandom | 是否关闭随机颜色 | 0 | 默认开启； 传入 0 关闭；指定颜色优先级更高 |
 | padding | 最外层内间距 | 30px | - |
 | textWrapBgColor | 内容区域背景色 | rgba(255,255,255,0.8) | - |
 | textWrapPadding | 内容区域内间距 | 30px | - |
