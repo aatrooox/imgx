@@ -1,6 +1,28 @@
 # Changelog
 
 
+## v0.5.1
+
+[compare changes](https://github.com/aatrooox/imgx/compare/v0.4.22...v0.5.1)
+
+### 📖 Documentation
+
+- 删除无用的信息 ([3166b13](https://github.com/aatrooox/imgx/commit/3166b13))
+
+### 🏡 Chore
+
+- **release:** V0.5.0 ([f43094c](https://github.com/aatrooox/imgx/commit/f43094c))
+
+### ✅ Tests
+
+- Minor release ([15dc9eb](https://github.com/aatrooox/imgx/commit/15dc9eb))
+- Minor release ([c6a11b6](https://github.com/aatrooox/imgx/commit/c6a11b6))
+- Scripts ([68a2c6d](https://github.com/aatrooox/imgx/commit/68a2c6d))
+
+### ❤️ Contributors
+
+- Gnak <gnakzz@qq.com>
+
 ## v0.4.17
 
 [compare changes](https://github.com/aatrooox/imgx/compare/v0.4.16...v0.4.17)
