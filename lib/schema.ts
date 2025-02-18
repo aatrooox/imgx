@@ -13,10 +13,10 @@ export const imgGenerateSchame = z.object({
   textWrapPadding: z.string().optional(),
   textWrapRounded: z.string().optional(),
 
-  // 可应用于每一行的配置
+  // 可应用于每一行的配置 通常为多个 用逗号分割
   color: z.string().optional(),
   accentColor: z.string().optional(),
-  iconSize: z.string().optional().transform((str) => isNaN(Number(str)) ? 0 : Number(str)),
-  fontSize: z.string().optional().transform((str) => isNaN(Number(str)) ? 30 : Number(str)),
-  center: z.string().optional(),
+  iconSize: z.string().optional(),
+  fontSize: z.string().optional(),
+  align: z.string().optional(),
 })

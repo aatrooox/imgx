@@ -17,13 +17,20 @@ interface SafeProps {
   textWrapRounded: string
 
   color: string[]
-  iconSize: number
-  fontSize: number
+  iconSize: number[]
+  fontSize: number[]
   accentColor: string[]
-  center: string[]
+  align: string[]
 }
 
 export type SafeComponentProps = Partial<SafeProps>
+
+export const alignMap: Record<string, string> = {
+  '0': 'justify-start',
+  '1': 'justify-center',
+  '2': 'justify-between',
+  '3': 'justify-around'
+}
 
 /**
  * 处理参数。返回可供模板使用的 props 数据
@@ -45,20 +52,18 @@ export function getSafeComponentProps(params: any) {
       textWrapRounded = 'none',
 
       color = '',
-      iconSize = 30,
-      fontSize = 30,
+      iconSize = '',
+      fontSize = '',
       accentColor = '',
-      center = '0'
+      align = '0'
     } = params;
     
     props.fontFamily = fontFamily
     props.ratio = ratio || 1 
-    props.fontSize = fontSize || ratio * 30
-    props.iconSize = iconSize || fontSize
+  
     // 处理是单色值还是渐变色。已经加 # 
     if (bgColor) {
       const { bgColor: parsedBgColor, bgImage: parsedBgImage } = getParsedBgColor(bgColor)
-      console.log(`parsedBgColor`,parsedBgColor, parsedBgImage )
       // 处理背景色
       if (parsedBgColor) {
         props.bgColor = parsedBgColor
@@ -79,7 +84,25 @@ export function getSafeComponentProps(params: any) {
     }
 
     // 每行文本是左对齐0、居中1、两头2、自适应3
-    props.center = center.split(',');
+    props.align = align.split(',').map((align: string) => alignMap[align] || 'justify-start');
+
+    // 每行的字体大小
+    if (fontSize) {
+      props.fontSize = fontSize.split(',').map((size: string) => isNaN(Number(size)) || !Number(size) ? 30 : Number(size))
+    } else {
+      props.fontSize = [ratio * 30]
+    }
+
+    // 每行的强调文字大小
+    if (iconSize) {
+      props.iconSize = iconSize.split(',').map((size: string) => isNaN(Number(size)) || !Number(size) ? 30 : Number(size))
+    } else {
+      props.iconSize = props.fontSize
+    }
+
+
+    // props.fontSize = fontSize || ratio * 30
+    // props.iconSize = iconSize || fontSize
     props.padding = padding;
 
     // 内容区域配置

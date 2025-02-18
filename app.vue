@@ -136,9 +136,7 @@
         :class="{ 'z-10': isFirstOnTop, 'delay-200': isFirstOnTop }" :style="getCardStyle(isFirstOnTop)"
         @click="switchPerviewCard(true)">
         <PreviewWraper :SizeCode="preset">
-          <component :is="curComponent" :title="text" :center="isCenter" :bgColor="curBgColor" :bgImage="curBgImage"
-            :color="`#${curstomFontColor}`" :accentColor="`#${accentFontColor}`" :textWrapBgColor="textWrapBgColor"
-            :textWrapPadding="textWrapPadding" :textWrapRounded="textWrapRounded" :textWrapShadow="textWrapShadow">
+          <component :is="curComponent" v-bind="safeComponentPropsWithContent">
           </component>
         </PreviewWraper>
       </div>
@@ -159,6 +157,23 @@
 <script lang="ts" setup>
 import { getParsedBgColor, templates, type TemplateCode } from '@/lib/template';
 import { sizes, type SizeCode } from '~/lib/sizes';
+import { getParsedContent } from './lib/content';
+import { getSafeComponentProps } from './lib/params';
+
+useHead({
+  title: 'IMGX@早早集市',
+  meta: [
+    {
+      name: 'description',
+      content: '一行代码生成封面图'
+    }
+  ]
+})
+
+const config = useRuntimeConfig();
+
+const preset = ref<SizeCode>('001')
+const template = ref<TemplateCode>('001')
 const isFirstOnTop = ref(true)
 const isLoadingImg = ref(true)
 const isCenter = ref(false)
@@ -179,31 +194,14 @@ const textWrapShadow = ref('lg')
 const bgColors = ref<Array<GradientColors>>()
 const customColor = ref<GradientColors>(['7a24d6', '88e524'])
 
-const curBgColor = computed(() => {
-  const { bgColor, bgImage } = getParsedBgColor(customColor.value.join('-'))
-  console.log(`bgColor`, bgColor, customColor.value.join('-'))
-  return bgColor || null
-})
+const padding = ref('30px')
 
-const curBgImage = computed(() => {
-  const { bgColor, bgImage } = getParsedBgColor(customColor.value.join('-'))
-  return bgImage || null
-})
 // 自定义颜色？
 const curstomFontColor = computed(() => {
   return isRelativeWithBgColors.value ? getGradientTextColor(customColor.value as GradientColors) : fixedFontColor.value
 })
 
-useHead({
-  title: 'IMGX@早早集市',
-  meta: [
-    {
-      name: 'description',
-      content: '一行代码生成封面图'
-    }
-  ]
 
-})
 const templateOptions = computed(() => {
   return Object.keys(templates).map(key => ({
     value: key,
@@ -218,18 +216,42 @@ const presetOptions = computed(() => {
   }))
 })
 
-const config = useRuntimeConfig();
-
-const preset = ref<SizeCode>('001')
-const template = ref<TemplateCode>('001')
 const ratio = computed(() => {
   return isHighRatio.value ? 2 : 1
 })
 const text = ref('*Deepseek*的 + 108大使用技巧+[twemoji:face-with-hand-over-mouth]')
 const generateUrl = ref(``)
+
+// 动态组件
 const curComponent = computed(() => {
   return templates[template.value]
 })
+
+// 组装参数
+const safeComponentProps = computed(() => {
+  return getSafeComponentProps({
+    // 全局配置
+    bgColor: customColor.value.join('-'),
+    ratio: ratio.value,
+    padding: padding.value,
+
+    // 每行文字配置
+    color: curstomFontColor.value,
+    accentColor: accentFontColor.value,
+
+    // 内容区域
+    textWrapBgColor: textWrapBgColor.value,
+    textWrapPadding: textWrapPadding.value,
+    textWrapRounded: textWrapRounded.value,
+    textWrapShadow: textWrapShadow.value,
+  })
+})
+
+// 处理参数
+const safeComponentPropsWithContent = computed(() => {
+  return getParsedContent(text.value, safeComponentProps.value)
+})
+
 const setFixedFontColor = (color: string) => {
   fixedFontColor.value = color
 }
@@ -254,7 +276,7 @@ const switchPerviewCard = (flag?: boolean) => {
 const generateImage = async () => {
   const img = new Image();
   isLoadingImg.value = true
-  generateUrl.value = `/api/img/${preset.value}/${template.value}/${text.value}?ratio=${ratio.value}&center=${isCenter.value ? 1 : 0}&bgColor=${customColor.value[0]}-${customColor.value[1]}&color=${curstomFontColor.value}&accentColor=${accentFontColor.value}&textWrapBgColor=${textWrapBgColor.value}&textWrapPadding=${textWrapPadding.value}&textWrapRounded=${textWrapRounded.value}&textWrapShadow=${textWrapShadow.value}`
+  generateUrl.value = `/api/img/${preset.value}/${template.value}/${text.value}?ratio=${ratio.value}&bgColor=${customColor.value[0]}-${customColor.value[1]}&color=${curstomFontColor.value}&accentColor=${accentFontColor.value}&textWrapBgColor=${textWrapBgColor.value}&textWrapPadding=${textWrapPadding.value}&textWrapRounded=${textWrapRounded.value}&textWrapShadow=${textWrapShadow.value}`
   img.src = generateUrl.value;
   img.onload = () => {
     console.log(`加载完成`);

@@ -4,13 +4,11 @@ import BiaoTiHei from '~/assets/fonts/YouSheBiaoTiHei-2.ttf';
 import DouyinBold from '~/assets/fonts/DouyinSansBold.otf';
 import { sizes } from '~/lib/sizes';
 import type { SizeCode } from '~/lib/sizes';
-import { getParsedBgColor, serverTemplates } from '~/lib/template';
+import { serverTemplates } from '~/lib/template';
 import type { TemplateCode } from '~/lib/template'
-import { getBase64IconURL } from '~/lib/icons';
 import { getParsedContent } from '~/lib/content';
 
 import type { Component } from 'vue';
-import { getGradientTextColor, getTextColor, randomBrightHexColor, randomGradientColors, randomHexColor } from '~/utils/color';
 import { getSafeComponentProps } from '~/lib/params';
 import { imgGenerateSchame } from '~/lib/schema';
 
@@ -64,13 +62,10 @@ export default defineEventHandler(async (event) => {
   
   const params = query.data;
   const safeProps = getSafeComponentProps(params)
-
+  const props = getParsedContent(parsedText, safeProps)
   const componnet = await getComponent(template)
   const svg = await satori(componnet, {
-    props: {
-      title: parsedText,
-      ...safeProps,
-    },
+    props,
     width: sizes[size].width * (safeProps.ratio as number),
     height: sizes[size].height * (safeProps.ratio as number),
     fonts: [
@@ -86,12 +81,9 @@ export default defineEventHandler(async (event) => {
         weight: 400,
         style: 'normal',
       }
-    ],
-    graphemeImages: {
-      
-    }
+    ]
   })
-  // console.log(`imgx => ${sizes[size].width} x ${sizes[size].height} x ${ratio} - center:${center} - accentColor:${accentColor} - color:${color}`)
+  
   const resvg = new Resvg(svg, {
     fitTo: {
       mode: 'original',
