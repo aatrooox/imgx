@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.4.19
+
+[compare changes](https://github.com/aatrooox/imgx/compare/v0.4.18...v0.4.19)
+
+### 🩹 Fixes
+
+- Scrpits ([dfe8d53](https://github.com/aatrooox/imgx/commit/dfe8d53))
+
+### ❤️ Contributors
+
+- Gnak <gnakzz@qq.com>
+
 ## v0.4.18
 
 [compare changes](https://github.com/aatrooox/imgx/compare/v0.4.7...v0.4.18)
