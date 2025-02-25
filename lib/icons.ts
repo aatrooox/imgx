@@ -2,6 +2,7 @@
 import { icons as emojiIcons } from '@iconify-json/twemoji'
 import { getIconData, iconToSVG, iconToHTML, replaceIDs } from '@iconify/utils';
 
+
 type IconName = string
 type SupportedSetName = 'twemoji'
 const supportedIcons = {

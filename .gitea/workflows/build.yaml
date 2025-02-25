@@ -53,37 +53,15 @@ jobs:
           ls ${{ gitea.workspace }}          
       - run: echo "  This job's status is ${{ job.status }}."
       # 添加 webhook 通知步骤
-      - name: Send Webhook Notification
+      - name: Send FeiShu Notification
         if: always()
-        env:
-          COMMIT_MSG: ${{ gitea.event.head_commit.message }}
         run: |
-          MESSAGE=$(echo "$COMMIT_MSG" | sed ':a;N;$!ba;s/\n/ /g')
-          echo " ${{ gitea.repository }} - ${MESSAGE} - ${{ job.status }}"
           curl -X POST \
             -H "Content-Type: application/json" \
             -d '{
-              "msg_type": "post",
+              "msg_type": "text",
               "content": {
-                "post": {
-                  "zh_cn": {
-                    "title": "${{ gitea.repository }} released",
-                    "content": [
-                      [
-                        {
-                          "tag": "text",
-                          "text": "status: ${{ job.status }}"
-                        }
-                      ],
-                      [
-                        {
-                          "tag": "at",
-                          "user_id": "${{ vars.FEISHU_USER_ID }}"
-                        }
-                      ]
-                    ]
-                  }
-                }
+                "text": "${{ gitea.repository }} - release [${{job.status}}]"
               }
             }' \
             "${{ vars.FEISHU_WEBHOOK }}"
