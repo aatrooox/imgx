@@ -4,6 +4,18 @@
 
 [compare changes](https://github.com/aatrooox/imgx/compare/0.4.0...v0.5.1)
 
+## v0.6.3
+
+[compare changes](https://github.com/aatrooox/imgx/compare/v0.6.2...v0.6.3)
+
+### 🩹 Fixes
+
+- Build yml ([69dbd83](https://github.com/aatrooox/imgx/commit/69dbd83))
+
+### ❤️ Contributors
+
+- Aatrox <gnakzz@qq.com>
+
 ## v0.6.2
 
 [compare changes](https://github.com/aatrooox/imgx/compare/v0.6.1...v0.6.2)
