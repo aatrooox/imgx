@@ -4,6 +4,18 @@
 
 [compare changes](https://github.com/aatrooox/imgx/compare/0.4.0...v0.5.1)
 
+## v0.6.5
+
+[compare changes](https://github.com/aatrooox/imgx/compare/v0.6.4...v0.6.5)
+
+### 🩹 Fixes
+
+- Prisma ([ae529b6](https://github.com/aatrooox/imgx/commit/ae529b6))
+
+### ❤️ Contributors
+
+- Aatrox <gnakzz@qq.com>
+
 ## v0.6.4
 
 [compare changes](https://github.com/aatrooox/imgx/compare/v0.6.3...v0.6.4)
