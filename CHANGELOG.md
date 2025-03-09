@@ -4,6 +4,18 @@
 
 [compare changes](https://github.com/aatrooox/imgx/compare/0.4.0...v0.5.1)
 
+## v0.5.4
+
+[compare changes](https://github.com/aatrooox/imgx/compare/v0.5.3...v0.5.4)
+
+### 🩹 Fixes
+
+- Icon加载问题 ([2a24533](https://github.com/aatrooox/imgx/commit/2a24533))
+
+### ❤️ Contributors
+
+- Aatrox <gnakzz@qq.com>
+
 ## v0.5.3
 
 [compare changes](https://github.com/aatrooox/imgx/compare/v0.5.2...v0.5.3)
