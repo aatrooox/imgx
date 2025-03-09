@@ -4,6 +4,10 @@
 
 [compare changes](https://github.com/aatrooox/imgx/compare/0.4.0...v0.5.1)
 
+## v0.6.4
+
+[compare changes](https://github.com/aatrooox/imgx/compare/v0.6.3...v0.6.4)
+
 ## v0.6.3
 
 [compare changes](https://github.com/aatrooox/imgx/compare/v0.6.2...v0.6.3)
