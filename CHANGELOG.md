@@ -4,6 +4,27 @@
 
 [compare changes](https://github.com/aatrooox/imgx/compare/0.4.0...v0.5.1)
 
+## v0.5.3
+
+[compare changes](https://github.com/aatrooox/imgx/compare/v0.5.2...v0.5.3)
+
+### 🚀 Enhancements
+
+- 新增一个简短的接口文件 ([58d4b5a](https://github.com/aatrooox/imgx/commit/58d4b5a))
+
+### 🩹 Fixes
+
+- Icon 包体积过大的问题 ([04e4272](https://github.com/aatrooox/imgx/commit/04e4272))
+
+### 🏡 Chore
+
+- 测试功能 ([f5385bc](https://github.com/aatrooox/imgx/commit/f5385bc))
+
+### ❤️ Contributors
+
+- Aatrox <gnakzz@qq.com>
+- Gnak <gnakzz@qq.com>
+
 ## v0.5.2
 
 [compare changes](https://github.com/aatrooox/imgx/compare/v0.5.1...v0.5.2)
