@@ -42,6 +42,7 @@ jobs:
           NUXT_AUTH_ORIGIN: ${{ vars.NUXT_AUTH_ORIGIN }}
         run: |
           rm -rf /root/web/imgx/*
+          mkdir -p /root/web/imgx/prisma
           cp -R .output/* /root/web/imgx/
           cp -R prisma/* /root/web/imgx/prisma/
           cp -R ecosystem.config.cjs /root/web/imgx/ecosystem.config.cjs
