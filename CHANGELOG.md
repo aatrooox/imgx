@@ -4,6 +4,18 @@
 
 [compare changes](https://github.com/aatrooox/imgx/compare/0.4.0...v0.5.1)
 
+## v0.6.0
+
+[compare changes](https://github.com/aatrooox/imgx/compare/v0.5.4...v0.6.0)
+
+### 🚀 Enhancements
+
+- 更换接口地址；修改 gitea 配置 ([9918f1a](https://github.com/aatrooox/imgx/commit/9918f1a))
+
+### ❤️ Contributors
+
+- Aatrox <gnakzz@qq.com>
+
 ## v0.5.4
 
 [compare changes](https://github.com/aatrooox/imgx/compare/v0.5.3...v0.5.4)
