@@ -1,7 +1,5 @@
-// import { icons } from '@iconify-json/material-symbols';
-import { icons as emojiIcons } from '@iconify-json/twemoji'
+import { icons as emojiIcons } from '@/assets/icons/twemoji-face-icons.json'
 import { getIconData, iconToSVG, iconToHTML, replaceIDs } from '@iconify/utils';
-
 
 type IconName = string
 type SupportedSetName = 'twemoji'
@@ -35,7 +33,7 @@ export function getIconSVGHTML(iconName:IconName, iconSize: number) {
 
   if (!iconSets) return null;
 
-  const iconData = getIconData(iconSets, iconInnerName);
+  const iconData = getIconData(iconSets as any, iconInnerName);
 
   if (!iconData) return null;
 

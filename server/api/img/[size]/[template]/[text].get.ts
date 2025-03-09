@@ -42,14 +42,14 @@ export default defineEventHandler(async (event) => {
   if (!sizes[size]) {
     throw createError({
       statusCode: 400,
-      statusMessage: '预设不存在',
+      statusMessage: '不存在的尺寸',
     })
   }
 
   if (!serverTemplates[template]) {
     throw createError({
       statusCode: 400,
-      statusMessage: '模板不存在',
+      statusMessage: '不存在的模板',
     })
   }
   

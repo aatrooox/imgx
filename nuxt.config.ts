@@ -29,12 +29,6 @@ export default defineNuxtConfig({
   },
   icon: {
     componentName: 'NuxtIcon',
-    // serverBundle: 'remote',
-    // clientBundle: {
-    //   scan: true,
-    //   includeCustomCollections: true,
-    //   sizeLimitKb: 256,
-    // }
   },
   colorMode: {
     preference: 'dark',

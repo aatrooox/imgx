@@ -20,6 +20,7 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
+    "extract": "node ./extractFaceIcons.cjs",
     "release": "pnpm release:patch",
     "release:patch": "npx changelogen@latest --patch --release --push",
     "release:minor": "npx changelogen@latest --minor --release --push",
