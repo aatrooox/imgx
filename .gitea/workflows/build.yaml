@@ -43,7 +43,7 @@ jobs:
         run: |
           rm -rf /root/web/imgx/*
           cp -R .output/* /root/web/imgx/
-          cp -R prisma/* /root/web/prisma/prisma/
+          cp -R prisma/* /root/web/imgx/prisma/
           cp -R ecosystem.config.cjs /root/web/imgx/ecosystem.config.cjs
           cd /root/web/imgx
           prisma migrate deploy
