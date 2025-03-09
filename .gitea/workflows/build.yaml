@@ -27,7 +27,7 @@ jobs:
           NUXT_COS_BUCKET: ${{ vars.NUXT_COS_BUCKET }}
           NUXT_COS_REGION: ${{ vars.NUXT_COS_REGION }}
           NUXT_JWT_SECRET: ${{ vars.NUXT_JWT_SECRET }}
-          DATABASE_URL: ${{ vars.DATABASE_URL }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
           NUXT_GITHUB_CLIENT_SECRET: ${{ vars.NUXT_GITHUB_CLIENT_SECRET }}
           NUXT_GITHUB_CLIENT_ID: ${{ vars.NUXT_GITHUB_CLIENT_ID }}
           NUXT_AUTH_SECTRET: ${{ vars.NUXT_AUTH_SECTRET }}
@@ -35,7 +35,7 @@ jobs:
         run: pnpm build
       - name: Copy and Build
         env: 
-          DATABASE_URL: ${{ vars.DATABASE_URL }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
           NUXT_GITHUB_CLIENT_SECRET: ${{ vars.NUXT_GITHUB_CLIENT_SECRET }}
           NUXT_GITHUB_CLIENT_ID: ${{ vars.NUXT_GITHUB_CLIENT_ID }}
           NUXT_AUTH_SECTRET: ${{ vars.NUXT_AUTH_SECTRET }}
@@ -45,7 +45,8 @@ jobs:
           cp -R .output/* /root/web/imgx/
           cp -R ecosystem.config.cjs /root/web/imgx/ecosystem.config.cjs
           cd /root/web/imgx
-          pm2 restart ecosystem.config.cjs
+          prisma migrate deploy
+          pm2 restart ecosystem.config.cjs --env production
       - run: echo "  The ${{ gitea.repository }} repository has been cloned to the runner."
       - run: echo " ️ The workflow is now ready to test your code on the runner."
       - name: List files in the repository
@@ -64,4 +65,4 @@ jobs:
                 "text": "${{ gitea.repository }} - release [${{job.status}}]"
               }
             }' \
-            "${{ vars.FEISHU_WEBHOOK }}"
+            "${{ secrets.FEISHU_WEBHOOK }}"

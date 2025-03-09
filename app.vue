@@ -276,7 +276,7 @@ const switchPerviewCard = (flag?: boolean) => {
 const generateImage = async () => {
   const img = new Image();
   isLoadingImg.value = true
-  generateUrl.value = `/api/img/${preset.value}/${template.value}/${text.value}?ratio=${ratio.value}&bgColor=${customColor.value[0]}-${customColor.value[1]}&color=${curstomFontColor.value}&accentColor=${accentFontColor.value}&textWrapBgColor=${textWrapBgColor.value}&textWrapPadding=${textWrapPadding.value}&textWrapRounded=${textWrapRounded.value}&textWrapShadow=${textWrapShadow.value}`
+  generateUrl.value = `/api/v1/img/${preset.value}/${template.value}/${text.value}?ratio=${ratio.value}&bgColor=${customColor.value[0]}-${customColor.value[1]}&color=${curstomFontColor.value}&accentColor=${accentFontColor.value}&textWrapBgColor=${textWrapBgColor.value}&textWrapPadding=${textWrapPadding.value}&textWrapRounded=${textWrapRounded.value}&textWrapShadow=${textWrapShadow.value}`
   img.src = generateUrl.value;
   img.onload = () => {
     console.log(`加载完成`);
