@@ -9,6 +9,14 @@ const packageJson = JSON.parse(
   fs.readFileSync(path.resolve(__dirname, 'package.json'), 'utf-8')
 )
 
+import { createRequire } from 'module'
+
+const { resolve } = createRequire(import.meta.url)
+
+const prismaClient = `prisma${path.sep}client`
+
+const prismaClientIndexBrowser = resolve('@prisma/client/index-browser').replace(`@${prismaClient}`, `.${prismaClient}`)
+
 const appVersion = packageJson.version
 export default defineNuxtConfig({
   compatibilityDate: '2025-02-08',
@@ -21,11 +29,19 @@ export default defineNuxtConfig({
     'shadcn-nuxt',
     'motion-v/nuxt',
     'unplugin-font-to-buffer/nuxt',
-    '@nuxt/icon'
+    '@nuxt/icon',
+    '@prisma/nuxt'
   ],
   shadcn: {
     prefix: '',
     componentDir: './components/ui'
+  },
+  vite: {
+    resolve: {
+      alias: {
+        ".prisma/client/index-browser": path.relative(__dirname, prismaClientIndexBrowser)
+      }
+    }
   },
   icon: {
     componentName: 'NuxtIcon',

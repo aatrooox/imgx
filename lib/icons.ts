@@ -1,39 +1,59 @@
-import { icons as emojiIcons } from '@/assets/icons/twemoji-face-icons.json'
+import { LazyGlowBorder } from '#components';
+import emojiIcons from '@@/assets/icons/twemoji-face-icons.json'
 import { getIconData, iconToSVG, iconToHTML, replaceIDs } from '@iconify/utils';
 
-type IconName = string
-type SupportedSetName = 'twemoji'
-const supportedIcons = {
-  'twemoji': emojiIcons,
-  // 'material-symbols': icons
+interface IconData {
+  body: string;
+  width?: number;
+  height?: number;
+  left?: number;
+  top?: number;
+  // 可能还有其他属性，根据实际数据结构添加
 }
+
+interface IconSet {
+  prefix: string;
+  icons: {
+    [key: string]: IconData;
+  };
+
+  // 可能还有其他属性，如 width, height, 等
+  width?: number;
+  height?: number;
+  // 其他可能的属性
+}
+
+const typedEmojiIcons = emojiIcons as IconSet;
+
+type IconName = string
+// type SupportedSetName = 'twemoji'
+// const supportedIcons = {
+//   'twemoji': emojiIcons,
+// }
 /**
  * 返回在 backgroundImage 中使用的url内容
  * @param iconName twemoji:downcast-face-with-sweat
  * @returns base64 url 
  */
-export function getBase64IconURL(iconName:IconName, iconSize: number) {
-  const svgHTML =  getIconSVGHTML(iconName, iconSize);
+export function getBase64IconURL(iconName:string, iconSize: number) {
+  const svgHTML = getIconSVGHTML(iconName, iconSize);
 
   if (!svgHTML) return null;
-
+   
   const base64SVG = `data:image/svg+xml;base64,${btoa(svgHTML)}`;
 
   return base64SVG
 }
 
 export function getIconSVGHTML(iconName:IconName, iconSize: number) { 
+  if (!iconName) return null;
   const iconNames = iconName.split(':');
 
   if (iconNames.length !== 2) return null;
 
-  const setName: SupportedSetName = iconNames[0] as SupportedSetName
   const iconInnerName = iconNames[1];
-  const iconSets = supportedIcons[setName]
 
-  if (!iconSets) return null;
-
-  const iconData = getIconData(iconSets as any, iconInnerName);
+  const iconData = getIconData(typedEmojiIcons as any, iconInnerName);
 
   if (!iconData) return null;
 
@@ -42,7 +62,8 @@ export function getIconSVGHTML(iconName:IconName, iconSize: number) {
     height: iconSize,
   });
 
-  const iconSVG = iconToHTML(replaceIDs(renderData.body), renderData.attributes);
-
+  let iconSVG = iconToHTML(replaceIDs(renderData.body), renderData.attributes);
+  // 修正 viewBox 属性，确保与 iconSize 一致
+  iconSVG = iconSVG.replace(/viewbox="([^"]*)"/, `viewbox="0 0 ${iconSize} ${iconSize}"`);
   return iconSVG;
 }

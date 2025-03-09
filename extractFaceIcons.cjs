@@ -16,6 +16,7 @@ for (const [key, value] of Object.entries(twemojiData.icons)) {
 
 // 创建新的图标集
 const faceIconsData = {
+  ...twemojiData,
   prefix: twemojiData.prefix,
   icons: faceIcons
 };

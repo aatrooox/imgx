@@ -417,5 +417,1687 @@
     "zipper-mouth-face": {
       "body": "<circle cx=\"18\" cy=\"18\" r=\"18\" fill=\"#FFCC4D\"/><path fill=\"#664500\" d=\"M14.034 14.499c0 1.934-1.119 3.5-2.5 3.5s-2.5-1.566-2.5-3.5s1.119-3.5 2.5-3.5s2.5 1.567 2.5 3.5m13 0c0 1.934-1.119 3.5-2.5 3.5s-2.5-1.566-2.5-3.5s1.119-3.5 2.5-3.5s2.5 1.567 2.5 3.5m-2.033 12.505H10c-1 0-1-1-1-1v-1s0-1.003 1-1.003l15.001.003z\"/><path fill=\"#99AAB5\" d=\"m35.255 26.084l-7.713-2.121c-.72-.197-1.049.287-1.171.547l-1.64-.784L24 25.255v-2.254h-2v2h-2v-2h-2.001v2H16v-2h-2v2h-2v-2h-2v3h2v2h2v-2h1.999v2h2v-2H20v2h2v-2h1.643l-.58 1.212l1.648.788l-.099.207s-.248.737.373 1.275s5.285 4.735 5.285 4.735s.899.866 1.769.079c.738-.67 3.649-6.02 3.914-6.983s-.698-1.23-.698-1.23m-3.772 6.071l-2.644-2.248l1.614-3.069l3.338 1.132z\"/>"
     }
-  }
+  },
+  "aliases": {
+    "a-button": {
+      "parent": "a-button-blood-type"
+    },
+    "ab-button": {
+      "parent": "ab-button-blood-type"
+    },
+    "anticlockwise-arrows-button": {
+      "parent": "counterclockwise-arrows-button"
+    },
+    "b-button": {
+      "parent": "b-button-blood-type"
+    },
+    "ballot-box-with-check": {
+      "parent": "check-box-with-check"
+    },
+    "bear-face": {
+      "parent": "bear"
+    },
+    "blond-haired-man": {
+      "parent": "man-blond-hair"
+    },
+    "blond-haired-man-dark-skin-tone": {
+      "parent": "man-dark-skin-tone-blond-hair"
+    },
+    "blond-haired-man-light-skin-tone": {
+      "parent": "man-light-skin-tone-blond-hair"
+    },
+    "blond-haired-man-medium-dark-skin-tone": {
+      "parent": "man-medium-dark-skin-tone-blond-hair"
+    },
+    "blond-haired-man-medium-light-skin-tone": {
+      "parent": "man-medium-light-skin-tone-blond-hair"
+    },
+    "blond-haired-man-medium-skin-tone": {
+      "parent": "man-medium-skin-tone-blond-hair"
+    },
+    "blond-haired-person": {
+      "parent": "man-blond-hair"
+    },
+    "blond-haired-person-dark-skin-tone": {
+      "parent": "man-dark-skin-tone-blond-hair"
+    },
+    "blond-haired-person-light-skin-tone": {
+      "parent": "man-light-skin-tone-blond-hair"
+    },
+    "blond-haired-person-medium-dark-skin-tone": {
+      "parent": "man-medium-dark-skin-tone-blond-hair"
+    },
+    "blond-haired-person-medium-light-skin-tone": {
+      "parent": "man-medium-light-skin-tone-blond-hair"
+    },
+    "blond-haired-person-medium-skin-tone": {
+      "parent": "man-medium-skin-tone-blond-hair"
+    },
+    "blond-haired-woman": {
+      "parent": "woman-blond-hair"
+    },
+    "blond-haired-woman-dark-skin-tone": {
+      "parent": "woman-dark-skin-tone-blond-hair"
+    },
+    "blond-haired-woman-light-skin-tone": {
+      "parent": "woman-light-skin-tone-blond-hair"
+    },
+    "blond-haired-woman-medium-dark-skin-tone": {
+      "parent": "woman-medium-dark-skin-tone-blond-hair"
+    },
+    "blond-haired-woman-medium-light-skin-tone": {
+      "parent": "woman-medium-light-skin-tone"
+    },
+    "blond-haired-woman-medium-skin-tone": {
+      "parent": "woman-medium-skin-tone-blond-hair"
+    },
+    "bricks": {
+      "parent": "brick"
+    },
+    "bride-with-veil": {
+      "parent": "person-with-veil"
+    },
+    "bride-with-veil-dark-skin-tone": {
+      "parent": "person-with-veil-dark-skin-tone"
+    },
+    "bride-with-veil-light-skin-tone": {
+      "parent": "person-with-veil-light-skin-tone"
+    },
+    "bride-with-veil-medium-dark-skin-tone": {
+      "parent": "person-with-veil-medium-dark-skin-tone"
+    },
+    "bride-with-veil-medium-light-skin-tone": {
+      "parent": "person-with-veil-medium-light-skin-tone"
+    },
+    "bride-with-veil-medium-skin-tone": {
+      "parent": "person-with-veil-medium-skin-tone"
+    },
+    "cat-face-with-tears-of-joy": {
+      "parent": "cat-with-tears-of-joy"
+    },
+    "cat-face-with-wry-smile": {
+      "parent": "cat-with-wry-smile"
+    },
+    "crying-cat-face": {
+      "parent": "crying-cat"
+    },
+    "direct-hit": {
+      "parent": "bullseye"
+    },
+    "disappointed-but-relieved-face": {
+      "parent": "sad-but-relieved-face"
+    },
+    "division-sign": {
+      "parent": "divide"
+    },
+    "dizzy-face": {
+      "parent": "knocked-out-face"
+    },
+    "down-button": {
+      "parent": "downwards-button"
+    },
+    "england": {
+      "parent": "flag-england"
+    },
+    "exclamation-mark": {
+      "parent": "red-exclamation-mark"
+    },
+    "face-savouring-delicious-food": {
+      "parent": "face-savoring-food"
+    },
+    "face-with-cold-sweat": {
+      "parent": "downcast-face-with-sweat"
+    },
+    "face-with-open-mouth-and-cold-sweat": {
+      "parent": "anxious-face-with-sweat"
+    },
+    "face-with-stuck-out-tongue": {
+      "parent": "face-with-tongue"
+    },
+    "face-with-stuck-out-tongue-and-closed-eyes": {
+      "parent": "squinting-face-with-tongue"
+    },
+    "face-with-stuck-out-tongue-and-winking-eye": {
+      "parent": "winking-face-with-tongue"
+    },
+    "first-quarter-moon-with-face": {
+      "parent": "first-quarter-moon-face"
+    },
+    "flag-for-afghanistan": {
+      "parent": "flag-for-flag-afghanistan"
+    },
+    "flag-for-aland-islands": {
+      "parent": "flag-aland-islands"
+    },
+    "flag-for-albania": {
+      "parent": "flag-for-flag-albania"
+    },
+    "flag-for-algeria": {
+      "parent": "flag-for-flag-algeria"
+    },
+    "flag-for-american-samoa": {
+      "parent": "flag-for-flag-american-samoa"
+    },
+    "flag-for-andorra": {
+      "parent": "flag-for-flag-andorra"
+    },
+    "flag-for-angola": {
+      "parent": "flag-for-flag-angola"
+    },
+    "flag-for-anguilla": {
+      "parent": "flag-anguilla"
+    },
+    "flag-for-antarctica": {
+      "parent": "flag-antarctica"
+    },
+    "flag-for-antigua-and-barbuda": {
+      "parent": "flag-for-flag-antigua-and-barbuda"
+    },
+    "flag-for-argentina": {
+      "parent": "flag-for-flag-argentina"
+    },
+    "flag-for-armenia": {
+      "parent": "flag-armenia"
+    },
+    "flag-for-aruba": {
+      "parent": "flag-for-flag-aruba"
+    },
+    "flag-for-ascension-island": {
+      "parent": "flag-for-flag-ascension-island"
+    },
+    "flag-for-australia": {
+      "parent": "flag-for-flag-australia"
+    },
+    "flag-for-austria": {
+      "parent": "flag-austria"
+    },
+    "flag-for-azerbaijan": {
+      "parent": "flag-for-flag-azerbaijan"
+    },
+    "flag-for-bahamas": {
+      "parent": "flag-for-flag-bahamas"
+    },
+    "flag-for-bahrain": {
+      "parent": "flag-bahrain"
+    },
+    "flag-for-bangladesh": {
+      "parent": "flag-for-flag-bangladesh"
+    },
+    "flag-for-barbados": {
+      "parent": "flag-for-flag-barbados"
+    },
+    "flag-for-belarus": {
+      "parent": "flag-for-flag-belarus"
+    },
+    "flag-for-belgium": {
+      "parent": "flag-belgium"
+    },
+    "flag-for-belize": {
+      "parent": "flag-for-flag-belize"
+    },
+    "flag-for-benin": {
+      "parent": "flag-benin"
+    },
+    "flag-for-bermuda": {
+      "parent": "flag-for-flag-bermuda"
+    },
+    "flag-for-bhutan": {
+      "parent": "flag-bhutan"
+    },
+    "flag-for-black-flag": {
+      "parent": "black-flag"
+    },
+    "flag-for-bolivia": {
+      "parent": "flag-for-flag-bolivia"
+    },
+    "flag-for-bosnia-and-herzegovina": {
+      "parent": "flag-for-flag-bosnia-and-herzegovina"
+    },
+    "flag-for-botswana": {
+      "parent": "flag-botswana"
+    },
+    "flag-for-bouvet-island": {
+      "parent": "flag-bouvet-island"
+    },
+    "flag-for-brazil": {
+      "parent": "flag-for-flag-brazil"
+    },
+    "flag-for-british-indian-ocean-territory": {
+      "parent": "flag-for-flag-british-indian-ocean-territory"
+    },
+    "flag-for-british-virgin-islands": {
+      "parent": "flag-british-virgin-islands"
+    },
+    "flag-for-brunei": {
+      "parent": "flag-brunei"
+    },
+    "flag-for-bulgaria": {
+      "parent": "flag-bulgaria"
+    },
+    "flag-for-burkina-faso": {
+      "parent": "flag-for-flag-burkina-faso"
+    },
+    "flag-for-burundi": {
+      "parent": "flag-for-flag-burundi"
+    },
+    "flag-for-cambodia": {
+      "parent": "flag-cambodia"
+    },
+    "flag-for-cameroon": {
+      "parent": "flag-cameroon"
+    },
+    "flag-for-canada": {
+      "parent": "flag-canada"
+    },
+    "flag-for-canary-islands": {
+      "parent": "flag-for-flag-canary-islands"
+    },
+    "flag-for-cape-verde": {
+      "parent": "flag-for-flag-cape-verde"
+    },
+    "flag-for-caribbean-netherlands": {
+      "parent": "flag-for-flag-caribbean-netherlands"
+    },
+    "flag-for-cayman-islands": {
+      "parent": "flag-for-flag-cayman-islands"
+    },
+    "flag-for-central-african-republic": {
+      "parent": "flag-for-flag-central-african-republic"
+    },
+    "flag-for-ceuta-and-melilla": {
+      "parent": "flag-for-flag-ceuta-and-melilla"
+    },
+    "flag-for-chad": {
+      "parent": "flag-chad"
+    },
+    "flag-for-chequered-flag": {
+      "parent": "chequered-flag"
+    },
+    "flag-for-chile": {
+      "parent": "flag-chile"
+    },
+    "flag-for-china": {
+      "parent": "flag-for-flag-china"
+    },
+    "flag-for-christmas-island": {
+      "parent": "flag-for-flag-christmas-island"
+    },
+    "flag-for-clipperton-island": {
+      "parent": "flag-clipperton-island"
+    },
+    "flag-for-cocos-islands": {
+      "parent": "flag-for-flag-cocos-keeling-islands"
+    },
+    "flag-for-cocos-keeling-islands": {
+      "parent": "flag-for-flag-cocos-keeling-islands"
+    },
+    "flag-for-colombia": {
+      "parent": "flag-colombia"
+    },
+    "flag-for-comoros": {
+      "parent": "flag-for-flag-comoros"
+    },
+    "flag-for-congo-brazzaville": {
+      "parent": "flag-congo-brazzaville"
+    },
+    "flag-for-congo-kinshasa": {
+      "parent": "flag-congo-kinshasa"
+    },
+    "flag-for-cook-islands": {
+      "parent": "flag-for-flag-cook-islands"
+    },
+    "flag-for-costa-rica": {
+      "parent": "flag-for-flag-costa-rica"
+    },
+    "flag-for-cote-divoire": {
+      "parent": "flag-cote-divoire"
+    },
+    "flag-for-croatia": {
+      "parent": "flag-for-flag-croatia"
+    },
+    "flag-for-crossed-flags": {
+      "parent": "crossed-flags"
+    },
+    "flag-for-cuba": {
+      "parent": "flag-for-flag-cuba"
+    },
+    "flag-for-curacao": {
+      "parent": "flag-curacao"
+    },
+    "flag-for-cyprus": {
+      "parent": "flag-for-flag-cyprus"
+    },
+    "flag-for-czechia": {
+      "parent": "flag-czechia"
+    },
+    "flag-for-denmark": {
+      "parent": "flag-denmark"
+    },
+    "flag-for-diego-garcia": {
+      "parent": "flag-for-flag-british-indian-ocean-territory"
+    },
+    "flag-for-djibouti": {
+      "parent": "flag-for-flag-djibouti"
+    },
+    "flag-for-dominica": {
+      "parent": "flag-for-flag-dominica"
+    },
+    "flag-for-dominican-republic": {
+      "parent": "flag-for-flag-dominican-republic"
+    },
+    "flag-for-ecuador": {
+      "parent": "flag-for-flag-ecuador"
+    },
+    "flag-for-egypt": {
+      "parent": "flag-for-flag-egypt"
+    },
+    "flag-for-el-salvador": {
+      "parent": "flag-for-flag-el-salvador"
+    },
+    "flag-for-england": {
+      "parent": "flag-england"
+    },
+    "flag-for-equatorial-guinea": {
+      "parent": "flag-for-flag-equatorial-guinea"
+    },
+    "flag-for-eritrea": {
+      "parent": "flag-eritrea"
+    },
+    "flag-for-estonia": {
+      "parent": "flag-estonia"
+    },
+    "flag-for-ethiopia": {
+      "parent": "flag-for-flag-ethiopia"
+    },
+    "flag-for-european-union": {
+      "parent": "flag-for-flag-european-union"
+    },
+    "flag-for-falkland-islands": {
+      "parent": "flag-for-flag-falkland-islands"
+    },
+    "flag-for-faroe-islands": {
+      "parent": "flag-faroe-islands"
+    },
+    "flag-for-fiji": {
+      "parent": "flag-for-flag-fiji"
+    },
+    "flag-for-finland": {
+      "parent": "flag-finland"
+    },
+    "flag-for-flag-aland-islands": {
+      "parent": "flag-aland-islands"
+    },
+    "flag-for-flag-anguilla": {
+      "parent": "flag-anguilla"
+    },
+    "flag-for-flag-antarctica": {
+      "parent": "flag-antarctica"
+    },
+    "flag-for-flag-armenia": {
+      "parent": "flag-armenia"
+    },
+    "flag-for-flag-austria": {
+      "parent": "flag-austria"
+    },
+    "flag-for-flag-bahrain": {
+      "parent": "flag-bahrain"
+    },
+    "flag-for-flag-belgium": {
+      "parent": "flag-belgium"
+    },
+    "flag-for-flag-benin": {
+      "parent": "flag-benin"
+    },
+    "flag-for-flag-bhutan": {
+      "parent": "flag-bhutan"
+    },
+    "flag-for-flag-botswana": {
+      "parent": "flag-botswana"
+    },
+    "flag-for-flag-bouvet-island": {
+      "parent": "flag-bouvet-island"
+    },
+    "flag-for-flag-british-virgin-islands": {
+      "parent": "flag-british-virgin-islands"
+    },
+    "flag-for-flag-brunei": {
+      "parent": "flag-brunei"
+    },
+    "flag-for-flag-bulgaria": {
+      "parent": "flag-bulgaria"
+    },
+    "flag-for-flag-cambodia": {
+      "parent": "flag-cambodia"
+    },
+    "flag-for-flag-cameroon": {
+      "parent": "flag-cameroon"
+    },
+    "flag-for-flag-canada": {
+      "parent": "flag-canada"
+    },
+    "flag-for-flag-chad": {
+      "parent": "flag-chad"
+    },
+    "flag-for-flag-chile": {
+      "parent": "flag-chile"
+    },
+    "flag-for-flag-clipperton-island": {
+      "parent": "flag-clipperton-island"
+    },
+    "flag-for-flag-colombia": {
+      "parent": "flag-colombia"
+    },
+    "flag-for-flag-congo-brazzaville": {
+      "parent": "flag-congo-brazzaville"
+    },
+    "flag-for-flag-congo-kinshasa": {
+      "parent": "flag-congo-kinshasa"
+    },
+    "flag-for-flag-cote-divoire": {
+      "parent": "flag-cote-divoire"
+    },
+    "flag-for-flag-curacao": {
+      "parent": "flag-curacao"
+    },
+    "flag-for-flag-czechia": {
+      "parent": "flag-czechia"
+    },
+    "flag-for-flag-denmark": {
+      "parent": "flag-denmark"
+    },
+    "flag-for-flag-diego-garcia": {
+      "parent": "flag-for-flag-british-indian-ocean-territory"
+    },
+    "flag-for-flag-eritrea": {
+      "parent": "flag-eritrea"
+    },
+    "flag-for-flag-estonia": {
+      "parent": "flag-estonia"
+    },
+    "flag-for-flag-faroe-islands": {
+      "parent": "flag-faroe-islands"
+    },
+    "flag-for-flag-finland": {
+      "parent": "flag-finland"
+    },
+    "flag-for-flag-france": {
+      "parent": "flag-clipperton-island"
+    },
+    "flag-for-flag-gabon": {
+      "parent": "flag-gabon"
+    },
+    "flag-for-flag-gambia": {
+      "parent": "flag-gambia"
+    },
+    "flag-for-flag-georgia": {
+      "parent": "flag-georgia"
+    },
+    "flag-for-flag-germany": {
+      "parent": "flag-germany"
+    },
+    "flag-for-flag-greece": {
+      "parent": "flag-greece"
+    },
+    "flag-for-flag-guadeloupe": {
+      "parent": "flag-guadeloupe"
+    },
+    "flag-for-flag-guernsey": {
+      "parent": "flag-guernsey"
+    },
+    "flag-for-flag-guinea": {
+      "parent": "flag-guinea"
+    },
+    "flag-for-flag-heard-and-mcdonald-islands": {
+      "parent": "flag-for-flag-australia"
+    },
+    "flag-for-flag-hungary": {
+      "parent": "flag-hungary"
+    },
+    "flag-for-flag-iceland": {
+      "parent": "flag-iceland"
+    },
+    "flag-for-flag-indonesia": {
+      "parent": "flag-indonesia"
+    },
+    "flag-for-flag-iran": {
+      "parent": "flag-iran"
+    },
+    "flag-for-flag-iraq": {
+      "parent": "flag-iraq"
+    },
+    "flag-for-flag-ireland": {
+      "parent": "flag-ireland"
+    },
+    "flag-for-flag-italy": {
+      "parent": "flag-italy"
+    },
+    "flag-for-flag-jamaica": {
+      "parent": "flag-jamaica"
+    },
+    "flag-for-flag-kuwait": {
+      "parent": "flag-kuwait"
+    },
+    "flag-for-flag-kyrgyzstan": {
+      "parent": "flag-kyrgyzstan"
+    },
+    "flag-for-flag-latvia": {
+      "parent": "flag-latvia"
+    },
+    "flag-for-flag-lesotho": {
+      "parent": "flag-lesotho"
+    },
+    "flag-for-flag-libya": {
+      "parent": "flag-libya"
+    },
+    "flag-for-flag-lithuania": {
+      "parent": "flag-lithuania"
+    },
+    "flag-for-flag-luxembourg": {
+      "parent": "flag-luxembourg"
+    },
+    "flag-for-flag-macao-sar-china": {
+      "parent": "flag-macao-sar-china"
+    },
+    "flag-for-flag-madagascar": {
+      "parent": "flag-madagascar"
+    },
+    "flag-for-flag-maldives": {
+      "parent": "flag-maldives"
+    },
+    "flag-for-flag-mali": {
+      "parent": "flag-mali"
+    },
+    "flag-for-flag-martinique": {
+      "parent": "flag-martinique"
+    },
+    "flag-for-flag-mauritius": {
+      "parent": "flag-mauritius"
+    },
+    "flag-for-flag-monaco": {
+      "parent": "flag-monaco"
+    },
+    "flag-for-flag-mongolia": {
+      "parent": "flag-mongolia"
+    },
+    "flag-for-flag-montenegro": {
+      "parent": "flag-montenegro"
+    },
+    "flag-for-flag-myanmar-burma": {
+      "parent": "flag-myanmar-burma"
+    },
+    "flag-for-flag-netherlands": {
+      "parent": "flag-netherlands"
+    },
+    "flag-for-flag-nigeria": {
+      "parent": "flag-nigeria"
+    },
+    "flag-for-flag-norfolk-island": {
+      "parent": "flag-norfolk-island"
+    },
+    "flag-for-flag-north-korea": {
+      "parent": "flag-north-korea"
+    },
+    "flag-for-flag-north-macedonia": {
+      "parent": "flag-north-macedonia"
+    },
+    "flag-for-flag-norway": {
+      "parent": "flag-norway"
+    },
+    "flag-for-flag-oman": {
+      "parent": "flag-oman"
+    },
+    "flag-for-flag-palestinian-territories": {
+      "parent": "flag-palestinian-territories"
+    },
+    "flag-for-flag-peru": {
+      "parent": "flag-peru"
+    },
+    "flag-for-flag-poland": {
+      "parent": "flag-poland"
+    },
+    "flag-for-flag-portugal": {
+      "parent": "flag-portugal"
+    },
+    "flag-for-flag-romania": {
+      "parent": "flag-romania"
+    },
+    "flag-for-flag-russia": {
+      "parent": "flag-russia"
+    },
+    "flag-for-flag-san-marino": {
+      "parent": "flag-san-marino"
+    },
+    "flag-for-flag-senegal": {
+      "parent": "flag-senegal"
+    },
+    "flag-for-flag-serbia": {
+      "parent": "flag-serbia"
+    },
+    "flag-for-flag-sierra-leone": {
+      "parent": "flag-sierra-leone"
+    },
+    "flag-for-flag-slovakia": {
+      "parent": "flag-slovakia"
+    },
+    "flag-for-flag-somalia": {
+      "parent": "flag-somalia"
+    },
+    "flag-for-flag-south-africa": {
+      "parent": "flag-south-africa"
+    },
+    "flag-for-flag-spain": {
+      "parent": "flag-for-flag-ceuta-and-melilla"
+    },
+    "flag-for-flag-st-martin": {
+      "parent": "flag-clipperton-island"
+    },
+    "flag-for-flag-sudan": {
+      "parent": "flag-sudan"
+    },
+    "flag-for-flag-suriname": {
+      "parent": "flag-suriname"
+    },
+    "flag-for-flag-svalbard-and-jan-mayen": {
+      "parent": "flag-norway"
+    },
+    "flag-for-flag-sweden": {
+      "parent": "flag-sweden"
+    },
+    "flag-for-flag-switzerland": {
+      "parent": "flag-switzerland"
+    },
+    "flag-for-flag-tajikistan": {
+      "parent": "flag-tajikistan"
+    },
+    "flag-for-flag-tanzania": {
+      "parent": "flag-tanzania"
+    },
+    "flag-for-flag-thailand": {
+      "parent": "flag-thailand"
+    },
+    "flag-for-flag-togo": {
+      "parent": "flag-togo"
+    },
+    "flag-for-flag-tonga": {
+      "parent": "flag-tonga"
+    },
+    "flag-for-flag-trinidad-and-tobago": {
+      "parent": "flag-trinidad-and-tobago"
+    },
+    "flag-for-flag-turkey": {
+      "parent": "flag-turkiye"
+    },
+    "flag-for-flag-turks-and-caicos-islands": {
+      "parent": "flag-turks-and-caicos-islands"
+    },
+    "flag-for-flag-ukraine": {
+      "parent": "flag-ukraine"
+    },
+    "flag-for-flag-united-arab-emirates": {
+      "parent": "flag-united-arab-emirates"
+    },
+    "flag-for-flag-us-outlying-islands": {
+      "parent": "flag-for-flag-united-states"
+    },
+    "flag-for-flag-uzbekistan": {
+      "parent": "flag-uzbekistan"
+    },
+    "flag-for-flag-vietnam": {
+      "parent": "flag-vietnam"
+    },
+    "flag-for-flag-yemen": {
+      "parent": "flag-yemen"
+    },
+    "flag-for-flag-zambia": {
+      "parent": "flag-zambia"
+    },
+    "flag-for-france": {
+      "parent": "flag-clipperton-island"
+    },
+    "flag-for-french-guiana": {
+      "parent": "flag-for-flag-french-guiana"
+    },
+    "flag-for-french-polynesia": {
+      "parent": "flag-for-flag-french-polynesia"
+    },
+    "flag-for-french-southern-territories": {
+      "parent": "flag-for-flag-french-southern-territories"
+    },
+    "flag-for-gabon": {
+      "parent": "flag-gabon"
+    },
+    "flag-for-gambia": {
+      "parent": "flag-gambia"
+    },
+    "flag-for-georgia": {
+      "parent": "flag-georgia"
+    },
+    "flag-for-germany": {
+      "parent": "flag-germany"
+    },
+    "flag-for-ghana": {
+      "parent": "flag-for-flag-ghana"
+    },
+    "flag-for-gibraltar": {
+      "parent": "flag-for-flag-gibraltar"
+    },
+    "flag-for-greece": {
+      "parent": "flag-greece"
+    },
+    "flag-for-greenland": {
+      "parent": "flag-for-flag-greenland"
+    },
+    "flag-for-grenada": {
+      "parent": "flag-for-flag-grenada"
+    },
+    "flag-for-guadeloupe": {
+      "parent": "flag-guadeloupe"
+    },
+    "flag-for-guam": {
+      "parent": "flag-for-flag-guam"
+    },
+    "flag-for-guatemala": {
+      "parent": "flag-for-flag-guatemala"
+    },
+    "flag-for-guernsey": {
+      "parent": "flag-guernsey"
+    },
+    "flag-for-guinea": {
+      "parent": "flag-guinea"
+    },
+    "flag-for-guinea-bissau": {
+      "parent": "flag-for-flag-guinea-bissau"
+    },
+    "flag-for-guyana": {
+      "parent": "flag-for-flag-guyana"
+    },
+    "flag-for-haiti": {
+      "parent": "flag-for-flag-haiti"
+    },
+    "flag-for-heard-and-mcdonald-islands": {
+      "parent": "flag-for-flag-australia"
+    },
+    "flag-for-honduras": {
+      "parent": "flag-for-flag-honduras"
+    },
+    "flag-for-hong-kong-sar-china": {
+      "parent": "flag-for-flag-hong-kong-sar-china"
+    },
+    "flag-for-hungary": {
+      "parent": "flag-hungary"
+    },
+    "flag-for-iceland": {
+      "parent": "flag-iceland"
+    },
+    "flag-for-india": {
+      "parent": "flag-for-flag-india"
+    },
+    "flag-for-indonesia": {
+      "parent": "flag-indonesia"
+    },
+    "flag-for-iran": {
+      "parent": "flag-iran"
+    },
+    "flag-for-iraq": {
+      "parent": "flag-iraq"
+    },
+    "flag-for-ireland": {
+      "parent": "flag-ireland"
+    },
+    "flag-for-isle-of-man": {
+      "parent": "flag-for-flag-isle-of-man"
+    },
+    "flag-for-israel": {
+      "parent": "flag-for-flag-israel"
+    },
+    "flag-for-italy": {
+      "parent": "flag-italy"
+    },
+    "flag-for-jamaica": {
+      "parent": "flag-jamaica"
+    },
+    "flag-for-japan": {
+      "parent": "flag-for-flag-japan"
+    },
+    "flag-for-jersey": {
+      "parent": "flag-for-flag-jersey"
+    },
+    "flag-for-jordan": {
+      "parent": "flag-for-flag-jordan"
+    },
+    "flag-for-kazakhstan": {
+      "parent": "flag-for-flag-kazakhstan"
+    },
+    "flag-for-kenya": {
+      "parent": "flag-for-flag-kenya"
+    },
+    "flag-for-kiribati": {
+      "parent": "flag-for-flag-kiribati"
+    },
+    "flag-for-kosovo": {
+      "parent": "flag-for-flag-kosovo"
+    },
+    "flag-for-kuwait": {
+      "parent": "flag-kuwait"
+    },
+    "flag-for-kyrgyzstan": {
+      "parent": "flag-kyrgyzstan"
+    },
+    "flag-for-laos": {
+      "parent": "flag-for-flag-laos"
+    },
+    "flag-for-latvia": {
+      "parent": "flag-latvia"
+    },
+    "flag-for-lebanon": {
+      "parent": "flag-for-flag-lebanon"
+    },
+    "flag-for-lesotho": {
+      "parent": "flag-lesotho"
+    },
+    "flag-for-liberia": {
+      "parent": "flag-for-flag-liberia"
+    },
+    "flag-for-libya": {
+      "parent": "flag-libya"
+    },
+    "flag-for-liechtenstein": {
+      "parent": "flag-for-flag-liechtenstein"
+    },
+    "flag-for-lithuania": {
+      "parent": "flag-lithuania"
+    },
+    "flag-for-luxembourg": {
+      "parent": "flag-luxembourg"
+    },
+    "flag-for-macau-sar-china": {
+      "parent": "flag-macao-sar-china"
+    },
+    "flag-for-macedonia": {
+      "parent": "flag-north-macedonia"
+    },
+    "flag-for-madagascar": {
+      "parent": "flag-madagascar"
+    },
+    "flag-for-malawi": {
+      "parent": "flag-for-flag-malawi"
+    },
+    "flag-for-malaysia": {
+      "parent": "flag-for-flag-malaysia"
+    },
+    "flag-for-maldives": {
+      "parent": "flag-maldives"
+    },
+    "flag-for-mali": {
+      "parent": "flag-mali"
+    },
+    "flag-for-malta": {
+      "parent": "flag-for-flag-malta"
+    },
+    "flag-for-marshall-islands": {
+      "parent": "flag-for-flag-marshall-islands"
+    },
+    "flag-for-martinique": {
+      "parent": "flag-martinique"
+    },
+    "flag-for-mauritania": {
+      "parent": "flag-for-flag-mauritania"
+    },
+    "flag-for-mauritius": {
+      "parent": "flag-mauritius"
+    },
+    "flag-for-mayotte": {
+      "parent": "flag-for-flag-mayotte"
+    },
+    "flag-for-mexico": {
+      "parent": "flag-for-flag-mexico"
+    },
+    "flag-for-micronesia": {
+      "parent": "flag-for-flag-micronesia"
+    },
+    "flag-for-moldova": {
+      "parent": "flag-for-flag-moldova"
+    },
+    "flag-for-monaco": {
+      "parent": "flag-monaco"
+    },
+    "flag-for-mongolia": {
+      "parent": "flag-mongolia"
+    },
+    "flag-for-montenegro": {
+      "parent": "flag-montenegro"
+    },
+    "flag-for-montserrat": {
+      "parent": "flag-for-flag-montserrat"
+    },
+    "flag-for-morocco": {
+      "parent": "flag-for-flag-morocco"
+    },
+    "flag-for-mozambique": {
+      "parent": "flag-for-flag-mozambique"
+    },
+    "flag-for-myanmar": {
+      "parent": "flag-myanmar-burma"
+    },
+    "flag-for-myanmar-burma": {
+      "parent": "flag-myanmar-burma"
+    },
+    "flag-for-namibia": {
+      "parent": "flag-for-flag-namibia"
+    },
+    "flag-for-nauru": {
+      "parent": "flag-for-flag-nauru"
+    },
+    "flag-for-nepal": {
+      "parent": "flag-for-flag-nepal"
+    },
+    "flag-for-netherlands": {
+      "parent": "flag-netherlands"
+    },
+    "flag-for-new-caledonia": {
+      "parent": "flag-for-flag-new-caledonia"
+    },
+    "flag-for-new-zealand": {
+      "parent": "flag-for-flag-new-zealand"
+    },
+    "flag-for-nicaragua": {
+      "parent": "flag-for-flag-nicaragua"
+    },
+    "flag-for-niger": {
+      "parent": "flag-for-flag-niger"
+    },
+    "flag-for-nigeria": {
+      "parent": "flag-nigeria"
+    },
+    "flag-for-niue": {
+      "parent": "flag-for-flag-niue"
+    },
+    "flag-for-norfolk-island": {
+      "parent": "flag-norfolk-island"
+    },
+    "flag-for-north-korea": {
+      "parent": "flag-north-korea"
+    },
+    "flag-for-northern-mariana-islands": {
+      "parent": "flag-for-flag-northern-mariana-islands"
+    },
+    "flag-for-norway": {
+      "parent": "flag-norway"
+    },
+    "flag-for-oman": {
+      "parent": "flag-oman"
+    },
+    "flag-for-pakistan": {
+      "parent": "flag-for-flag-pakistan"
+    },
+    "flag-for-palau": {
+      "parent": "flag-for-flag-palau"
+    },
+    "flag-for-palestinian-territories": {
+      "parent": "flag-palestinian-territories"
+    },
+    "flag-for-panama": {
+      "parent": "flag-for-flag-panama"
+    },
+    "flag-for-papua-new-guinea": {
+      "parent": "flag-for-flag-papua-new-guinea"
+    },
+    "flag-for-paraguay": {
+      "parent": "flag-for-flag-paraguay"
+    },
+    "flag-for-peru": {
+      "parent": "flag-peru"
+    },
+    "flag-for-philippines": {
+      "parent": "flag-for-flag-philippines"
+    },
+    "flag-for-pirate-flag": {
+      "parent": "pirate-flag"
+    },
+    "flag-for-pitcairn-islands": {
+      "parent": "flag-for-flag-pitcairn-islands"
+    },
+    "flag-for-poland": {
+      "parent": "flag-poland"
+    },
+    "flag-for-portugal": {
+      "parent": "flag-portugal"
+    },
+    "flag-for-puerto-rico": {
+      "parent": "flag-for-flag-puerto-rico"
+    },
+    "flag-for-qatar": {
+      "parent": "flag-for-flag-qatar"
+    },
+    "flag-for-rainbow-flag": {
+      "parent": "rainbow-flag"
+    },
+    "flag-for-reunion": {
+      "parent": "flag-for-flag-reunion"
+    },
+    "flag-for-romania": {
+      "parent": "flag-romania"
+    },
+    "flag-for-russia": {
+      "parent": "flag-russia"
+    },
+    "flag-for-rwanda": {
+      "parent": "flag-for-flag-rwanda"
+    },
+    "flag-for-samoa": {
+      "parent": "flag-for-flag-samoa"
+    },
+    "flag-for-san-marino": {
+      "parent": "flag-san-marino"
+    },
+    "flag-for-sao-tome-and-principe": {
+      "parent": "flag-for-flag-sao-tome-and-principe"
+    },
+    "flag-for-saudi-arabia": {
+      "parent": "flag-for-flag-saudi-arabia"
+    },
+    "flag-for-scotland": {
+      "parent": "flag-scotland"
+    },
+    "flag-for-senegal": {
+      "parent": "flag-senegal"
+    },
+    "flag-for-serbia": {
+      "parent": "flag-serbia"
+    },
+    "flag-for-seychelles": {
+      "parent": "flag-for-flag-seychelles"
+    },
+    "flag-for-sierra-leone": {
+      "parent": "flag-sierra-leone"
+    },
+    "flag-for-singapore": {
+      "parent": "flag-for-flag-singapore"
+    },
+    "flag-for-sint-maarten": {
+      "parent": "flag-for-flag-sint-maarten"
+    },
+    "flag-for-slovakia": {
+      "parent": "flag-slovakia"
+    },
+    "flag-for-slovenia": {
+      "parent": "flag-for-flag-slovenia"
+    },
+    "flag-for-solomon-islands": {
+      "parent": "flag-for-flag-solomon-islands"
+    },
+    "flag-for-somalia": {
+      "parent": "flag-somalia"
+    },
+    "flag-for-south-africa": {
+      "parent": "flag-south-africa"
+    },
+    "flag-for-south-georgia-and-south-sandwich-islands": {
+      "parent": "flag-for-flag-south-georgia-and-south-sandwich-islands"
+    },
+    "flag-for-south-korea": {
+      "parent": "flag-for-flag-south-korea"
+    },
+    "flag-for-south-sudan": {
+      "parent": "flag-for-flag-south-sudan"
+    },
+    "flag-for-spain": {
+      "parent": "flag-for-flag-ceuta-and-melilla"
+    },
+    "flag-for-sri-lanka": {
+      "parent": "flag-for-flag-sri-lanka"
+    },
+    "flag-for-st-barthelemy": {
+      "parent": "flag-for-flag-st-barthelemy"
+    },
+    "flag-for-st-helena": {
+      "parent": "flag-for-flag-st-helena"
+    },
+    "flag-for-st-kitts-and-nevis": {
+      "parent": "flag-for-flag-st-kitts-and-nevis"
+    },
+    "flag-for-st-lucia": {
+      "parent": "flag-for-flag-st-lucia"
+    },
+    "flag-for-st-martin": {
+      "parent": "flag-clipperton-island"
+    },
+    "flag-for-st-pierre-and-miquelon": {
+      "parent": "flag-for-flag-st-pierre-and-miquelon"
+    },
+    "flag-for-st-vincent-and-grenadines": {
+      "parent": "flag-for-flag-st-vincent-and-grenadines"
+    },
+    "flag-for-sudan": {
+      "parent": "flag-sudan"
+    },
+    "flag-for-suriname": {
+      "parent": "flag-suriname"
+    },
+    "flag-for-svalbard-and-jan-mayen": {
+      "parent": "flag-norway"
+    },
+    "flag-for-swaziland": {
+      "parent": "flag-for-flag-eswatini"
+    },
+    "flag-for-sweden": {
+      "parent": "flag-sweden"
+    },
+    "flag-for-switzerland": {
+      "parent": "flag-switzerland"
+    },
+    "flag-for-syria": {
+      "parent": "flag-for-flag-syria"
+    },
+    "flag-for-taiwan": {
+      "parent": "flag-for-flag-taiwan"
+    },
+    "flag-for-tajikistan": {
+      "parent": "flag-tajikistan"
+    },
+    "flag-for-tanzania": {
+      "parent": "flag-tanzania"
+    },
+    "flag-for-thailand": {
+      "parent": "flag-thailand"
+    },
+    "flag-for-timor-leste": {
+      "parent": "flag-for-flag-timor-leste"
+    },
+    "flag-for-togo": {
+      "parent": "flag-togo"
+    },
+    "flag-for-tokelau": {
+      "parent": "flag-for-flag-tokelau"
+    },
+    "flag-for-tonga": {
+      "parent": "flag-tonga"
+    },
+    "flag-for-triangular-flag": {
+      "parent": "triangular-flag"
+    },
+    "flag-for-trinidad-and-tobago": {
+      "parent": "flag-trinidad-and-tobago"
+    },
+    "flag-for-tristan-da-cunha": {
+      "parent": "flag-for-flag-tristan-da-cunha"
+    },
+    "flag-for-tunisia": {
+      "parent": "flag-for-flag-tunisia"
+    },
+    "flag-for-turkey": {
+      "parent": "flag-turkiye"
+    },
+    "flag-for-turkmenistan": {
+      "parent": "flag-for-flag-turkmenistan"
+    },
+    "flag-for-turks-and-caicos-islands": {
+      "parent": "flag-turks-and-caicos-islands"
+    },
+    "flag-for-tuvalu": {
+      "parent": "flag-for-flag-tuvalu"
+    },
+    "flag-for-uganda": {
+      "parent": "flag-for-flag-uganda"
+    },
+    "flag-for-ukraine": {
+      "parent": "flag-ukraine"
+    },
+    "flag-for-united-arab-emirates": {
+      "parent": "flag-united-arab-emirates"
+    },
+    "flag-for-united-kingdom": {
+      "parent": "flag-for-flag-united-kingdom"
+    },
+    "flag-for-united-nations": {
+      "parent": "flag-for-flag-united-nations"
+    },
+    "flag-for-united-states": {
+      "parent": "flag-for-flag-united-states"
+    },
+    "flag-for-uruguay": {
+      "parent": "flag-for-flag-uruguay"
+    },
+    "flag-for-us-outlying-islands": {
+      "parent": "flag-for-flag-united-states"
+    },
+    "flag-for-us-virgin-islands": {
+      "parent": "flag-for-flag-us-virgin-islands"
+    },
+    "flag-for-uzbekistan": {
+      "parent": "flag-uzbekistan"
+    },
+    "flag-for-vanuatu": {
+      "parent": "flag-for-flag-vanuatu"
+    },
+    "flag-for-vatican-city": {
+      "parent": "flag-for-flag-vatican-city"
+    },
+    "flag-for-venezuela": {
+      "parent": "flag-for-flag-venezuela"
+    },
+    "flag-for-vietnam": {
+      "parent": "flag-vietnam"
+    },
+    "flag-for-wales": {
+      "parent": "flag-wales"
+    },
+    "flag-for-wallis-and-futuna": {
+      "parent": "flag-for-flag-wallis-and-futuna"
+    },
+    "flag-for-western-sahara": {
+      "parent": "flag-for-flag-western-sahara"
+    },
+    "flag-for-white-flag": {
+      "parent": "white-flag"
+    },
+    "flag-for-yemen": {
+      "parent": "flag-yemen"
+    },
+    "flag-for-zambia": {
+      "parent": "flag-zambia"
+    },
+    "flag-for-zimbabwe": {
+      "parent": "flag-for-flag-zimbabwe"
+    },
+    "flag-turkey": {
+      "parent": "flag-turkiye"
+    },
+    "fox-face": {
+      "parent": "fox"
+    },
+    "frog-face": {
+      "parent": "frog"
+    },
+    "full-moon-with-face": {
+      "parent": "full-moon-face"
+    },
+    "grasshopper": {
+      "parent": "cricket"
+    },
+    "grinning-cat-face": {
+      "parent": "grinning-cat"
+    },
+    "grinning-cat-face-with-smiling-eyes": {
+      "parent": "grinning-cat-with-smiling-eyes"
+    },
+    "hamster-face": {
+      "parent": "hamster"
+    },
+    "heavy-check-mark": {
+      "parent": "check-mark"
+    },
+    "heavy-division-sign": {
+      "parent": "divide"
+    },
+    "heavy-heart-exclamation": {
+      "parent": "heart-exclamation"
+    },
+    "heavy-large-circle": {
+      "parent": "hollow-red-circle"
+    },
+    "heavy-minus-sign": {
+      "parent": "minus"
+    },
+    "heavy-multiplication-x": {
+      "parent": "multiply"
+    },
+    "heavy-plus-sign": {
+      "parent": "plus"
+    },
+    "high-speed-train-with-bullet-nose": {
+      "parent": "bullet-train"
+    },
+    "hourglass": {
+      "parent": "hourglass-done"
+    },
+    "hourglass-with-flowing-sand": {
+      "parent": "hourglass-not-done"
+    },
+    "ice-cube": {
+      "parent": "ice"
+    },
+    "jigsaw": {
+      "parent": "puzzle-piece"
+    },
+    "kissing-cat-face": {
+      "parent": "kissing-cat"
+    },
+    "kissing-cat-face-with-closed-eyes": {
+      "parent": "kissing-cat"
+    },
+    "laptop-computer": {
+      "parent": "laptop"
+    },
+    "last-quarter-moon-with-face": {
+      "parent": "last-quarter-moon-face"
+    },
+    "left-pointing-magnifying-glass": {
+      "parent": "magnifying-glass-tilted-left"
+    },
+    "lion-face": {
+      "parent": "lion"
+    },
+    "man-bald-dark-skin-tone": {
+      "parent": "man-dark-skin-tone-bald"
+    },
+    "man-bald-light-skin-tone": {
+      "parent": "man-light-skin-tone-bald"
+    },
+    "man-bald-medium-dark-skin-tone": {
+      "parent": "man-medium-dark-skin-tone-bald"
+    },
+    "man-bald-medium-light-skin-tone": {
+      "parent": "man-medium-light-skin-tone-bald"
+    },
+    "man-bald-medium-skin-tone": {
+      "parent": "man-medium-skin-tone-bald"
+    },
+    "man-curly-haired": {
+      "parent": "man-curly-hair"
+    },
+    "man-curly-haired-dark-skin-tone": {
+      "parent": "man-dark-skin-tone-curly-hair"
+    },
+    "man-curly-haired-light-skin-tone": {
+      "parent": "man-light-skin-tone-curly-hair"
+    },
+    "man-curly-haired-medium-dark-skin-tone": {
+      "parent": "man-medium-dark-skin-tone-curly-hair"
+    },
+    "man-curly-haired-medium-light-skin-tone": {
+      "parent": "man-medium-light-skin-tone-curly-hair"
+    },
+    "man-curly-haired-medium-skin-tone": {
+      "parent": "man-medium-skin-tone-curly-hair"
+    },
+    "man-red-haired": {
+      "parent": "man-red-hair"
+    },
+    "man-red-haired-dark-skin-tone": {
+      "parent": "man-dark-skin-tone-red-hair"
+    },
+    "man-red-haired-light-skin-tone": {
+      "parent": "man-light-skin-tone-red-hair"
+    },
+    "man-red-haired-medium-dark-skin-tone": {
+      "parent": "man-medium-dark-skin-tone-red-hair"
+    },
+    "man-red-haired-medium-light-skin-tone": {
+      "parent": "man-medium-light-skin-tone-red-hair"
+    },
+    "man-red-haired-medium-skin-tone": {
+      "parent": "man-medium-skin-tone-red-hair"
+    },
+    "man-white-haired": {
+      "parent": "man-white-hair"
+    },
+    "man-white-haired-dark-skin-tone": {
+      "parent": "man-dark-skin-tone-white-hair"
+    },
+    "man-white-haired-light-skin-tone": {
+      "parent": "man-light-skin-tone-white-hair"
+    },
+    "man-white-haired-medium-dark-skin-tone": {
+      "parent": "man-medium-dark-skin-tone-white-hair"
+    },
+    "man-white-haired-medium-light-skin-tone": {
+      "parent": "man-medium-light-skin-tone-white-hair"
+    },
+    "man-white-haired-medium-skin-tone": {
+      "parent": "man-medium-skin-tone-white-hair"
+    },
+    "man-with-chinese-cap": {
+      "parent": "person-with-skullcap"
+    },
+    "man-with-chinese-cap-dark-skin-tone": {
+      "parent": "person-with-skullcap-dark-skin-tone"
+    },
+    "man-with-chinese-cap-light-skin-tone": {
+      "parent": "person-with-skullcap-light-skin-tone"
+    },
+    "man-with-chinese-cap-medium-dark-skin-tone": {
+      "parent": "person-with-skullcap-medium-dark-skin-tone"
+    },
+    "man-with-chinese-cap-medium-light-skin-tone": {
+      "parent": "person-with-skullcap-medium-light-skin-tone"
+    },
+    "man-with-chinese-cap-medium-skin-tone": {
+      "parent": "person-with-skullcap-medium-skin-tone"
+    },
+    "man-with-probing-cane": {
+      "parent": "man-with-white-cane"
+    },
+    "man-with-probing-cane-dark-skin-tone": {
+      "parent": "man-with-white-cane-dark-skin-tone"
+    },
+    "man-with-probing-cane-light-skin-tone": {
+      "parent": "man-with-white-cane-light-skin-tone"
+    },
+    "man-with-probing-cane-medium-dark-skin-tone": {
+      "parent": "man-with-white-cane-medium-dark-skin-tone"
+    },
+    "man-with-probing-cane-medium-light-skin-tone": {
+      "parent": "man-with-white-cane-medium-light-skin-tone"
+    },
+    "man-with-probing-cane-medium-skin-tone": {
+      "parent": "man-with-white-cane-medium-skin-tone"
+    },
+    "man-with-skullcap": {
+      "parent": "person-with-skullcap"
+    },
+    "man-with-skullcap-dark-skin-tone": {
+      "parent": "person-with-skullcap-dark-skin-tone"
+    },
+    "man-with-skullcap-light-skin-tone": {
+      "parent": "person-with-skullcap-light-skin-tone"
+    },
+    "man-with-skullcap-medium-dark-skin-tone": {
+      "parent": "person-with-skullcap-medium-dark-skin-tone"
+    },
+    "man-with-skullcap-medium-light-skin-tone": {
+      "parent": "person-with-skullcap-medium-light-skin-tone"
+    },
+    "man-with-skullcap-medium-skin-tone": {
+      "parent": "person-with-skullcap-medium-skin-tone"
+    },
+    "minus-sign": {
+      "parent": "minus"
+    },
+    "multiplication-sign": {
+      "parent": "multiply"
+    },
+    "o-button": {
+      "parent": "o-button-blood-type"
+    },
+    "on-arrow": {
+      "parent": "on-exclamation-arrow"
+    },
+    "panda-face": {
+      "parent": "panda"
+    },
+    "people-with-bunny-ears-partying": {
+      "parent": "people-with-bunny-ears"
+    },
+    "pistol": {
+      "parent": "water-pistol"
+    },
+    "plus-sign": {
+      "parent": "plus"
+    },
+    "pouting-cat-face": {
+      "parent": "pouting-cat"
+    },
+    "pouting-face": {
+      "parent": "enraged-face"
+    },
+    "probing-cane": {
+      "parent": "white-cane"
+    },
+    "question-mark": {
+      "parent": "red-question-mark"
+    },
+    "right-pointing-magnifying-glass": {
+      "parent": "magnifying-glass-tilted-right"
+    },
+    "robot-face": {
+      "parent": "robot"
+    },
+    "school-backpack": {
+      "parent": "backpack"
+    },
+    "scorpius": {
+      "parent": "scorpio"
+    },
+    "scotland": {
+      "parent": "flag-scotland"
+    },
+    "smiling-cat-face-with-heart-eyes": {
+      "parent": "smiling-cat-with-heart-eyes"
+    },
+    "smiling-cat-face-with-open-mouth": {
+      "parent": "grinning-cat"
+    },
+    "smiling-face-with-3-hearts": {
+      "parent": "smiling-face-with-hearts"
+    },
+    "smiling-face-with-open-mouth": {
+      "parent": "grinning-face-with-big-eyes"
+    },
+    "smiling-face-with-open-mouth-and-closed-eyes": {
+      "parent": "grinning-squinting-face"
+    },
+    "smiling-face-with-open-mouth-and-cold-sweat": {
+      "parent": "grinning-face-with-sweat"
+    },
+    "smiling-face-with-open-mouth-and-smiling-eyes": {
+      "parent": "grinning-face-with-smiling-eyes"
+    },
+    "squeeze-bottle": {
+      "parent": "lotion-bottle"
+    },
+    "swim-brief": {
+      "parent": "briefs"
+    },
+    "unicorn-face": {
+      "parent": "unicorn"
+    },
+    "up-button": {
+      "parent": "upwards-button"
+    },
+    "up-text-button": {
+      "parent": "up-exclamation-button"
+    },
+    "wales": {
+      "parent": "flag-wales"
+    },
+    "waving-transgender-flag": {
+      "parent": "transgender-flag"
+    },
+    "weary-cat-face": {
+      "parent": "weary-cat"
+    },
+    "white-heavy-check-mark": {
+      "parent": "check-mark-button"
+    },
+    "white-medium-star": {
+      "parent": "star"
+    },
+    "wolf-face": {
+      "parent": "wolf"
+    },
+    "woman-bald-dark-skin-tone": {
+      "parent": "woman-dark-skin-tone-bald"
+    },
+    "woman-bald-light-skin-tone": {
+      "parent": "woman-light-skin-tone-bald"
+    },
+    "woman-bald-medium-dark-skin-tone": {
+      "parent": "woman-medium-dark-skin-tone-bald"
+    },
+    "woman-bald-medium-light-skin-tone": {
+      "parent": "woman-medium-light-skin-tone-bald"
+    },
+    "woman-bald-medium-skin-tone": {
+      "parent": "woman-medium-skin-tone-bald"
+    },
+    "woman-curly-haired": {
+      "parent": "woman-curly-hair"
+    },
+    "woman-curly-haired-dark-skin-tone": {
+      "parent": "woman-dark-skin-tone-curly-hair"
+    },
+    "woman-curly-haired-light-skin-tone": {
+      "parent": "woman-light-skin-tone-curly-hair"
+    },
+    "woman-curly-haired-medium-dark-skin-tone": {
+      "parent": "woman-medium-dark-skin-tone-curly-hair"
+    },
+    "woman-curly-haired-medium-light-skin-tone": {
+      "parent": "woman-medium-light-skin-tone-curly-hair"
+    },
+    "woman-curly-haired-medium-skin-tone": {
+      "parent": "woman-medium-skin-tone-curly-hair"
+    },
+    "woman-red-haired": {
+      "parent": "woman-red-hair"
+    },
+    "woman-red-haired-dark-skin-tone": {
+      "parent": "woman-dark-skin-tone-red-hair"
+    },
+    "woman-red-haired-light-skin-tone": {
+      "parent": "woman-light-skin-tone-red-hair"
+    },
+    "woman-red-haired-medium-dark-skin-tone": {
+      "parent": "woman-medium-dark-skin-tone-red-hair"
+    },
+    "woman-red-haired-medium-light-skin-tone": {
+      "parent": "woman-medium-light-skin-tone-red-hair"
+    },
+    "woman-red-haired-medium-skin-tone": {
+      "parent": "woman-medium-skin-tone-red-hair"
+    },
+    "woman-white-haired": {
+      "parent": "woman-white-hair"
+    },
+    "woman-white-haired-dark-skin-tone": {
+      "parent": "woman-dark-skin-tone-white-hair"
+    },
+    "woman-white-haired-light-skin-tone": {
+      "parent": "woman-light-skin-tone-white-hair"
+    },
+    "woman-white-haired-medium-dark-skin-tone": {
+      "parent": "woman-medium-dark-skin-tone-white-hair"
+    },
+    "woman-white-haired-medium-light-skin-tone": {
+      "parent": "woman-medium-light-skin-tone-white-hair"
+    },
+    "woman-white-haired-medium-skin-tone": {
+      "parent": "woman-medium-skin-tone-white-hair"
+    },
+    "woman-with-probing-cane": {
+      "parent": "woman-with-white-cane"
+    },
+    "woman-with-probing-cane-dark-skin-tone": {
+      "parent": "woman-with-white-cane-dark-skin-tone"
+    },
+    "woman-with-probing-cane-light-skin-tone": {
+      "parent": "woman-with-white-cane-light-skin-tone"
+    },
+    "woman-with-probing-cane-medium-dark-skin-tone": {
+      "parent": "woman-with-white-cane-medium-dark-skin-tone"
+    },
+    "woman-with-probing-cane-medium-light-skin-tone": {
+      "parent": "woman-with-white-cane-medium-light-skin-tone"
+    },
+    "woman-with-probing-cane-medium-skin-tone": {
+      "parent": "woman-with-white-cane-medium-skin-tone"
+    },
+    "womans-flat-shoe": {
+      "parent": "flat-shoe"
+    }
+  },
+  "lastModified": 1722795999,
+  "width": 36,
+  "height": 36
 }
