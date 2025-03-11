@@ -301,16 +301,7 @@ const generateImage = async () => {
 }
 
 const reRandomBgColors = () => {
-  bgColors.value = [
-    // 互补色 ： 活力
-    randomGradientColors('complementary'),
-    randomGradientColors('complementary'),
-    randomGradientColors('adjacent'),
-    randomGradientColors('adjacent'),
-    randomGradientColors('monochromatic'),
-    randomGradientColors('monochromatic'),
-
-  ]
+  bgColors.value = randomGradientColors('complementary', 8)
 
   customColor.value = bgColors.value[0] as GradientColors
 }

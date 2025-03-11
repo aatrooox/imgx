@@ -14,14 +14,37 @@ interface TextColorOptions {
 // 渐变色类型定义
 export type GradientColors = [string, string];
 
+// 定义基础色系范围
+const COLOR_RANGES = [
+  { name: 'red', range: [0, 30] },        // 红色系
+  { name: 'orange', range: [30, 60] },    // 橙色系
+  { name: 'yellow', range: [60, 90] },    // 黄色系
+  { name: 'green', range: [90, 150] },    // 绿色系
+  { name: 'cyan', range: [150, 210] },    // 青色系
+  { name: 'blue', range: [210, 270] },    // 蓝色系
+  { name: 'purple', range: [270, 330] },  // 紫色系
+  { name: 'pink', range: [330, 360] }     // 粉红色系
+];
+
+const ACHROMATIC_RANGES = [
+  { name: 'black', lightness: [0, 10] },
+  { name: 'darkGray1', lightness: [10, 25] },
+  { name: 'darkGray2', lightness: [25, 35] },
+  { name: 'gray1', lightness: [35, 50] },
+  { name: 'gray2', lightness: [50, 65] },
+  { name: 'lightGray1', lightness: [65, 75] },
+  { name: 'lightGray2', lightness: [75, 85] },
+  { name: 'white', lightness: [85, 100] }
+];
+
 export function randomHexColor({ 
   saturationRange = [0, 100],  // 饱和度范围
   lightnessRange = [0, 100],   // 亮度范围
   hueRange = [0, 360]          // 色相范围
 } = {}) {
-  const h = Math.floor(Math.random() * (hueRange[1] - hueRange[0])) + hueRange[0];
-  const s = Math.floor(Math.random() * (saturationRange[1] - saturationRange[0])) + saturationRange[0];
-  const l = Math.floor(Math.random() * (lightnessRange[1] - lightnessRange[0])) + lightnessRange[0];
+  const h = Math.floor(Math.random() * ((hueRange?.[1] ?? 360) - (hueRange?.[0] ?? 0))) + (hueRange?.[0] ?? 0);
+  const s = Math.floor(Math.random() * ((saturationRange?.[1] ?? 100) - (saturationRange?.[0] ?? 0))) + (saturationRange?.[0] ?? 0);
+  const l = Math.floor(Math.random() * ((lightnessRange?.[1] ?? 100) - (lightnessRange?.[0] ?? 0))) + (lightnessRange?.[0] ?? 0);
   
   // HSL 转 RGB
   const hslToRgb = (h:number, s:number, l:number) => {
@@ -75,30 +98,196 @@ export function randomComplementaryGradientColors():GradientColors {
   ]
 }
 
-// 生成渐变色
-export function randomGradientColors(style: 'adjacent' | 'monochromatic' | 'complementary' = 'adjacent'): GradientColors {
+// ... existing code ...
+
+export function randomGradientColors(
+  style: 'adjacent' | 'monochromatic' | 'complementary' = 'adjacent',
+  count: number = 1,
+  mode: 'light' | 'dark' | 'pure' = 'light'
+): GradientColors[] {
+  if (count === 1) {
+    return [generateSingleGradient(style, mode)];
+  }
+
+  // 根据模式选择范围
+  let ranges = [];
+  switch (mode) {
+    case 'pure':
+      ranges = ACHROMATIC_RANGES.map(range => ({
+        name: range.name,
+        type: 'achromatic' as const,
+        lightness: range.lightness
+      }));
+      break;
+    case 'light':
+    case 'dark':
+      ranges = COLOR_RANGES.map(range => ({
+        ...range,
+        type: 'chromatic' as const
+      }));
+      break;
+  }
+
+  const shuffledRanges = [...ranges].sort(() => Math.random() - 0.5);
+  const selectedRanges = shuffledRanges.slice(0, count);
+
+  return selectedRanges.map(range => {
+    if (range.type === 'achromatic') {
+      const baseLightness = Math.floor(
+        Math.random() * ((range?.lightness?.[1] ?? 0) - (range?.lightness?.[0] ?? 0))
+      ) + (range?.lightness?.[0] ?? 0);
+      
+      return [
+        randomHexColor({
+          hueRange: [0, 0],
+          saturationRange: [0, 10],
+          lightnessRange: [baseLightness, baseLightness + 5]
+        }),
+        randomHexColor({
+          hueRange: [0, 0],
+          saturationRange: [0, 10],
+          lightnessRange: [Math.max(0, baseLightness - 10), baseLightness]
+        })
+      ];
+    }
+
+    const lightnessRanges = mode === 'light' 
+      ? { main: [45, 65], secondary: [35, 55] }
+      : { main: [20, 35], secondary: [15, 30] };
+
+    switch(style) {
+      case 'monochromatic':
+        const hue = Math.floor(Math.random() * ((range?.range?.[1] ?? 360) - (range?.range?.[0] ?? 0))) + (range?.range?.[0] ?? 0);
+        return [
+          randomHexColor({
+            hueRange: [hue, hue],
+            saturationRange: [70, 90],
+            lightnessRange: lightnessRanges.main
+          }),
+          randomHexColor({
+            hueRange: [hue, hue],
+            saturationRange: [70, 90],
+            lightnessRange: lightnessRanges.secondary
+          })
+        ];
+
+      case 'complementary':
+        const baseHue = Math.floor(Math.random() * ((range?.range?.[1] ?? 360) - (range?.range?.[0] ?? 0))) + (range?.range?.[0] ?? 0);
+        const complementaryHue = (baseHue + 180) % 360;
+        return [
+          randomHexColor({
+            hueRange: [baseHue, baseHue],
+            saturationRange: [70, 90],
+            lightnessRange: lightnessRanges.main
+          }),
+          randomHexColor({
+            hueRange: [complementaryHue, complementaryHue],
+            saturationRange: [70, 90],
+            lightnessRange: lightnessRanges.secondary
+          })
+        ];
+
+      case 'adjacent':
+      default:
+        const mainHue = Math.floor(Math.random() * ((range?.range?.[1] ?? 360) - (range?.range?.[0] ?? 0))) + (range?.range?.[0] ?? 0);
+        const offset = 30 + Math.floor(Math.random() * 15);
+        const adjacentHue = (mainHue + (Math.random() < 0.5 ? offset : -offset) + 360) % 360;
+        return [
+          randomHexColor({
+            hueRange: [mainHue, mainHue],
+            saturationRange: [70, 90],
+            lightnessRange: lightnessRanges.main
+          }),
+          randomHexColor({
+            hueRange: [adjacentHue, adjacentHue],
+            saturationRange: [70, 90],
+            lightnessRange: lightnessRanges.secondary
+          })
+        ];
+    }
+  });
+}
+
+function generateSingleGradient(
+  style: 'adjacent' | 'monochromatic' | 'complementary',
+  mode: 'light' | 'dark' | 'pure'
+): GradientColors {
+  if (mode === 'pure') {
+    const range = ACHROMATIC_RANGES[Math.floor(Math.random() * ACHROMATIC_RANGES.length)];
+    const baseLightness = Math.floor(
+      Math.random() * ((range?.lightness?.[1] ?? 0) - (range?.lightness?.[0] ?? 0))
+    ) + (range?.lightness?.[0] ?? 0);
+    
+    return [
+      randomHexColor({
+        hueRange: [0, 0],
+        saturationRange: [0, 10],
+        lightnessRange: [baseLightness, baseLightness + 5]
+      }),
+      randomHexColor({
+        hueRange: [0, 0],
+        saturationRange: [0, 10],
+        lightnessRange: [Math.max(0, baseLightness - 10), baseLightness]
+      })
+    ];
+  }
+
+  const lightnessRanges = mode === 'light'
+    ? { main: [45, 65], secondary: [35, 55] }
+    : { main: [20, 35], secondary: [15, 30] };
+
   switch(style) {
-    case 'monochromatic': // 同色系
+    case 'monochromatic':
       const hue = Math.floor(Math.random() * 360);
-      return [randomHexColor({
-        hueRange: [hue, hue],
-        saturationRange: [70, 90],
-        lightnessRange: [60, 70]
-      }), randomHexColor({
-        hueRange: [hue, hue],
-        saturationRange: [70, 90],
-        lightnessRange: [30, 40]
-      })]
-      
-      
-    case 'complementary': // 互补色
-      return randomComplementaryGradientColors();
-      
-    case 'adjacent': // 相邻色
+      return [
+        randomHexColor({
+          hueRange: [hue, hue],
+          saturationRange: [70, 90],
+          lightnessRange: lightnessRanges.main
+        }),
+        randomHexColor({
+          hueRange: [hue, hue],
+          saturationRange: [70, 90],
+          lightnessRange: lightnessRanges.secondary
+        })
+      ];
+
+    case 'complementary':
+      const baseHue = Math.floor(Math.random() * 360);
+      const complementaryHue = (baseHue + 180) % 360;
+      return [
+        randomHexColor({
+          hueRange: [baseHue, baseHue],
+          saturationRange: [70, 90],
+          lightnessRange: lightnessRanges.main
+        }),
+        randomHexColor({
+          hueRange: [complementaryHue, complementaryHue],
+          saturationRange: [70, 90],
+          lightnessRange: lightnessRanges.secondary
+        })
+      ];
+
+    case 'adjacent':
     default:
-      return randomAdjacentGradientColors();
+      const mainHue = Math.floor(Math.random() * 360);
+      const offset = 30 + Math.floor(Math.random() * 15);
+      const adjacentHue = (mainHue + (Math.random() < 0.5 ? offset : -offset) + 360) % 360;
+      return [
+        randomHexColor({
+          hueRange: [mainHue, mainHue],
+          saturationRange: [70, 90],
+          lightnessRange: lightnessRanges.main
+        }),
+        randomHexColor({
+          hueRange: [adjacentHue, adjacentHue],
+          saturationRange: [70, 90],
+          lightnessRange: lightnessRanges.secondary
+        })
+      ];
   }
 }
+
 // 明亮色值生成函数
 export function randomBrightHexColor() {
   return randomHexColor({
@@ -117,10 +306,17 @@ export function randomDarkHexColor() {
 
 // 计算颜色的亮度
 export function getLuminance(hexColor: string) {
-  const rgb = hexColor.match(/.{2}/g)
+  // 确保输入是字符串且去除可能的 # 前缀
+  const color = (typeof hexColor === 'string' ? hexColor : '000000').replace(/^#/, '');
+  
+  // 确保是有效的 6 位十六进制颜色值
+  const validColor = color.length === 6 ? color : '000000';
+  
+  const rgb = validColor.match(/.{2}/g)
     ?.map(x => parseInt(x, 16)) ?? [0, 0, 0];
   
   // 使用相对亮度公式 (0.299R + 0.587G + 0.114B)
+  // @ts-expect-error
   return (rgb[0] * 299 + rgb[1] * 587 + rgb[2] * 114) / 1000;
 }
 
