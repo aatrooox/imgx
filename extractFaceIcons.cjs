@@ -1,8 +1,5 @@
 const fs = require('fs');
 const path = require('path');
-// 获取 twemoji 图标包
-// const twemojiPath = path.resolve('node_modules/@iconify-json/twemoji/icons.json');
-// const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 const twemojiData = JSON.parse(fs.readFileSync('node_modules/@iconify-json/twemoji/icons.json', 'utf8'));
 

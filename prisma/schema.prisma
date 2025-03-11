@@ -41,14 +41,31 @@ model OAuth {
   @@map("imgx_oauth")
 }
 
+// 预设。包含了使用了哪个模板，以及会给模板传递哪些参数
 model Preset {
-  id          String   @id @default(uuid(7))
-  userId      String // 关联到主用户表
-  name        String
-  description String?
-  config      Json
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id           String   @id @default(uuid(7))
+  code         String   @unique
+  tmplateId    String // 模版ID 目前只有一个模板
+  templateInfo Template @relation(fields: [tmplateId], references: [id], onDelete: Cascade)
+  userId       String // 关联到主用户表
+  name         String
+  description  String?
+  config       Json
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   @@map("imgx_preset")
 }
+
+model Template {
+  id          String   @id @default(uuid(7))
+  name        String
+  description String?
+  content     String   @db.Text
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  presets     Preset[]
+
+  @@map("imgx_template")
+}
+
