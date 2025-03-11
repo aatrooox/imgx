@@ -30,7 +30,6 @@ export default defineNuxtConfig({
     'motion-v/nuxt',
     'unplugin-font-to-buffer/nuxt',
     '@nuxt/icon',
-    '@prisma/nuxt'
   ],
   shadcn: {
     prefix: '',

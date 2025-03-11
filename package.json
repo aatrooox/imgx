@@ -33,7 +33,6 @@
     "@nuxtjs/color-mode": "3.5.2",
     "@nuxtjs/tailwindcss": "6.13.1",
     "@prisma/client": "6.4.1",
-    "@prisma/nuxt": "^0.3.0",
     "@resvg/resvg-js": "^2.6.2",
     "@vitejs/plugin-vue": "^5.2.1",
     "@vueuse/core": "^12.5.0",

@@ -20,9 +20,6 @@ dependencies:
   '@prisma/client':
     specifier: 6.4.1
     version: 6.4.1(prisma@6.4.1)(typescript@5.7.3)
-  '@prisma/nuxt':
-    specifier: ^0.3.0
-    version: 0.3.0(prisma@6.4.1)(typescript@5.7.3)(vite@6.1.0)
   '@resvg/resvg-js':
     specifier: ^2.6.2
     version: 2.6.2
@@ -1404,25 +1401,6 @@ packages:
     resolution: {integrity: sha512-gXqZaDI5scDkBF8oza7fOD3Q3QMD0e0rBynlzDDZdTWbWmzjuW58PRZtj+jkvKje2+ZigCWkH8SsWZAsH6q1Yw==}
     dependencies:
       '@prisma/debug': 6.4.1
-
-  /@prisma/nuxt@0.3.0(prisma@6.4.1)(typescript@5.7.3)(vite@6.1.0):
-    resolution: {integrity: sha512-1lAlzK9IPGHz+6GjhSHVP1EqqCTO0jtJGBwX/LBWVA2bE6J7aeT5aaSg+9SRTFLelEsfopH17fJI7bdTSlNwfA==}
-    dependencies:
-      '@nuxt/devtools-kit': 1.7.0(magicast@0.3.5)(vite@6.1.0)
-      '@nuxt/kit': 3.15.4(magicast@0.3.5)
-      '@prisma/client': 6.4.1(prisma@6.4.1)(typescript@5.7.3)
-      consola: 3.4.0
-      defu: 6.1.4
-      pathe: 1.1.2
-      tinyexec: 0.3.2
-      tinyrainbow: 1.2.0
-    transitivePeerDependencies:
-      - magicast
-      - prisma
-      - supports-color
-      - typescript
-      - vite
-    dev: false
 
   /@redocly/ajv@8.11.2:
     resolution: {integrity: sha512-io1JpnwtIcvojV7QKDUSIuMN/ikdOUd1ReEnUnMKGfDVridQZ31J0MmIuqwuRjWDZfmvr+Q0MqCcfHM2gTivOg==}
@@ -6232,11 +6210,6 @@ packages:
     dependencies:
       fdir: 6.4.3(picomatch@4.0.2)
       picomatch: 4.0.2
-    dev: false
-
-  /tinyrainbow@1.2.0:
-    resolution: {integrity: sha512-weEDEq7Z5eTHPDh4xjX789+fHfF+P8boiFB+0vbWzpbnbsEr/GRaohi/uMKxg8RZMXnl1ItAi/IUHWMsjDV7kQ==}
-    engines: {node: '>=14.0.0'}
     dev: false
 
   /to-regex-range@5.0.1:
