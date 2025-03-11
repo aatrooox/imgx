@@ -45,8 +45,8 @@ model OAuth {
 model Preset {
   id           String   @id @default(uuid(7))
   code         String   @unique
-  tmplateId    String // 模版ID 目前只有一个模板
-  templateInfo Template @relation(fields: [tmplateId], references: [id], onDelete: Cascade)
+  templateId    String // 模版ID 目前只有一个模板
+  templateInfo Template @relation(fields: [templateId], references: [id], onDelete: Cascade)
   userId       String // 关联到主用户表
   name         String
   description  String?
@@ -60,10 +60,13 @@ model Preset {
 model Template {
   id          String   @id @default(uuid(7))
   name        String
-  description String?
-  content     String   @db.Text
+  template    String   @db.Text
+  props       Json     // 存储默认的 props 配置
+  propsSchema Json     // 属性的描述和验证规则 Preset 要利用这个 schema 生成样式表单
+  type        String   @default("base")  // 模板类型，如 base, advanced 等
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  userId      String // 关联到主用户表
   presets     Preset[]
 
   @@map("imgx_template")

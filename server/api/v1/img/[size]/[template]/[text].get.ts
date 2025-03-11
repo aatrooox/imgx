@@ -64,7 +64,6 @@ export default defineEventHandler(async (event) => {
   const safeProps = getSafeComponentProps(params)
   const props = getParsedContent(parsedText, safeProps)
   const component = await getComponent(template)
-  console.log(`component`, component)
   const svg = await satori(component, {
     props,
     width: sizes[size].width * (safeProps.ratio as number),

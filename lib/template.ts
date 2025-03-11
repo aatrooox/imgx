@@ -1,5 +1,11 @@
 import { defineAsyncComponent, type Component } from 'vue';
 import { getBase64IconURL } from './icons';
+import type { VNode } from '@@/utils/satori'
+
+interface StoredTemplate {
+  template: string;
+  props: Record<string, any>;
+}
 
 export const templates = {
   '001': defineAsyncComponent(() => import('@/components/template/Base.vue')),
@@ -88,4 +94,36 @@ export function getParsedText(content: string) {
   }
 
   return parts
+}
+
+// 拿到模板字符串， 直接生成 VNode
+export function templateToVNode(stored: StoredTemplate, props: Record<string, any>): VNode {
+  // 替换模板中的动态属性
+  const processedTemplate = stored.template.replace(
+    /:style="([^"]+)"/g,
+    (_, styleExpr) => {
+      try {
+        const style = new Function('props', `return ${styleExpr}`)(props)
+        return `style="${Object.entries(style).map(([k, v]) => `${k}:${v}`).join(';')}"`
+      } catch {
+        return ''
+      }
+    }
+  )
+
+  // 直接返回 VNode 结构
+  return {
+    type: 'div',
+    props: {
+      style: {
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        ...props.style
+      },
+      children: processedTemplate
+    }
+  }
 }
