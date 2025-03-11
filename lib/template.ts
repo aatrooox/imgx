@@ -2,39 +2,41 @@ import { defineAsyncComponent, type Component } from 'vue';
 import { getBase64IconURL } from './icons';
 
 export const templates = {
-  '001': defineAsyncComponent(() => import('~/components/template/Base.vue')),
+  '001': defineAsyncComponent(() => import('@/components/template/Base.vue')),
   // '002': defineAsyncComponent(() => import('~/components/ImgTemplate2.vue')),
   // '003': defineAsyncComponent(() => import('~/components/ImgTemplate3.vue'))
 }
 
 export const serverTemplates = {
-  '001': () => import('~/components/template/Base.vue'),
+  '001': () => import('@/components/template/Base.vue'),
   // '002': () => import('~/components/ImgTemplate2.vue'),
   // '003': () => import('~/components/ImgTemplate3.vue')
 }
 
 export type TemplateCode = keyof typeof templates;
 
-export function getParsedBgColor(color: string) {
-  const colors = color.split('-');
-  function getSingleColor(color: string) {
-    return color.includes('#') ? color : `#${color}`
-  }
-  if (colors.length === 1) {
-    return {
-      bgColor: colors[0].includes(',') ? colors[0] : getSingleColor(colors[0])
-    }
+export function getParsedBgColor(color: string): { bgColor?: string; bgImage?: string } {
+  const [firstColor, secondColor] = color.split('-').map(c => c.trim());
+
+  function getSingleColor(color: string | undefined): string {
+    return color?.includes('#') ? color || '' : `#${color || ''}`;
   }
 
-  if (colors.length >= 2) {
-    return {
-      bgImage: `linear-gradient(to right, ${getSingleColor(colors[0])}, ${getSingleColor(colors[1])})`
+  if (firstColor) {
+    if (secondColor) {
+      return {
+        bgImage: `linear-gradient(to right, ${getSingleColor(firstColor)}, ${getSingleColor(secondColor)})`
+      };
+    } else if (firstColor.includes(',')) {
+      return { bgColor: firstColor };
+    } else {
+      return { bgColor: getSingleColor(firstColor) };
     }
   }
 
   return {
     bgColor: `rgba(243,244,212)`
-  }
+  };
 }
 
 // 解析文本，提取出强调部分

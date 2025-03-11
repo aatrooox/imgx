@@ -155,10 +155,12 @@
 </template>
 
 <script lang="ts" setup>
-import { getParsedBgColor, templates, type TemplateCode } from '@/lib/template';
-import { sizes, type SizeCode } from '~/lib/sizes';
-import { getParsedContent } from './lib/content';
-import { getSafeComponentProps } from './lib/params';
+import { getParsedBgColor, templates, type TemplateCode } from '@@/lib/template';
+import { sizes, type SizeCode } from '@@/lib/sizes';
+import { getParsedContent } from '@@/lib/content';
+import { getSafeComponentProps } from '@@/lib/params';
+import type { GradientColors } from '@@/utils/color'
+import { getGradientTextColor, randomGradientColors, randomHexColor } from '@@/utils/color'
 
 useHead({
   title: 'IMGX@早早集市',
@@ -310,7 +312,7 @@ const reRandomBgColors = () => {
 
   ]
 
-  customColor.value = bgColors.value[0]
+  customColor.value = bgColors.value[0] as GradientColors
 }
 
 onMounted(() => {

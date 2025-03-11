@@ -1,5 +1,5 @@
 // 进一步处理参数，提供可供内容使用的数据结构 SafeProps
-import { getGradientTextColor, getTextColor, randomBrightHexColor, randomGradientColors, randomHexColor } from '~/utils/color';
+import { getGradientTextColor, getTextColor, randomBrightHexColor, randomGradientColors, randomHexColor } from '@@/utils/color';
 
 import { getParsedBgColor } from "./template";
 

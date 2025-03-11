@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { componentBaseProps } from '~/lib/content'
+import type { componentBaseProps } from '@@/lib/content'
 const {
   content = [],
   bgColor = '',

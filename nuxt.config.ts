@@ -21,9 +21,9 @@ const appVersion = packageJson.version
 export default defineNuxtConfig({
   compatibilityDate: '2025-02-08',
   devtools: { enabled: true },
-  // future: {
-  //   compatibilityVersion: 4
-  // },
+  future: {
+    compatibilityVersion: 4
+  },
   modules: [
     '@nuxtjs/tailwindcss',
     'shadcn-nuxt',
@@ -34,7 +34,7 @@ export default defineNuxtConfig({
   ],
   shadcn: {
     prefix: '',
-    componentDir: './components/ui'
+    componentDir: 'app/components/ui'
   },
   vite: {
     resolve: {

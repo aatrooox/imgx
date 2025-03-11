@@ -1,5 +1,4 @@
-import { LazyGlowBorder } from '#components';
-import emojiIcons from '@@/assets/icons/twemoji-face-icons.json'
+import emojiIcons from '@/assets/icons/twemoji-face-icons.json'
 import { getIconData, iconToSVG, iconToHTML, replaceIDs } from '@iconify/utils';
 
 interface IconData {
@@ -53,7 +52,7 @@ export function getIconSVGHTML(iconName:IconName, iconSize: number) {
 
   const iconInnerName = iconNames[1];
 
-  const iconData = getIconData(typedEmojiIcons as any, iconInnerName);
+  const iconData = getIconData(typedEmojiIcons as any, iconInnerName as string);
 
   if (!iconData) return null;
 

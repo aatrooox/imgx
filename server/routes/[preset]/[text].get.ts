@@ -1,16 +1,16 @@
 import { Resvg } from '@resvg/resvg-js'
-import { satori, html } from '~/utils/satori';
-import BiaoTiHei from '~/assets/fonts/YouSheBiaoTiHei-2.ttf';
-import DouyinBold from '~/assets/fonts/DouyinSansBold.otf';
-import { sizes } from '~/lib/sizes';
-import type { SizeCode } from '~/lib/sizes';
-import { serverTemplates } from '~/lib/template';
-import type { TemplateCode } from '~/lib/template'
-import { getParsedContent } from '~/lib/content';
+import { satori, html } from '@@/utils/satori';
+import BiaoTiHei from '@/assets/fonts/YouSheBiaoTiHei-2.ttf';
+import DouyinBold from '@/assets/fonts/DouyinSansBold.otf';
+import { sizes } from '@@/lib/sizes';
+import type { SizeCode } from '@@/lib/sizes';
+import { serverTemplates } from '@@/lib/template';
+import type { TemplateCode } from '@@/lib/template'
+import { getParsedContent } from '@@/lib/content';
 
 import type { Component } from 'vue';
-import { getSafeComponentProps } from '~/lib/params';
-import { imgGenerateSchame } from '~/lib/schema';
+import { getSafeComponentProps } from '@@/lib/params';
+import { imgGenerateSchame } from '@@/lib/schema';
 
 export async function getComponent(name: TemplateCode): Promise<Component> {
   const module = await serverTemplates[name]()

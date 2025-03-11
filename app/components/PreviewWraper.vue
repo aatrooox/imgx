@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { sizes, type SizeCode } from '~/lib/sizes';
+import { sizes, type SizeCode } from '@@/lib/sizes';
 
 const { SizeCode = '001', ratio = 1 } = defineProps<{ SizeCode?: SizeCode, ratio?: number | string }>()
 const previewRef = ref();
