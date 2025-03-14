@@ -3,7 +3,7 @@ const templateStr = ref('')
 const props = ref('')
 const username = ref()
 const password = ref()
-
+const schema = ref()
 const login = async () => {
   const res: any = await $fetch('/api/v1/user/login', {
     method: 'POST',
@@ -51,6 +51,22 @@ const createTemplate = async () => {
   console.log(`创建模板`, res)
 }
 
+const genSchema = async () => {
+console.log(`props.value`, props.value)
+const res:any = await $fetch('/api/v1/template/schema/gen', {
+  method: 'POST',
+  body: {
+    props: props.value,
+  },
+  headers: {
+    'Authorization': 'Bearer ' + localStorage.getItem('token') || ''
+  },
+})
+
+schema.value = JSON.stringify(res.data)
+console.log(`转换 schame`, res)
+}
+
 </script>
 
 <template>
@@ -64,7 +80,9 @@ const createTemplate = async () => {
   <div class="input">
     <Textarea v-model="templateStr" placeholder="输入模板"></Textarea>
     <Textarea v-model="props" placeholder="输入 props 数据"></Textarea>
+    <Textarea v-model="schema" placeholder="shema 内容" disabled></Textarea>
     <Button @click="createTemplate"> 保存</Button>
+    <Button @click="genSchema">转换</Button>
   </div>
 
  </div>
