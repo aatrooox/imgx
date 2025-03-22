@@ -21,6 +21,7 @@ export interface componentBaseProps {
   colors?: string[]
   accentColors?: string[]
   aligns?: string[]
+  verticalAligns?: string[]
   fontSizes?: string[]
   iconSizes?: number[]
 

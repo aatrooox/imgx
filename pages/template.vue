@@ -34,13 +34,31 @@ const regist = async () => {
 }
 
 const createTemplate = async () => {
+  if (!templateStr.value || !props.value || !schema.value) {
+    console.error(`参数不全`, )
+    return;
+  }
+
+  let propsObj
+   try{
+    const jsonStr = props.value
+      .replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2":') // 处理键名
+      .replace(/'/g, '"') // 将单引号替换为双引号
+    
+      propsObj = JSON.parse(jsonStr)
+   } catch (e) {
+    console.error(`转换失败`, e)
+    return 
+   }
+console.log(`props.value`, propsObj)
 
   const res = await $fetch('/api/v1/template/create', {
     method: 'POST',
     body: {
       name: '测试' + +new Date(),
       template: templateStr.value,
-      props: JSON.parse(props.value),
+      props: propsObj,
+      propsSchema: JSON.parse(schema.value),
       userId: localStorage.getItem('userId') || ''
     },
     headers: {
@@ -52,11 +70,23 @@ const createTemplate = async () => {
 }
 
 const genSchema = async () => {
-console.log(`props.value`, props.value)
+  let propsObj
+   try{
+    const jsonStr = props.value
+      .replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2":') // 处理键名
+      .replace(/'/g, '"') // 将单引号替换为双引号
+    
+      propsObj = JSON.parse(jsonStr)
+   } catch (e) {
+    console.log(`转换失败`, e)
+    return 
+   }
+console.log(`props.value`, propsObj)
+
 const res:any = await $fetch('/api/v1/template/schema/gen', {
   method: 'POST',
   body: {
-    props: props.value,
+    props: propsObj,
   },
   headers: {
     'Authorization': 'Bearer ' + localStorage.getItem('token') || ''

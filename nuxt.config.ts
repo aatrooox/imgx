@@ -50,6 +50,7 @@ export default defineNuxtConfig({
     fallback: 'dark'
   },
   runtimeConfig: {
+    proxyUrl: '',
     public: {
       appVersion
     }
