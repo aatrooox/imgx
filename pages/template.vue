@@ -2,8 +2,11 @@
 const templateStr = ref('')
 const props = ref('')
 const username = ref()
+const templateName = ref('模板名称')
 const password = ref()
 const schema = ref()
+const width = ref(0)
+const height = ref(0)
 const login = async () => {
   const res: any = await $fetch('/api/v1/user/login', {
     method: 'POST',
@@ -55,7 +58,9 @@ console.log(`props.value`, propsObj)
   const res = await $fetch('/api/v1/template/create', {
     method: 'POST',
     body: {
-      name: '测试' + +new Date(),
+      name: templateName.value,
+      width: width.value,
+      height: height.value,
       template: templateStr.value,
       props: propsObj,
       propsSchema: JSON.parse(schema.value),
@@ -111,8 +116,12 @@ console.log(`转换 schame`, res)
     <Textarea v-model="templateStr" placeholder="输入模板"></Textarea>
     <Textarea v-model="props" placeholder="输入 props 数据"></Textarea>
     <Textarea v-model="schema" placeholder="shema 内容" disabled></Textarea>
-    <Button @click="createTemplate"> 保存</Button>
-    <Button @click="genSchema">转换</Button>
+    <Input v-model="templateName"></Input>
+    <PresetSize v-model="width"></PresetSize>
+    <PresetSize v-model="height"></PresetSize>
+    <Button @click="createTemplate">保存模板</Button>
+    <Button @click="genSchema">转换schema</Button>
+    <Button @click="navigateTo('/preset')">去新增预设</Button>
   </div>
 
  </div>
