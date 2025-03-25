@@ -4,6 +4,29 @@
 
 [compare changes](https://github.com/aatrooox/imgx/compare/0.4.0...v0.5.1)
 
+## v0.5.5
+
+[compare changes](https://github.com/aatrooox/imgx/compare/v0.5.4...v0.5.5)
+
+### 🚀 Enhancements
+
+- 增加 template调试页面 ([3aebfa7](https://github.com/aatrooox/imgx/commit/3aebfa7))
+- 我和cursor优化了UI样式 ([4942e49](https://github.com/aatrooox/imgx/commit/4942e49))
+
+### 🏡 Chore
+
+- 更新文档；删除多余代码 ([0031735](https://github.com/aatrooox/imgx/commit/0031735))
+
+### ✅ Tests
+
+- 测试 template 功能 ([2e6e1f8](https://github.com/aatrooox/imgx/commit/2e6e1f8))
+- 新接口测试页面 ([96f81b4](https://github.com/aatrooox/imgx/commit/96f81b4))
+- 预设功能调试 ([825df0e](https://github.com/aatrooox/imgx/commit/825df0e))
+
+### ❤️ Contributors
+
+- Aatrox <gnakzz@qq.com>
+
 ## v0.5.4
 
 [compare changes](https://github.com/aatrooox/imgx/compare/v0.5.3...v0.5.4)
