@@ -13,12 +13,12 @@ const openColorPicker = () => {
 
 <template>
   <div class="color-picker">
-    <div class="color-preview relative" :style="{ backgroundColor: model }" @click="openColorPicker"></div>
+    <div class="w-6 h-6 rounded-full relative" :style="{ backgroundColor: model }" @click="openColorPicker"></div>
     <input 
       type="color" 
       v-model="model" 
       ref="colorInput"
-      class="color-input hidden"
+      class="w-full h-10 hidden"
     />
     <input 
       type="text" 
