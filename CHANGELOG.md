@@ -4,6 +4,18 @@
 
 [compare changes](https://github.com/aatrooox/imgx/compare/0.4.0...v0.5.1)
 
+## v0.5.6
+
+[compare changes](https://github.com/aatrooox/imgx/compare/v0.5.5...v0.5.6)
+
+### ✅ Tests
+
+- Prod proxy ([06da7c7](https://github.com/aatrooox/imgx/commit/06da7c7))
+
+### ❤️ Contributors
+
+- Aatrox <gnakzz@qq.com>
+
 ## v0.5.5
 
 [compare changes](https://github.com/aatrooox/imgx/compare/v0.5.4...v0.5.5)
