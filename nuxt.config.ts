@@ -64,7 +64,7 @@ export default defineNuxtConfig({
     },
     routeRules: {
       '/api/v1/**': {
-        proxy: 'http://localhost:5770/api/v1/**'
+        proxy: 'http://localhost:5777/api/v1/**'
       }
     },
     imports: {
