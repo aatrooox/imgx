@@ -4,6 +4,18 @@
 
 [compare changes](https://github.com/aatrooox/imgx/compare/0.4.0...v0.5.1)
 
+## v0.6.2
+
+[compare changes](https://github.com/aatrooox/imgx/compare/v0.6.1...v0.6.2)
+
+### 🏡 Chore
+
+- 更新预设链接 ([3c8674a](https://github.com/aatrooox/imgx/commit/3c8674a))
+
+### ❤️ Contributors
+
+- Aatrox <gnakzz@qq.com>
+
 ## v0.6.1
 
 [compare changes](https://github.com/aatrooox/imgx/compare/v0.6.0...v0.6.1)
