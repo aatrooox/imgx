@@ -127,7 +127,7 @@ const bgColors = ref<Array<GradientColors>>()
 const customColor = ref<GradientColors>(['7a24d6', '88e524'])
 
 const padding = ref('30px')
-const caseUrl = ref('http://localhost:4573/032/xxxx/asda')
+const caseUrl = ref('http://imgx.zzao.club/032/xxxx/asda')
 const downloadUrl = ref('')
 // 自定义颜色？
 const curstomFontColor = computed(() => {

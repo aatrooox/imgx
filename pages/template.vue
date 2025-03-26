@@ -12,7 +12,8 @@ const height = ref(0)
 
 // 添加模板列表相关状态
 const templates = ref<any[]>([])
-const isEditing = ref(false)
+const isEditing = ref(false) // 控制是否显示编辑器
+const isCreateMode = ref(true) // 控制是新增还是编辑模式
 const currentTemplateId = ref('')
 
 // 登录相关状态
@@ -43,6 +44,7 @@ const getTemplates = async () => {
 // 编辑模板
 const editTemplate = (template: any) => {
   isEditing.value = true
+  isCreateMode.value = false
   currentTemplateId.value = template.id
   templateName.value = template.name
   templateStr.value = template.template
@@ -52,9 +54,23 @@ const editTemplate = (template: any) => {
   height.value = template.height
 }
 
+// 新建模板
+const createNewTemplate = () => {
+  isEditing.value = true
+  isCreateMode.value = true
+  currentTemplateId.value = ''
+  templateName.value = '模板名称'
+  templateStr.value = ''
+  props.value = ''
+  schema.value = []
+  width.value = 0
+  height.value = 0
+}
+
 // 重置表单
 const resetForm = () => {
   isEditing.value = false
+  isCreateMode.value = true
   currentTemplateId.value = ''
   templateName.value = '模板名称'
   templateStr.value = ''
@@ -166,8 +182,8 @@ const createTemplate = async () => {
   const contentKeys = contents.sort((a, b) => (a.sort || 0) - (b.sort || 0)).map(item => item.key);
   
   try {
-    const url = isEditing.value ? '/api/v1/template/update' : '/api/v1/template/create'
-    const method = isEditing.value ? 'PUT' : 'POST'
+    const url = isCreateMode.value ? '/api/v1/template/create' : '/api/v1/template/update'
+    const method = 'POST'
     
     const res = await $fetch(url, {
       method,
@@ -188,14 +204,14 @@ const createTemplate = async () => {
     })
 
     console.log(`保存模板`, res)
-    successMessage.value = isEditing.value ? '模板更新成功' : '模板创建成功'
+    successMessage.value = isCreateMode.value ? '模板创建成功' : '模板更新成功'
     errorMessage.value = ''
     
     // 重置表单并刷新列表
     resetForm()
     getTemplates()
   } catch (error) {
-    errorMessage.value = isEditing.value ? '更新模板失败，请稍后再试' : '创建模板失败，请稍后再试'
+    errorMessage.value = isCreateMode.value ? '创建模板失败，请稍后再试' : '更新模板失败，请稍后再试'
     console.error('保存模板失败', error)
   } finally {
     isLoading.value = false
@@ -331,7 +347,7 @@ const logout = () => {
       <!-- 模板创建表单 -->
       <div v-if="isLoggedIn" class="bg-white shadow rounded-lg p-6">
         <div class="flex justify-between items-center mb-6">
-          <h2 v-if="isEditing" class="text-xl font-semibold text-gray-800">{{ isEditing ? '编辑模板' : '创建新模板' }}</h2>
+          <h2 class="text-xl font-semibold text-gray-800">{{ isCreateMode ? '创建新模板' : '编辑模板' }}</h2>
           <div class="flex space-x-4">
             <Button @click="navigateTo('/preset')" variant="outline">新增预设</Button>
             <Button @click="logout" variant="destructive">退出登录</Button>
@@ -342,7 +358,7 @@ const logout = () => {
         <div v-if="!isEditing" class="mb-8">
           <div class="flex justify-between items-center mb-4">
             <h3 class="text-lg font-medium text-gray-900">模板列表</h3>
-            <Button @click="isEditing = true" variant="outline" size="sm">
+            <Button @click="createNewTemplate" variant="outline" size="sm">
               <NuxtIcon slot="icon" name="material-symbols:add-circle-outline" size="1.2em" class="mr-1" />
               新建模板
             </Button>
