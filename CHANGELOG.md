@@ -4,6 +4,22 @@
 
 [compare changes](https://github.com/aatrooox/imgx/compare/0.4.0...v0.5.1)
 
+## v0.6.0
+
+[compare changes](https://github.com/aatrooox/imgx/compare/v0.5.6...v0.6.0)
+
+### 🚀 Enhancements
+
+- ⚠️  重构前端界面，开始向新接口靠拢 ([b1e2b02](https://github.com/aatrooox/imgx/commit/b1e2b02))
+
+#### ⚠️ Breaking Changes
+
+- ⚠️  重构前端界面，开始向新接口靠拢 ([b1e2b02](https://github.com/aatrooox/imgx/commit/b1e2b02))
+
+### ❤️ Contributors
+
+- Aatrox <gnakzz@qq.com>
+
 ## v0.5.6
 
 [compare changes](https://github.com/aatrooox/imgx/compare/v0.5.5...v0.5.6)
