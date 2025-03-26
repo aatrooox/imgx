@@ -5,7 +5,14 @@ export default {
   darkMode: ["selector", "class"],
   safelist: ["dark"],
   prefix: "",
-  content: [],
+  content: [
+    "./components/**/*.{js,vue,ts}",
+    "./layouts/**/*.vue",
+    "./pages/**/*.vue",
+    "./plugins/**/*.{js,ts}",
+    "./app.vue",
+    "./error.vue",
+  ],
   theme: {
   	extend: {
   		colors: {
