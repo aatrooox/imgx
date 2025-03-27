@@ -66,22 +66,14 @@ GET 请求中包含的 props，会和预设中保存的 props 合并，所以，
 
 ## 定位
 
-本项目属于 `“生产者”` ，接收参数，提供内容，支持上层建立图片相关的App。
+本项目属于 `“消费者”` ，使用了 [imgx-nitro](https://github.com/aatrooox/imgx-nitro) 的接口，实现了文字转图片的功能
 
-API分为两条主线：
 
-1. `IMG` 生成图片 
-   1. 如： `POST /api/img/xxxx`
-   2. 如： `GET imgx.zzao.club/[预设码]/内容文字文字内容`
-2. `X`  裁剪、拼接、压缩图片
+## 后续
 
-## 👍API优先
+此项目会逐步变为 [imgx-nitro](https://github.com/aatrooox/imgx-nitro) 的前端展示、管理、录入的入口项目
 
-本项目的更新以 `Api` ([imgx-nitro](https://github.com/aatrooox/imgx-nitro))优先，前端界面不一定很快增加参数配置界面。
-
-因为核心诉求就是**脱离开任何环境直接使用**。
-
-此项目会逐步变为[imgx-nitro](https://github.com/aatrooox/imgx-nitro) 的前端展示、管理、录入的入口项目
+最初的接口会在某个版本直接删除
 
 ## 使用
 
