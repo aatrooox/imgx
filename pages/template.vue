@@ -350,6 +350,8 @@ const logout = () => {
           <h2 class="text-xl font-semibold text-gray-800">{{ isCreateMode ? '创建新模板' : '编辑模板' }}</h2>
           <div class="flex space-x-4">
             <Button @click="navigateTo('/preset')" variant="outline">新增预设</Button>
+            <Button @click="navigateTo('/playground')" variant="outline">去开发模板</Button>
+            <Button @click="navigateTo('/')" variant="outline">返回首页</Button>
             <Button @click="logout" variant="destructive">退出登录</Button>
           </div>
         </div>

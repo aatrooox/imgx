@@ -13,14 +13,15 @@
           <div class="flex items-center space-x-4">
             
             <Button variant="ghost" class="text-gray-700 hover:text-gray-900 hover:bg-gray-100">预设广场</Button>
+            <Button variant="ghost" class="text-gray-700 hover:text-gray-900 hover:bg-gray-100" @click="navigateTo('/playground')">Playground</Button>
             <Button variant="ghost" class="text-gray-700 hover:text-gray-900 hover:bg-gray-100" @click="navigateTo('/template')">模板管理</Button>
             <a 
-              href="https://github.com/aatrooox/imgx" 
+              href="https://github.com/2.0gnak/imgx-nuxt" 
               target="_blank" 
               rel="noopener noreferrer"
               class="text-gray-700 hover:text-gray-900"
             >
-              <NuxtIcon name="mdi:github" size="2rem" />
+              <Icon name="mdi:github" class="w-6 h-6" />
             </a>
           </div>
         </div>
@@ -227,22 +228,9 @@ const generateImage = async () => {
   switchPerviewCard(false)
 }
 
-const reRandomBgColors = () => {
-  bgColors.value = [
-    // 互补色 ： 活力
-    randomGradientColors('complementary'),
-    randomGradientColors('complementary'),
-    randomGradientColors('adjacent'),
-    randomGradientColors('adjacent'),
-    randomGradientColors('monochromatic'),
-    randomGradientColors('monochromatic'),
-  ]
-
-  customColor.value = bgColors.value[0]
-}
 
 onMounted(() => {
-  reRandomBgColors();
+  // reRandomBgColors();
   setTimeout(() => {
     // generateImage()
     downloadUrl.value = caseUrl.value
