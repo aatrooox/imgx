@@ -4,6 +4,23 @@
 
 [compare changes](https://github.com/aatrooox/imgx/compare/0.4.0...v0.5.1)
 
+## v0.6.3
+
+[compare changes](https://github.com/aatrooox/imgx/compare/v0.6.2...v0.6.3)
+
+### 🚀 Enhancements
+
+- 新增 playgroud 页面，用于本地开发模板 ([bc5b72a](https://github.com/aatrooox/imgx/commit/bc5b72a))
+
+### 📖 Documentation
+
+- 更新文档 ([4ca5313](https://github.com/aatrooox/imgx/commit/4ca5313))
+- 更新文档 ([bbf968e](https://github.com/aatrooox/imgx/commit/bbf968e))
+
+### ❤️ Contributors
+
+- Aatrox <gnakzz@qq.com>
+
 ## v0.6.2
 
 [compare changes](https://github.com/aatrooox/imgx/compare/v0.6.1...v0.6.2)
