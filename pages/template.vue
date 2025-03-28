@@ -4,7 +4,7 @@ import type { SchemaItem } from '~/components/SchemaEditor.vue'
 const templateStr = ref('')
 const props = ref('')
 const username = ref()
-const templateName = ref('模板名称')
+const templateName = ref('')
 const password = ref()
 const schema = ref<SchemaItem[]>([])
 const width = ref(0)
@@ -21,6 +21,75 @@ const isLoggedIn = ref(false)
 const isLoading = ref(false)
 const errorMessage = ref('')
 const successMessage = ref('')
+const previewHtml = ref('')
+
+// 添加类型定义
+interface PreviewResponse {
+  success: boolean
+  data: string
+  error?: string
+}
+
+interface TemplateData {
+  template: string
+  props: any
+  width: number
+  height: number
+}
+
+// 添加计算属性
+const nuxtApp = useNuxtApp()
+const previewBase64 = computed(() => {
+  if (!previewHtml.value) return ''
+  
+  try {
+    // 确保在客户端环境下
+    if (process.client) {
+      // 如果已经是base64格式，直接返回
+      if (previewHtml.value.startsWith('data:image/svg+xml;base64,')) {
+        return previewHtml.value
+      }
+      // 处理特殊字符
+      const encodedHtml = encodeURIComponent(previewHtml.value)
+      const decodedHtml = decodeURIComponent(encodedHtml)
+      const base64 = btoa(decodedHtml)
+      return 'data:image/svg+xml;base64,' + base64
+    }
+    return ''
+  } catch (error) {
+    console.error('Base64 转换失败:', error)
+    return ''
+  }
+})
+
+// 添加路由参数接收
+const route = useRoute()
+
+// 使用 watchEffect 监听路由参数变化
+watchEffect(() => {
+  const query = route.query
+  if (query.template) {
+    templateStr.value = query.template as string
+  }
+  if (query.props) {
+    try {
+      props.value = query.props as string
+    } catch (e) {
+      console.error('解析 props 失败', e)
+    }
+  }
+  if (query.width) {
+    width.value = Number(query.width)
+  }
+  if (query.height) {
+    height.value = Number(query.height)
+  }
+  // 检查是否有edit参数
+  if (query.edit === 'true') {
+    isEditing.value = true
+    isCreateMode.value = true
+  }
+})
 
 // 获取模板列表
 const getTemplates = async () => {
@@ -79,6 +148,32 @@ const resetForm = () => {
   width.value = 0
   height.value = 0
 }
+
+// 添加数据接收逻辑
+onMounted(() => {
+  try {
+    const templateState = useState<TemplateData | null>('templateData')
+    if (templateState.value) {
+      const data = templateState.value
+      if (data.template) {
+        templateStr.value = data.template
+      }
+      if (data.props) {
+        props.value = data.props
+      }
+      if (data.width) {
+        width.value = data.width
+      }
+      if (data.height) {
+        height.value = data.height
+      }
+      // 使用完后清除数据
+      templateState.value = null
+    }
+  } catch (error) {
+    console.error('解析模板数据失败:', error)
+  }
+})
 
 // 检查是否已登录
 onMounted(() => {
@@ -281,6 +376,53 @@ const logout = () => {
   localStorage.removeItem('userId')
   isLoggedIn.value = false
 }
+
+// 预览模板
+const genPreview = async () => {
+  if (!templateStr.value) {
+    errorMessage.value = '请先填写模板内容'
+    return
+  }
+
+  isLoading.value = true
+  errorMessage.value = ''
+
+  let propsObj
+  try {
+    const jsonStr = props.value
+      .replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2":') // 处理键名
+      .replace(/'/g, '"') // 将单引号替换为双引号
+    
+    propsObj = JSON.parse(jsonStr)
+  } catch (e) {
+    errorMessage.value = 'Props 格式错误，请检查'
+    console.error(`转换失败`, e)
+    isLoading.value = false
+    return 
+  }
+
+  try {
+    const res = await $fetch<PreviewResponse>('/api/v1/preset/preview', {
+      method: 'POST',
+      body: {
+        templateStr: templateStr.value,
+        props: propsObj,
+        width: width.value,
+        height: height.value
+      },
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token') || '' 
+      },
+    })
+
+    previewHtml.value = res.data
+  } catch (error) {
+    errorMessage.value = '生成预览失败，请稍后再试'
+    console.error('生成预览失败', error)
+  } finally {
+    isLoading.value = false
+  }
+}
 </script>
 
 <template>
@@ -350,7 +492,7 @@ const logout = () => {
           <h2 class="text-xl font-semibold text-gray-800">{{ isCreateMode ? '创建新模板' : '编辑模板' }}</h2>
           <div class="flex space-x-4">
             <Button @click="navigateTo('/preset')" variant="outline">新增预设</Button>
-            <Button @click="navigateTo('/playground')" variant="outline">去开发模板</Button>
+            <Button @click="navigateTo('/playground', { open: { target: '_blank'}  })" variant="outline">去开发模板</Button>
             <Button @click="navigateTo('/')" variant="outline">返回首页</Button>
             <Button @click="logout" variant="destructive">退出登录</Button>
           </div>
@@ -424,6 +566,7 @@ const logout = () => {
                 </div>
               </div>
               
+              <!-- 预览按钮和预览区域 -->
               <div class="flex flex-col space-y-3 pt-4">
                 <Button 
                   @click="generateSchema" 
@@ -432,6 +575,24 @@ const logout = () => {
                 >
                   {{ isLoading ? '生成中...' : '生成 Schema' }}
                 </Button>
+                
+                <Button 
+                  @click="genPreview" 
+                  :disabled="isLoading || !templateStr || !width || !height"
+                  variant="outline" 
+                  class="flex items-center"
+                >
+                  <NuxtIcon slot="icon" name="material-symbols:preview-outline" size="1.2em" class="mr-1" />
+                  预览模板
+                </Button>
+
+                <div v-if="errorMessage" class="text-red-500 text-sm">{{ errorMessage }}</div>
+                <div v-if="isLoading" class="text-gray-500 text-sm">正在生成预览...</div>
+                <div v-if="previewHtml" class="mt-4 relative rounded-xl overflow-hidden flex-1 shadow-lg">
+                  <div class="w-full h-full flex items-center justify-center">
+                    <img :src="previewBase64" class="w-full h-full object-contain" />
+                  </div>
+                </div>
                 
                 <div class="flex space-x-3">
                   <Button 
@@ -443,7 +604,7 @@ const logout = () => {
                   </Button>
                   <Button 
                     @click="createTemplate" 
-                    :disabled="isLoading || !templateStr || !props || !schema"
+                    :disabled="isLoading || !templateStr || !props || !schema || !schema.length || !templateName"
                     class="flex-1"
                   >
                     {{ isLoading ? '保存中...' : '保存模板' }}

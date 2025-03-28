@@ -247,7 +247,21 @@ const updateSort = (index: number, value: number) => {
         <div class="space-y-2">
           <div class="flex items-center gap-3">
             <div class="flex items-center space-x-2 shrink-0" v-if="item.isMultiple">
-              <label class="text-xs font-medium text-gray-700">分隔符</label>
+              <label class="text-xs font-medium text-gray-700">
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger as-child>
+                      <div class="relative flex items-center">
+                        分隔符
+                        <NuxtIcon name="material-symbols:info-outline" size="1.2em" class="ml-1" />
+                      </div>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>有分隔符意味着按字符串传值，没分隔符会按数组传值</p>
+                    </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+              </label>
               <Input 
                 v-model="item.separator" 
                 placeholder="分隔符" 
