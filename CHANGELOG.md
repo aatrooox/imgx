@@ -4,6 +4,18 @@
 
 [compare changes](https://github.com/aatrooox/imgx/compare/0.4.0...v0.5.1)
 
+## v0.6.5
+
+[compare changes](https://github.com/aatrooox/imgx/compare/v0.6.4...v0.6.5)
+
+### 🚀 Enhancements
+
+- 本地开发页面优化；新增 iconify 支持 ([de699ff](https://github.com/aatrooox/imgx/commit/de699ff))
+
+### ❤️ Contributors
+
+- Aatrox <gnakzz@qq.com>
+
 ## v0.6.4
 
 [compare changes](https://github.com/aatrooox/imgx/compare/v0.6.3...v0.6.4)
