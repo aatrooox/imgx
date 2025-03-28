@@ -140,7 +140,12 @@
           <!-- 以下是实际需要调试的内容 -->
           <div class="w-full h-full flex items-center justify-center transition-all duration-300"
             :style="{  backgroundImage: `linear-gradient(to right, ${bgColor[0]}, ${bgColor[1]})`, fontFamily: 'YouSheBiaoTiHei' }">
-            <div class="flex w-full justify-center items-center text-[60px] font-bold" :style="{ color: textColor }">{{ title }}</div>
+            <div class="flex w-full justify-center items-center gap-4 font-bold" :style="{ color: textColor }">
+                <div class="border flex items-center justify-center" :style="{width: iconWidth + 'px'}">
+                  <img :src="iconNuxt" class="w-full" alt="icon" />
+                </div>
+                <div>{{ title }}</div>
+            </div>
           </div>
           <!-- 以上是实际需要调试的内容 -->
         </div>
@@ -150,7 +155,7 @@
 </template>
 
 <script setup lang="ts">
-import { toRefs, reactive, ref, computed, watch } from 'vue'
+import { toRefs, reactive, ref, computed, watch, onMounted } from 'vue'
 import { randomAdjacentGradientColors, randomComplementaryGradientColors, randomGradientColors } from '~/utils/color'
 
 definePageMeta({
@@ -160,37 +165,56 @@ definePageMeta({
     }
   }
 })
-// 检查是否在开发环境
-// const config = useRuntimeConfig()
-// if (process.env.NODE_ENV !== 'development') {
-//   navigateTo('/')
-// }
 
 // 将所有属性集中在一个reactive对象中
+// 所有 Iconify 图标都支持。可以查看网站 https://iconify.design/
+// 使用 VSCODE 插件 Iconify IntelliSense 检查图标是否有效。传递无效的图标会被一个 404 图标代替
 // TODO 此对象服务于复制功能 必填
 const propsObj = reactive({
   bgColor: ['#ffffff', '#2b2b2b'],
   title: 'Hello World',
-  textColor: '#000000'
+  textColor: '#000000',
+  iconNuxt: '[logos:vitejs]', // 图标的检测方式为是否以 [] 包裹
+  iconWidth: 59 // 图标的宽高由外层 div 控制
 })
+
+// 使用toRefs将reactive对象的属性转换为独立的refs
+// TODO 此解构操作也服务于复制功能 必填
+const {
+    bgColor,
+    title,
+    textColor,
+    iconNuxt,
+    iconWidth
+} = toRefs(propsObj)
 
 // 预览区域宽高设置
-const previewWidth = ref(800)
-const previewHeight = ref(400)
+const previewWidth = ref(900)
+const previewHeight = ref(383)
 const maintainRatio = ref(true)
-const initialAspectRatio = computed(() => previewWidth.value / previewHeight.value)
-const fixedAspectRatio = ref(initialAspectRatio.value)
+const fixedAspectRatio = ref(0)
 
-// 监听宽高变化，保持比例
-watch(previewWidth, (newWidth) => {
-  if (maintainRatio.value) {
-    previewHeight.value = Math.round(newWidth / fixedAspectRatio.value)
-  }
+// 在组件挂载时保存初始比例
+onMounted(() => {
+  // 保存初始宽高比
+  fixedAspectRatio.value = previewWidth.value / previewHeight.value
 })
 
-watch(previewHeight, (newHeight) => {
-  if (maintainRatio.value) {
-    previewWidth.value = Math.round(newHeight * fixedAspectRatio.value)
+// 监听宽高变化，保持比例
+watch([previewWidth, previewHeight], ([newWidth, newHeight], [oldWidth, oldHeight]) => {
+  if (maintainRatio.value && fixedAspectRatio.value > 0) {
+    // 计算当前高度对应的宽度
+    const expectedWidth = Math.round(newHeight * fixedAspectRatio.value)
+    // 计算当前宽度对应的高度
+    const expectedHeight = Math.round(newWidth / fixedAspectRatio.value)
+
+    if (newWidth !== expectedWidth) {
+      // 宽度变化，调整高度
+      previewHeight.value = expectedHeight
+    } else if (newHeight !== expectedHeight) {
+      // 高度变化，调整宽度
+      previewWidth.value = expectedWidth
+    }
   }
 })
 
@@ -202,13 +226,7 @@ watch(maintainRatio, (newVal) => {
   }
 })
 
-// 使用toRefs将reactive对象的属性转换为独立的refs
-// TODO 此解构操作也服务于复制功能 必填
-const {
-    bgColor,
-    title,
-    textColor
-} = toRefs(propsObj)
+
 
 // 获取模板内容
 const getTemplateContent = async () => {
@@ -266,9 +284,6 @@ const copyProps = async () => {
   await navigator.clipboard.writeText(JSON.stringify(propsObj, null, 2))
   alert('Props 内容已复制到剪贴板')
 }
-
-// 颜色助手相关
-const showColorHelper = ref(false)
 
 // 生成各种风格的颜色
 const adjacentColors = ref(randomGradientColors('adjacent', 2, 'light'))

@@ -61,6 +61,7 @@ const componentMap: Record<string, ReturnType<typeof defineAsyncComponent>> = {
   'size': defineAsyncComponent(() => import('~/components/preset/Size.vue')),
   'content': defineAsyncComponent(() => import('~/components/preset/Content.vue')),
   'color': defineAsyncComponent(() => import('~/components/preset/Color.vue')),
+  'image': defineAsyncComponent(() => import('~/components/preset/Content.vue')),
   'default': defineAsyncComponent(() => import('~/components/preset/Content.vue')),
 }
 
@@ -175,7 +176,7 @@ const updateSort = (index: number, value: number) => {
               />
               <span class="text-xs text-gray-600">必填</span>
             </div>
-            <div class="flex items-center space-x-2">
+            <div class="flex items-center space-x-2" v-if="item.type !== 'image'">
               <Switch
                 :checked="item.isMultiple"
                 @update:checked="(val) => updateSchemaItem(index, 'isMultiple', val)"

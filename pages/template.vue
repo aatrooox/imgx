@@ -261,16 +261,22 @@ const createTemplate = async () => {
   
   let propsObj
   try {
-    const jsonStr = props.value
-      .replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2":')
-      .replace(/'/g, '"')
-    
-    propsObj = JSON.parse(jsonStr)
+    // 先尝试直接解析
+    propsObj = JSON.parse(props.value)
   } catch (e) {
-    errorMessage.value = 'Props 格式错误，请检查'
-    console.error(`转换失败`, e)
-    isLoading.value = false
-    return 
+    try {
+      // 如果直接解析失败，尝试处理格式
+      const jsonStr = props.value
+        .replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2":') // 只处理键名部分
+        .replace(/'/g, '"') // 将单引号替换为双引号
+      
+      propsObj = JSON.parse(jsonStr)
+    } catch (e) {
+      errorMessage.value = 'Props 格式错误，请检查'
+      console.error(`转换失败`, e)
+      isLoading.value = false
+      return 
+    }
   }
 
   const contents = schema.value.filter(item => item.type === 'content');
@@ -321,16 +327,22 @@ const generateSchema = async () => {
   
   let propsObj
   try {
-    const jsonStr = props.value
-      .replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2":') // 处理键名
-      .replace(/'/g, '"') // 将单引号替换为双引号
-    
-    propsObj = JSON.parse(jsonStr)
+    // 先尝试直接解析
+    propsObj = JSON.parse(props.value)
   } catch (e) {
-    errorMessage.value = 'Props 格式错误，请检查'
-    console.error(`转换失败`, e)
-    isLoading.value = false
-    return 
+    try {
+      // 如果直接解析失败，尝试处理格式
+      const jsonStr = props.value
+        .replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2":') // 只处理键名部分
+        .replace(/'/g, '"') // 将单引号替换为双引号
+      
+      propsObj = JSON.parse(jsonStr)
+    } catch (e) {
+      errorMessage.value = 'Props 格式错误，请检查'
+      console.error(`转换失败`, e)
+      isLoading.value = false
+      return 
+    }
   }
 
   isLoading.value = true
@@ -389,16 +401,22 @@ const genPreview = async () => {
 
   let propsObj
   try {
-    const jsonStr = props.value
-      .replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2":') // 处理键名
-      .replace(/'/g, '"') // 将单引号替换为双引号
-    
-    propsObj = JSON.parse(jsonStr)
+    // 先尝试直接解析
+    propsObj = JSON.parse(props.value)
   } catch (e) {
-    errorMessage.value = 'Props 格式错误，请检查'
-    console.error(`转换失败`, e)
-    isLoading.value = false
-    return 
+    try {
+      // 如果直接解析失败，尝试处理格式
+      const jsonStr = props.value
+        .replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2":') // 只处理键名部分
+        .replace(/'/g, '"') // 将单引号替换为双引号
+      
+      propsObj = JSON.parse(jsonStr)
+    } catch (e) {
+      errorMessage.value = 'Props 格式错误，请检查'
+      console.error(`转换失败`, e)
+      isLoading.value = false
+      return 
+    }
   }
 
   try {
@@ -415,6 +433,7 @@ const genPreview = async () => {
       },
     })
 
+    // 直接使用返回的 HTML，不需要特殊处理
     previewHtml.value = res.data
   } catch (error) {
     errorMessage.value = '生成预览失败，请稍后再试'
