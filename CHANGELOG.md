@@ -4,6 +4,22 @@
 
 [compare changes](https://github.com/aatrooox/imgx/compare/0.4.0...v0.5.1)
 
+## v0.6.4
+
+[compare changes](https://github.com/aatrooox/imgx/compare/v0.6.3...v0.6.4)
+
+### 🚀 Enhancements
+
+- 完善模板开发相关流程 ([af6a7c2](https://github.com/aatrooox/imgx/commit/af6a7c2))
+
+### 🏡 Chore
+
+- Rm json ([8b387e6](https://github.com/aatrooox/imgx/commit/8b387e6))
+
+### ❤️ Contributors
+
+- Aatrox <gnakzz@qq.com>
+
 ## v0.6.3
 
 [compare changes](https://github.com/aatrooox/imgx/compare/v0.6.2...v0.6.3)
