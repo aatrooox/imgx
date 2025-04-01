@@ -4,6 +4,18 @@
 
 [compare changes](https://github.com/aatrooox/imgx/compare/0.4.0...v0.5.1)
 
+## v0.6.6
+
+[compare changes](https://github.com/aatrooox/imgx/compare/v0.6.5...v0.6.6)
+
+### 🚀 Enhancements
+
+- 增加预设列表页 ([00cdc46](https://github.com/aatrooox/imgx/commit/00cdc46))
+
+### ❤️ Contributors
+
+- Aatrox <gnakzz@qq.com>
+
 ## v0.6.5
 
 [compare changes](https://github.com/aatrooox/imgx/compare/v0.6.4...v0.6.5)
