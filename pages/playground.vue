@@ -35,7 +35,7 @@
           <NuxtIcon slot="icon" name="material-symbols:add-circle-outline" size="1.2em" class="mr-1" />
           使用当前组件去新增模板
         </Button>
-        <Button @click="navigateTo('/playground', { open: { target: '_blank'}  })" variant="outline">去新增模板</Button>
+        <Button @click="navigateTo('/template', { open: { target: '_blank'}  })" variant="outline">去新增模板</Button>
       </div>
 
       <!-- 预览区域 -->
@@ -111,7 +111,7 @@
             </div>
           </div>
 
-          <div v-for="(colors, index) in complementaryColors" :key="'complementary-' + index" class="flex flex-col">
+          <!-- <div v-for="(colors, index) in complementaryColors" :key="'complementary-' + index" class="flex flex-col">
             <div class="w-24 h-6 rounded-md cursor-pointer transition-transform hover:scale-105"
               :style="{ backgroundImage: `linear-gradient(to right, #${colors[0]}, #${colors[1]})` }"
               @click="applyColors(colors)">
@@ -123,7 +123,7 @@
               :style="{ backgroundImage: `linear-gradient(to right, #${colors[0]}, #${colors[1]})` }"
               @click="applyColors(colors)">
             </div>
-          </div>
+          </div> -->
 
           <div v-for="(colors, index) in achromaticColors" :key="'achromatic-' + index" class="flex flex-col">
             <div class="w-24 h-6 rounded-md cursor-pointer transition-transform hover:scale-105"
@@ -140,11 +140,11 @@
           <!-- 以下是实际需要调试的内容 -->
           <div class="w-full h-full flex items-center justify-center transition-all duration-300"
             :style="{  backgroundImage: `linear-gradient(to right, ${bgColor[0]}, ${bgColor[1]})`, fontFamily: 'YouSheBiaoTiHei' }">
-            <div class="flex w-full justify-center items-center gap-4 font-bold" :style="{ color: textColor }">
-                <div class="border flex items-center justify-center" :style="{width: iconWidth + 'px'}">
-                  <img :src="iconNuxt" class="w-full" alt="icon" />
+            <div class="flex w-full justify-center items-center gap-4 font-bold pl-16" :style="{ color: textColor }">
+                <div class="border flex items-center justify-center" :style="{width: iconWidth + 'px', height: iconWidth + 'px'}">
+                  <img :src="icon" class="w-full" alt="icon" />
                 </div>
-                <div>{{ title }}</div>
+                <div class="flex" :style="{ fontSize: titleFontSize + 'px' }">{{ title }}</div>
             </div>
           </div>
           <!-- 以上是实际需要调试的内容 -->
@@ -172,10 +172,11 @@ definePageMeta({
 // TODO 此对象服务于复制功能 必填
 const propsObj = reactive({
   bgColor: ['#ffffff', '#2b2b2b'],
-  title: 'Hello World',
+  title: '生活是一个需要不断学习和精心经营的游戏',
+  titleFontSize: 36,
   textColor: '#000000',
-  iconNuxt: '[logos:vitejs]', // 图标的检测方式为是否以 [] 包裹
-  iconWidth: 59 // 图标的宽高由外层 div 控制
+  icon: '[logos:vitejs]', // 图标的检测方式为是否以 [] 包裹
+  iconWidth: 100 // 图标的宽高由外层 div 控制
 })
 
 // 使用toRefs将reactive对象的属性转换为独立的refs
@@ -184,12 +185,13 @@ const {
     bgColor,
     title,
     textColor,
-    iconNuxt,
-    iconWidth
+    icon,
+    iconWidth,
+    titleFontSize
 } = toRefs(propsObj)
 
 // 预览区域宽高设置
-const previewWidth = ref(900)
+const previewWidth = ref(1000)
 const previewHeight = ref(383)
 const maintainRatio = ref(true)
 const fixedAspectRatio = ref(0)
@@ -286,10 +288,10 @@ const copyProps = async () => {
 }
 
 // 生成各种风格的颜色
-const adjacentColors = ref(randomGradientColors('adjacent', 2, 'light'))
-const complementaryColors = ref(randomGradientColors('complementary', 2, 'light'))
-const monochromaticColors = ref(randomGradientColors('monochromatic', 2, 'light'))
-const achromaticColors = ref(randomGradientColors('adjacent', 2, 'pure'))
+const adjacentColors = ref(randomGradientColors('adjacent', 5, 'light')) // 相邻色 亮色
+// const complementaryColors = ref(randomGradientColors('complementary', 2, 'light')) // 互补色 亮色
+// const monochromaticColors = ref(randomGradientColors('monochromatic', 2, 'light')) // 单色 亮色
+const achromaticColors = ref(randomGradientColors('adjacent', 3, 'pure')) // 相邻色 黑白灰
 
 console.log(adjacentColors.value)
 // 应用颜色
@@ -299,10 +301,10 @@ const applyColors = (colors: [string, string]) => {
 
 // 定期刷新颜色选项
 const refreshColors = () => {
-  adjacentColors.value = randomGradientColors('adjacent', 2, 'light')
-  complementaryColors.value = randomGradientColors('complementary', 2, 'light')
-  monochromaticColors.value = randomGradientColors('monochromatic', 2, 'light')
-  achromaticColors.value = randomGradientColors('adjacent', 2, 'pure')
+  adjacentColors.value = randomGradientColors('adjacent', 5, 'light')
+  // complementaryColors.value = randomGradientColors('complementary', 2, 'light')
+  // monochromaticColors.value = randomGradientColors('monochromatic', 2, 'light')
+  achromaticColors.value = randomGradientColors('adjacent', 3, 'pure')
 }
 
 </script> 

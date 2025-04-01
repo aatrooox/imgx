@@ -211,6 +211,7 @@ const updateSort = (index: number, value: number) => {
                 <SelectItem value="content">内容</SelectItem>
                 <SelectItem value="size">尺寸</SelectItem>
                 <SelectItem value="color">颜色</SelectItem>
+                <SelectItem value="image">图片</SelectItem>
               </SelectContent>
             </Select>
           </div>
