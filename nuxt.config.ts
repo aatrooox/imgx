@@ -52,7 +52,8 @@ export default defineNuxtConfig({
   runtimeConfig: {
     proxyUrl: '',
     public: {
-      appVersion
+      appVersion,
+      nodeEnv: process.env.NODE_ENV
     }
   },
   nitro: {

@@ -41,10 +41,10 @@ interface TemplateData {
 const nuxtApp = useNuxtApp()
 const previewBase64 = computed(() => {
   if (!previewHtml.value) return ''
-  
+  const config = useRuntimeConfig()
   try {
     // 确保在客户端环境下
-    if (process.client) {
+    if (config.public.nodeEnv !== 'development') {
       // 如果已经是base64格式，直接返回
       if (previewHtml.value.startsWith('data:image/svg+xml;base64,')) {
         return previewHtml.value

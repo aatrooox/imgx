@@ -1,7 +1,4 @@
 <script lang="ts" setup>
-import { renderToString } from 'vue/server-renderer'
-import type { AllowedComponentProps, VNodeProps } from 'vue'
-import { createSSRApp, h } from 'vue'
 import type { SchemaItem } from '~/components/SchemaEditor.vue'
 
 interface Template {
