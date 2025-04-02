@@ -4,6 +4,18 @@
 
 [compare changes](https://github.com/aatrooox/imgx/compare/0.4.0...v0.5.1)
 
+## v0.6.7
+
+[compare changes](https://github.com/aatrooox/imgx/compare/v0.6.6...v0.6.7)
+
+### 🚀 Enhancements
+
+- 优化界面 ([18e7d3a](https://github.com/aatrooox/imgx/commit/18e7d3a))
+
+### ❤️ Contributors
+
+- Aatrox <gnakzz@qq.com>
+
 ## v0.6.6
 
 [compare changes](https://github.com/aatrooox/imgx/compare/v0.6.5...v0.6.6)
