@@ -41,12 +41,9 @@ interface TemplateData {
 const nuxtApp = useNuxtApp()
 const previewBase64 = computed(() => {
   if (!previewHtml.value) return ''
-  const config = useRuntimeConfig()
   try {
-    // 确保在客户端环境下
-    if (config.public.nodeEnv !== 'development') {
-      // 如果已经是base64格式，直接返回
-      if (previewHtml.value.startsWith('data:image/svg+xml;base64,')) {
+    // 如果已经是base64格式，直接返回
+    if (previewHtml.value.startsWith('data:image/svg+xml;base64,')) {
         return previewHtml.value
       }
       // 处理特殊字符
@@ -54,8 +51,6 @@ const previewBase64 = computed(() => {
       const decodedHtml = decodeURIComponent(encodedHtml)
       const base64 = btoa(decodedHtml)
       return 'data:image/svg+xml;base64,' + base64
-    }
-    return ''
   } catch (error) {
     console.error('Base64 转换失败:', error)
     return ''
@@ -95,7 +90,7 @@ watchEffect(() => {
 const getTemplates = async () => {
   isLoading.value = true
   try {
-    const res: any = await $fetch('/api/v1/template/list', {
+    const res: any = await $fetch('/api/v1/templates', {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token') || ''
@@ -283,8 +278,8 @@ const createTemplate = async () => {
   const contentKeys = contents.sort((a, b) => (a.sort || 0) - (b.sort || 0)).map(item => item.key);
   
   try {
-    const url = isCreateMode.value ? '/api/v1/template/create' : '/api/v1/template/update'
-    const method = 'POST'
+    const url = isCreateMode.value ? '/api/v1/templates' : '/api/v1/templates/' + currentTemplateId.value
+    const method = isCreateMode.value ? 'POST' : 'PUT'
     
     const res = await $fetch(url, {
       method,
@@ -350,7 +345,7 @@ const generateSchema = async () => {
   successMessage.value = ''
   
   try {
-    const res:any = await $fetch('/api/v1/template/schema/gen', {
+    const res:any = await $fetch('/api/v1/templates/schema', {
       method: 'POST',
       body: {
         props: propsObj,
@@ -420,7 +415,7 @@ const genPreview = async () => {
   }
 
   try {
-    const res = await $fetch<PreviewResponse>('/api/v1/preset/preview', {
+    const res = await $fetch<PreviewResponse>('/api/v1/presets/preview', {
       method: 'POST',
       body: {
         templateStr: templateStr.value,

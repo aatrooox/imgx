@@ -162,7 +162,7 @@ contentKeys: "title,highlightText,subtitle,author"
 
 然后 `customContentProps` 和 `customStyleProps` 会分别与默认的 contentProps 和 styleProps 合并，没有传入的值就会使用预设的值
 
-当然！正常实际使用是有一串的参数的，预设的目的就是把样式固定下来，只传内容进去。
+当然！正常实际使用没是有一串的参数的，预设的目的就是把样式固定下来，只传内容进去。甚至不传内容，只用默认值。
 
 所以只需要自己上传一个模板，或是使用别的人的模板，再修改尺寸和样式，就能变成自己的预设了！
 

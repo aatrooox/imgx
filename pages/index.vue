@@ -106,15 +106,27 @@ const baseUrl = config.public.nodeEnv !== 'development' ? 'https://imgx.zzao.clu
 const caseUrl = ref(`${baseUrl}/015/default`)
 const downloadUrl = ref('')
 
-const downloadImage = () => {
-  if (!downloadUrl.value) {
+const downloadImage = (type='png', imgUrl?: string) => {
+  const url = imgUrl || downloadUrl.value
+  if (!url) {
     return
   }
-  // 使用 a 标签下载
-  const a = document.createElement('a')
-  a.href = downloadUrl.value
-  a.download = 'imgx-index.png'
-  a.click()
+  
+  // 获取文件内容并设置正确的 MIME 类型
+  fetch(url)
+    .then(response => response.blob())
+    .then(blob => {
+      const mimeType = type === 'svg' ? 'image/svg+xml' : `image/${type}`
+      const url = URL.createObjectURL(new Blob([blob], { type: mimeType }))
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `imgx-index.${type}`
+      a.click()
+      URL.revokeObjectURL(url)
+    })
+    .catch(error => {
+      console.error('下载失败:', error)
+    })
 }
 
 onMounted(() => {

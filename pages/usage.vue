@@ -101,7 +101,7 @@ const presets = ref<Preset[]>([])
 // 获取预设列表
 const getPresets = async () => {
   try {
-    const res: any = await $fetch('/api/v1/preset/list', {
+    const res: any = await $fetch('/api/v1/presets', {
       method: 'GET'
     })
     presets.value = res.data

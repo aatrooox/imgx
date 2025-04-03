@@ -165,7 +165,7 @@ const createPreset = async () => {
       }
     }
 
-    const res = await $fetch('/api/v1/preset/create', {
+    const res = await $fetch('/api/v1/presets', {
       method: 'POST',
       body: {
         ...params,
@@ -190,7 +190,7 @@ const createPreset = async () => {
 const getTemplates = async () => {
   isLoading.value = true
   try {
-    const res: any = await $fetch('/api/v1/template/list', {
+    const res: any = await $fetch('/api/v1/templates', {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token') || ''
@@ -216,7 +216,7 @@ const genPreview = async () => {
   errorMessage.value = ''
 
   try {
-    const res = await $fetch<PreviewResponse>('/api/v1/preset/preview', {
+    const res = await $fetch<PreviewResponse>('/api/v1/presets/preview', {
       method: 'POST',
       body: {
         id: curTemplate.value.id,
