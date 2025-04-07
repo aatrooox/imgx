@@ -6,17 +6,18 @@
 
 `V0.6.0`之后的版本已经包含了一套**模板录入+预设保存的机制**，用于解决一大堆参数的问题，保存预设时会得到一个 4(或3)位数的预设码，这个预设码包含了使用哪个模板、使用什么默认样式等信息。
 
-比如 https://imgx.zzao.club/008/吾身所立，即是幽都/幽都/秦凤青?titleSize=60 (最近刚二刷了牧神记🤪)
+比如我需要一个带有图标和一行标题的图片作为公众号文章封面
 
-![](https://imgx.zzao.club/008/吾身所立，即是幽都/幽都/秦凤青?titleSize=60)
+https://imgx.zzao.club/006/default
 
-目前（2025 年 3 月 27 日）我只新增了一个预设 **[008]**，因为重构后的代码 [imgx-nitro](https://github.com/aatrooox/imgx-nitro) 还有非常多可以优化的点，但总算是把主线流程打通了。
+![](https://imgx.zzao.club/006/default)
+
 
 模板是通过 Vue3 的组件完成，我把组件拆成两部分：
 
 一部分是 `template`，里面只包含符合 `satori` 要求的 `html` 和 `tailwindcss`。
 
-另一部分是 `props` , 这个 `props` 并且是组件里定义的那个 `defineProps` ，而是传进来的 `props` 对象。
+另一部分是 `props` , 这个 `props` 并非是组件里定义的那个 `defineProps` ，而是根据 `defineProps` 生成的 `JSON`
 
 通过 props ，我会解析为一个 `propsSchema` 数组，会尝试把 props 的每个 key=value，解析为 内容、尺寸、颜色 这三种类型。
 
@@ -79,9 +80,10 @@ GET 请求中包含的 props，会和预设中保存的 props 合并，所以，
 
 API格式：<code> GET https://imgx.zzao.club/[预设码]/[文字内容]?[样式参数]=xxx </code>
 
-如： <code> https://imgx.zzao.club/008/吾身所立，即是幽都/幽都/秦凤青?titleSize=60 </code>
+也可以不带任何附加内容，直接使用原默认信息
+如： <code> https://imgx.zzao.club/006/default </code>
 
-![](https://imgx.zzao.club/008/吾身所立，即是幽都/幽都/秦凤青?titleSize=60)
+![](https://imgx.zzao.club/006/default)
 
 ## 模板示例
 
