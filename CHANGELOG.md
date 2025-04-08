@@ -4,6 +4,18 @@
 
 [compare changes](https://github.com/aatrooox/imgx/compare/0.4.0...v0.5.1)
 
+## v0.7.3
+
+[compare changes](https://github.com/aatrooox/imgx/compare/v0.7.2...v0.7.3)
+
+### 🏡 Chore
+
+- Ci ([a08858d](https://github.com/aatrooox/imgx/commit/a08858d))
+
+### ❤️ Contributors
+
+- Aatrox <gnakzz@qq.com>
+
 ## v0.7.2
 
 [compare changes](https://github.com/aatrooox/imgx/compare/v0.7.1...v0.7.2)
