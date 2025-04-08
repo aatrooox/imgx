@@ -21,25 +21,13 @@ jobs:
           pnpm install
       - name: Build Project
         env: 
-          CONTENT_REPO_TOKEN: ${{ vars.CONTENT_REPO_TOKEN }}
-          NUXT_COS_SECRET_ID: ${{ vars.NUXT_COS_SECRET_ID }}
-          NUXT_COS_SECRET_KEY: ${{ vars.NUXT_COS_SECRET_KEY }}
-          NUXT_COS_BUCKET: ${{ vars.NUXT_COS_BUCKET }}
-          NUXT_COS_REGION: ${{ vars.NUXT_COS_REGION }}
-          NUXT_JWT_SECRET: ${{ vars.NUXT_JWT_SECRET }}
+          NUXT_IPX_SERVER: ${{ vars.NUXT_IPX_SERVER }}
           DATABASE_URL: ${{ vars.DATABASE_URL }}
-          NUXT_GITHUB_CLIENT_SECRET: ${{ vars.NUXT_GITHUB_CLIENT_SECRET }}
-          NUXT_GITHUB_CLIENT_ID: ${{ vars.NUXT_GITHUB_CLIENT_ID }}
-          NUXT_AUTH_SECTRET: ${{ vars.NUXT_AUTH_SECTRET }}
-          NUXT_AUTH_ORIGIN: ${{ vars.NUXT_AUTH_ORIGIN }}
         run: pnpm build
       - name: Copy and Build
         env: 
           DATABASE_URL: ${{ vars.DATABASE_URL }}
-          NUXT_GITHUB_CLIENT_SECRET: ${{ vars.NUXT_GITHUB_CLIENT_SECRET }}
-          NUXT_GITHUB_CLIENT_ID: ${{ vars.NUXT_GITHUB_CLIENT_ID }}
-          NUXT_AUTH_SECTRET: ${{ vars.NUXT_AUTH_SECTRET }}
-          NUXT_AUTH_ORIGIN: ${{ vars.NUXT_AUTH_ORIGIN }}
+          NUXT_IPX_SERVER: ${{ vars.NUXT_IPX_SERVER }}
         run: |
           rm -rf /root/web/imgx/*
           cp -R .output/* /root/web/imgx/

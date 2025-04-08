@@ -33,7 +33,7 @@
             <div class="relative aspect-[4/3] bg-[#2b2416] p-4">
               <div class="absolute inset-0 bg-gradient-to-b from-[#e6c577]/10 to-transparent"></div>
               <img 
-                :src="preset.previewUrl" 
+                :src="config.public.ipxServer + preset.code + '.png'" 
                 :alt="preset.name"
                 class="w-full h-full object-contain"
               />
@@ -97,7 +97,7 @@ interface Preset {
 
 // 预设数据
 const presets = ref<Preset[]>([])
-
+const config = useRuntimeConfig()
 // 获取预设列表
 const getPresets = async () => {
   try {

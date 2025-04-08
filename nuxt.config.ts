@@ -53,6 +53,7 @@ export default defineNuxtConfig({
     proxyUrl: '',
     public: {
       appVersion,
+      ipxServer: 'http://localhost:5778',
       nodeEnv: process.env.NODE_ENV
     }
   },
