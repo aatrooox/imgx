@@ -4,6 +4,22 @@
 
 [compare changes](https://github.com/aatrooox/imgx/compare/0.4.0...v0.5.1)
 
+## v0.7.1
+
+[compare changes](https://github.com/aatrooox/imgx/compare/v0.7.0...v0.7.1)
+
+### 🚀 Enhancements
+
+- 预设图 ([ed1a255](https://github.com/aatrooox/imgx/commit/ed1a255))
+
+### 🏡 Chore
+
+- Readme ([bb25988](https://github.com/aatrooox/imgx/commit/bb25988))
+
+### ❤️ Contributors
+
+- Aatrox <gnakzz@qq.com>
+
 ## v0.7.0
 
 [compare changes](https://github.com/aatrooox/imgx/compare/v0.6.7...v0.7.0)
