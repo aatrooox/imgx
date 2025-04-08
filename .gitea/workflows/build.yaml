@@ -21,13 +21,13 @@ jobs:
           pnpm install
       - name: Build Project
         env: 
-          NUXT_IPX_SERVER: ${{ vars.NUXT_IPX_SERVER }}
+          NUXT_PUBLIC_IPX_SERVER: ${{ vars.NUXT_IPX_SERVER }}
           DATABASE_URL: ${{ vars.DATABASE_URL }}
         run: pnpm build
       - name: Copy and Build
         env: 
           DATABASE_URL: ${{ vars.DATABASE_URL }}
-          NUXT_IPX_SERVER: ${{ vars.NUXT_IPX_SERVER }}
+          NUXT_PUBLIC_IPX_SERVER: ${{ vars.NUXT_IPX_SERVER }}
         run: |
           rm -rf /root/web/imgx/*
           cp -R .output/* /root/web/imgx/
