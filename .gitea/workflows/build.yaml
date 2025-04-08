@@ -52,4 +52,4 @@ jobs:
                 "text": "${{ gitea.repository }} - release [${{job.status}}]"
               }
             }' \
-            "${{ vars.FEISHU_WEBHOOK }}"
+            "${{ secrets.FEISHU_WEBHOOK }}"
