@@ -71,7 +71,7 @@
                   <Button size="default" class="flex-1 text-sm sm:text-base bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white h-9" @click="downloadUrl = caseUrl">
                     点击生成
                   </Button>
-                  <Button size="default" variant="outline" class="flex-1 text-sm sm:text-base bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white h-9" @click="downloadImage">
+                  <Button size="default" variant="outline" class="flex-1 text-sm sm:text-base bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white h-9" @click="(e) => downloadImage()">
                     下载图片
                   </Button>
                 </div>
@@ -103,7 +103,7 @@ const shadowColor = computed(() => isDark.value ? 'white' : 'black')
 const isLoadingImg = ref(false)
 const baseUrl = config.public.nodeEnv !== 'development' ? 'https://imgx.zzao.club' : 'http://localhost:4573'
 
-const caseUrl = ref(`${baseUrl}/015/default`)
+const caseUrl = ref(`${baseUrl}/008/default`)
 const downloadUrl = ref('')
 
 const downloadImage = (type='png', imgUrl?: string) => {
@@ -128,13 +128,22 @@ const downloadImage = (type='png', imgUrl?: string) => {
       console.error('下载失败:', error)
     })
 }
-
+const getPresets = async () => {
+  try {
+    const res: any = await $fetch('/api/v1/presets', {
+      method: 'GET'
+    })
+    const presets = res.data;
+    caseUrl.value = `${baseUrl}/${presets[0].code}/default`
+    downloadUrl.value = `${baseUrl}/${presets[0].code}/default`
+  } catch (error) {
+    console.error('获取预设列表失败', error)
+  } finally {
+  }
+}
 onMounted(() => {
   // reRandomBgColors();
-  setTimeout(() => {
-    // generateImage()
-    downloadUrl.value = caseUrl.value
-  }, 1000);
+  getPresets()
 })
 
 </script>
