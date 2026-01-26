@@ -101,7 +101,7 @@ const config = useRuntimeConfig()
 // 获取预设列表
 const getPresets = async () => {
   try {
-    const res: any = await $fetch('/api/v1/presets', {
+    const res: any = await $fetch('/api/presets', {
       method: 'GET'
     })
     presets.value = res.data
