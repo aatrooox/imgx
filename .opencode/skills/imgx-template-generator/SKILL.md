@@ -188,3 +188,104 @@ Before delivering template code, verify:
 5. ❌ Missing default values in destructuring
 6. ❌ Poor contrast (dark text on dark bg)
 7. ❌ Over-engineering (too many customization props)
+
+## Standard reference template
+
+The following template (`components/template/Base.vue`) is the **standard reference** for IMGX templates. It demonstrates all best practices and supports every feature:
+
+```vue
+<script setup lang="ts">
+import type { componentBaseProps } from '~/lib/content'
+
+// Props with comprehensive defaults
+const {
+  content = [],
+  bgColor = '',
+  
+  colors = ['#000000'],
+  accentColors = ['#0088a9'],
+  aligns = ['justify-start'], // 横向对齐方式
+  fontSizes = ['30px'],
+  verticalAligns = ['center'],
+  
+  fontFamily = 'YouSheBiaoTiHei',
+  padding = '30px',
+  bgImage = 'linear-gradient(to right, transparent, transparent)',
+  textWrapBgColor = 'transparent',
+  textWrapShadow = 'none',
+  textWrapPadding = '0px',
+  textWrapRounded = 'none'
+} = defineProps<componentBaseProps>()
+</script>
+
+<template>
+  <!-- Root: w-full h-full flex -->
+  <div class="w-full h-full flex items-center justify-center transition-all duration-300"
+    :style="{ 
+      backgroundColor: bgColor ?? 'transparent', 
+      backgroundImage: bgImage ?? 'linear-gradient(to right, transparent, transparent)', 
+      padding: padding, 
+      fontFamily: fontFamily 
+    }">
+    
+    <!-- Content wrapper (optional background/padding layer) -->
+    <div :class="[`text-wrap flex w-full h-full rounded-${textWrapRounded} shadow-${textWrapShadow}`]"
+      :style="{ 
+        backgroundColor: textWrapBgColor, 
+        padding: textWrapPadding, 
+        justifyContent: verticalAligns[0] ?? 'center' 
+      }">
+      
+      <!-- Line container -->
+      <div class="flex flex-col w-full">
+        <!-- Render each line from content -->
+        <template v-for="(line, index) in content">
+          <div :class="['font-bold flex', aligns[index]]" 
+            :style="{ color: colors[index], fontSize: fontSizes[index] }">
+            
+            <!-- Render each text part -->
+            <template v-for="(text, index) in line" :key="index">
+              <!-- Emoji/Icon: Use background image -->
+              <span class="flex" v-if="text.type === 'emoji'"
+                :style="{ 
+                  width: iconSizes && iconSizes[index] + 'px', 
+                  height: iconSizes && iconSizes[index] + 'px', 
+                  backgroundImage: `url(${text.base64URL})`, 
+                  backgroundRepeat: 'no-repeat', 
+                  backgroundSize: '100% 100%' 
+                }"></span>
+              
+              <!-- Text or accent text -->
+              <span class="text-nowrap" v-else
+                :style="{ color: text.type === 'accent' ? (accentColors[index] || '') : '' }">
+                {{ text.text }}
+              </span>
+            </template>
+          </div>
+        </template>
+      </div>
+    </div>
+  </div>
+</template>
+```
+
+### Why this is the standard
+
+- ✅ **Fully Satori-compliant**: Every div has explicit flex, no forbidden CSS
+- ✅ **Supports all special syntax**: Handles `*accent*`, `[emoji]`, `+` separators
+- ✅ **Props properly classified**: Clear distinction between content and style props
+- ✅ **Multi-line rendering**: Supports variable number of content lines
+- ✅ **Customizable alignment**: Per-line horizontal and vertical alignment
+- ✅ **Optional content wrapper**: Adds background/padding layer when needed
+- ✅ **Comprehensive defaults**: Every prop has a sensible fallback value
+- ✅ **Type-safe**: Uses `componentBaseProps` interface
+
+### Best practices from Base.vue
+
+1. **Always use componentBaseProps type** for props definition
+2. **Provide defaults for every prop** to avoid undefined errors
+3. **Use arrays for per-line styling** (colors, fontSizes, aligns)
+4. **Null-safe style bindings** with `??` operator
+5. **Text wrapping in spans** - never raw text nodes
+6. **Emoji as background images** in flex containers
+7. **Conditional styling** via ternary operators in :style
