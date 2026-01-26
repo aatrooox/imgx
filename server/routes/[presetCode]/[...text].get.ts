@@ -1,7 +1,8 @@
-import prisma from '~/lib/prisma'
 import { generateImage } from '~/server/utils/image'
 import { renderErrorSvg } from '~/server/utils/satori'
 import { z } from 'zod'
+import { getPresetByCode } from '~/server/utils/preset'
+import { getParsedText } from '~/lib/content'
 
 export default defineEventHandler(async (event) => {
   const text = decodeURI(getRouterParam(event, 'text') || '')
@@ -23,20 +24,7 @@ export default defineEventHandler(async (event) => {
   delete customStyleProps.format
   delete customStyleProps.download
 
-  const preset = await prisma.preset.findUnique({
-    where: {
-      code: presetCode
-    },
-    include: {
-      templateInfo: {
-        select: {
-          contentKeys: true,
-          propsSchema: true,
-          template: true
-        }
-      }
-    }
-  })
+  const preset = await getPresetByCode(presetCode!)
 
   if (!preset) {
     setHeader(event, 'Content-Type', 'image/svg+xml')
@@ -46,16 +34,24 @@ export default defineEventHandler(async (event) => {
     return svg
   }
   
-  const { contentKeys, propsSchema } = preset.templateInfo
+  const contentKeys = preset?.contentKeys || ''
+  const propsSchema = preset?.propsSchema || []
 
   // Process custom content props
   const customContentProps: Record<string, string> = {}
   const contentKeysArray = contentKeys.split(',')
-  contents.forEach((value: string, index: number) => {
-    if (contentKeysArray[index]) {
-      customContentProps[contentKeysArray[index]] = value
-    }
-  })
+  
+  if (contentKeysArray.length === 1 && contentKeysArray[0] === 'text') {
+    const lines = contents.join('/').split('+')
+    const parsedContent = lines.map(line => getParsedText(line))
+    customContentProps.content = parsedContent
+  } else {
+    contents.forEach((value: string, index: number) => {
+      if (contentKeysArray[index]) {
+        customContentProps[contentKeysArray[index]] = value
+      }
+    })
+  }
   
   // Process custom style props (convert size types to numbers)
   for (const key in customStyleProps) {

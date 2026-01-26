@@ -64,11 +64,6 @@ export default defineNuxtConfig({
         vue()
       ]
     },
-    routeRules: {
-      '/api/v1/**': {
-        proxy: 'http://localhost:5777/api/v1/**'
-      }
-    },
     imports: {
       presets: [
         {
