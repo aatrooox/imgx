@@ -289,3 +289,224 @@ const {
 5. **Text wrapping in spans** - never raw text nodes
 6. **Emoji as background images** in flex containers
 7. **Conditional styling** via ternary operators in :style
+
+## Design patterns
+
+### Pattern 1: Simple title card
+
+Centered title with gradient background - perfect for article covers and social sharing.
+
+```vue
+<template>
+  <div class="w-full h-full flex items-center justify-center"
+    :style="{ backgroundImage: `linear-gradient(135deg, ${bgColor[0]}, ${bgColor[1]})`, padding }">
+    <div class="flex font-bold text-center" 
+      :style="{ fontSize: titleSize + 'px', color: titleColor }">
+      {{ title }}
+    </div>
+  </div>
+</template>
+```
+
+**Props JSON**:
+```json
+{
+  "bgColor": ["#1e40af", "#7c3aed"],
+  "title": "Building Modern Web Applications",
+  "titleColor": "#ffffff",
+  "titleSize": 48,
+  "padding": 60
+}
+```
+
+**Classification**:
+- Content props: `title`
+- Style props: `bgColor`, `titleColor`, `titleSize`, `padding`
+- Content keys: `"title"`
+
+**Usage**: `GET /preset-code/Building+Modern+Web+Applications?bgColor=1e40af-7c3aed`
+
+---
+
+### Pattern 2: Icon + Title
+
+Icon on left, title on right - great for branded content and project showcases.
+
+```vue
+<template>
+  <div class="w-full h-full flex items-center justify-center"
+    :style="{ backgroundImage: `linear-gradient(to right, ${bgColor[0]}, ${bgColor[1]})`, padding }">
+    <div class="flex items-center gap-6">
+      <!-- Icon container -->
+      <div class="flex" :style="{ width: iconSize + 'px', height: iconSize + 'px' }">
+        <img :src="iconUrl" class="w-full" alt="icon" />
+      </div>
+      
+      <!-- Title -->
+      <div class="flex font-bold" 
+        :style="{ fontSize: titleSize + 'px', color: titleColor }">
+        {{ title }}
+      </div>
+    </div>
+  </div>
+</template>
+```
+
+**Props JSON**:
+```json
+{
+  "bgColor": ["#0f172a", "#1e293b"],
+  "icon": "[logos:vue]",
+  "iconSize": 120,
+  "title": "Vue 3 Masterclass",
+  "titleColor": "#ffffff",
+  "titleSize": 56,
+  "padding": 60
+}
+```
+
+**Classification**:
+- Content props: `icon`, `title`
+- Style props: `bgColor`, `iconSize`, `titleColor`, `titleSize`, `padding`
+- Content keys: `"icon,title"`
+
+**Usage**: `GET /preset-code/[logos:vue]/Vue+3+Masterclass?iconSize=120`
+
+---
+
+### Pattern 3: Blog post cover
+
+Multi-line vertical layout with title, subtitle, and author - ideal for blog articles.
+
+```vue
+<template>
+  <div class="w-full h-full flex items-center justify-center"
+    :style="{ backgroundImage: `linear-gradient(135deg, ${bgColor[0]}, ${bgColor[1]})`, padding }">
+    <div class="flex flex-col w-full gap-8">
+      <!-- Title -->
+      <div class="flex justify-center font-bold text-center" 
+        :style="{ fontSize: titleSize + 'px', color: titleColor }">
+        {{ title }}
+      </div>
+      
+      <!-- Subtitle -->
+      <div class="flex justify-center text-center" 
+        :style="{ fontSize: subtitleSize + 'px', color: subtitleColor }">
+        {{ subtitle }}
+      </div>
+      
+      <!-- Author -->
+      <div class="flex justify-end" 
+        :style="{ fontSize: authorSize + 'px', color: authorColor }">
+        by {{ author }}
+      </div>
+    </div>
+  </div>
+</template>
+```
+
+**Props JSON**:
+```json
+{
+  "bgColor": ["#1e40af", "#7c3aed"],
+  "title": "Deep Dive into Vue 3 Composition API",
+  "subtitle": "Best practices and patterns for modern Vue development",
+  "author": "@frontend-guru",
+  "titleColor": "#ffffff",
+  "subtitleColor": "#e5e7eb",
+  "authorColor": "#d1d5db",
+  "titleSize": 48,
+  "subtitleSize": 28,
+  "authorSize": 20,
+  "padding": 60
+}
+```
+
+**Classification**:
+- Content props: `title`, `subtitle`, `author`
+- Style props: `bgColor`, `titleColor`, `subtitleColor`, `authorColor`, `titleSize`, `subtitleSize`, `authorSize`, `padding`
+- Content keys: `"title,subtitle,author"`
+
+**Usage**: `GET /preset-code/Deep+Dive+into+Vue+3/Best+practices/@frontend-guru`
+
+---
+
+### Pattern 4: Social share card
+
+Compact layout with icon and accent text - optimized for Twitter/LinkedIn sharing.
+
+```vue
+<template>
+  <div class="w-full h-full flex items-center justify-center"
+    :style="{ backgroundColor: bgColor, padding }">
+    <div class="flex flex-col items-center gap-6">
+      <!-- Icon -->
+      <div class="flex" :style="{ width: iconSize + 'px', height: iconSize + 'px' }">
+        <img :src="iconUrl" class="w-full" alt="icon" />
+      </div>
+      
+      <!-- Title with accent -->
+      <div class="flex text-center font-bold" 
+        :style="{ fontSize: titleSize + 'px', color: titleColor }">
+        <span>{{ titlePart1 }}</span>
+        <span :style="{ color: accentColor }">{{ accentText }}</span>
+        <span>{{ titlePart2 }}</span>
+      </div>
+    </div>
+  </div>
+</template>
+```
+
+**Props JSON**:
+```json
+{
+  "bgColor": "#ffffff",
+  "icon": "[twemoji:rocket]",
+  "iconSize": 80,
+  "title": "Launch Your *Next Project* Today",
+  "titleColor": "#1f2937",
+  "accentColor": "#ef4444",
+  "titleSize": 36,
+  "padding": 40
+}
+```
+
+**Classification**:
+- Content props: `icon`, `title`
+- Style props: `bgColor`, `iconSize`, `titleColor`, `accentColor`, `titleSize`, `padding`
+- Content keys: `"icon,title"`
+
+**Note**: The `*Next Project*` syntax auto-parses into accent styling.
+
+---
+
+## Output format
+
+When generating templates, provide:
+
+### 1. Template code
+```vue
+<template>
+  <!-- Complete Vue template following all constraints -->
+</template>
+```
+
+### 2. Props JSON
+```json
+{
+  "prop1": "value1",
+  "prop2": 42
+}
+```
+
+### 3. Usage example
+```
+GET https://imgx.zzao.club/{presetCode}/{title}/{subtitle}?bgColor=fff&titleSize=60
+```
+
+### 4. Prop classification guide
+```
+Content props (URL path): title, subtitle, author
+Style props (query params): bgColor, titleSize, padding
+Content keys order: "title,subtitle,author"
+```
