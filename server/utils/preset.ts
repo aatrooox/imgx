@@ -1,6 +1,3 @@
-import { readdir, readFile } from 'node:fs/promises'
-import { join } from 'node:path'
-
 export interface Preset {
   code: string
   name: string
@@ -20,21 +17,24 @@ export async function loadPresets(): Promise<Record<string, Preset>> {
   if (presetsCache) return presetsCache
   
   presetsCache = {}
-  const presetsDir = join(process.cwd(), 'presets')
   
   try {
-    const files = await readdir(presetsDir)
-    for (const file of files) {
-      if (file.endsWith('.json')) {
-        const content = await readFile(join(presetsDir, file), 'utf-8')
-        const preset = JSON.parse(content) as Preset
-        if (preset.code) {
-          presetsCache[preset.code] = preset
+    const storage = useStorage('assets:presets')
+    const keys = await storage.getKeys()
+    
+    for (const key of keys) {
+      if (key.endsWith('.json')) {
+        const content = await storage.getItem(key)
+        if (content) {
+          const preset = JSON.parse(content as string) as Preset
+          if (preset.code) {
+            presetsCache[preset.code] = preset
+          }
         }
       }
     }
   } catch (error) {
-    console.warn('Failed to load presets:', error)
+    console.error('Failed to load presets:', error)
   }
   
   return presetsCache

@@ -58,6 +58,12 @@ export default defineNuxtConfig({
     }
   },
   nitro: {
+    serverAssets: [
+      {
+        baseName: 'presets',
+        dir: './presets'
+      }
+    ],
     rollupConfig: {
       //@ts-ignore
       plugins: [
