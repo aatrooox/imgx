@@ -1,0 +1,36 @@
+{
+  "code": "101",
+  "name": "WeChat Article Cover",
+  "description": "(10个字以内)微信公众号文章封面，带边框和双图标装饰",
+  "width": 1200,
+  "height": 510,
+  "template": "WeChatCover",
+  "contentProps": {
+    "topLeftIcon": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%23FFD700%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%222%22%3E%3Cpath%20d%3D%22M11.017%202.814a1%201%200%200%201%201.966%200l1.051%205.558a2%202%200%200%200%201.594%201.594l5.558%201.051a1%201%200%200%201%200%201.966l-5.558%201.051a2%202%200%200%200-1.594%201.594l-1.051%205.558a1%201%200%200%201-1.966%200l-1.051-5.558a2%202%200%200%200-1.594-1.594l-5.558-1.051a1%201%200%200%201%200-1.966l5.558-1.051a2%202%200%200%200%201.594-1.594zM20%202v4m2-2h-4%22%2F%3E%3Ccircle%20cx%3D%224%22%20cy%3D%2220%22%20r%3D%222%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E",
+    "bottomRightIcon": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22%23FF6B6B%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%222%22%20d%3D%22M4%2014a1%201%200%200%201-.78-1.63l9.9-10.2a.5.5%200%200%201%20.86.46l-1.92%206.02A1%201%200%200%200%2013%2010h7a1%201%200%200%201%20.78%201.63l-9.9%2010.2a.5.5%200%200%201-.86-.46l1.92-6.02A1%201%200%200%200%2011%2014z%22%2F%3E%3C%2Fsvg%3E",
+    "content": [
+      [
+        {"text": "欢迎使用 ", "type": "text"},
+        {"text": "IMGX", "type": "accent"}
+      ]
+    ]
+  },
+  "styleProps": {
+    "bgColor": "#FFFFFF",
+    "bgImage": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+    "textWrapBgColor": "transparent",
+    "textWrapPadding": "0px",
+    "colors": ["#FFFFFF"],
+    "accentColors": ["#FFD700"],
+    "fontSizes": ["120px"],
+    "aligns": ["justify-center"],
+    "verticalAligns": ["center"],
+    "fontFamily": "YouSheBiaoTiHei",
+    "padding": "60px",
+    "iconSizes": [80, 80],
+    "borderWidth": 8,
+    "borderColor": "#FFFFFF",
+    "borderRadius": 0
+  },
+  "contentKeys": "text"
+}

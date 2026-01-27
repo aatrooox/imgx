@@ -1,3 +1,8 @@
+---
+name: imgx-template-generator
+description: 生成符合 Satori 渲染约束的 IMGX Vue 模板，将文本转换为精美的卡片图片
+---
+
 # IMGX Template Generator Skill
 
 ## 技能描述
