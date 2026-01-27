@@ -1,221 +1,481 @@
-# IMGX
+<div align="center">
 
-文字生成卡片(图片)以及图片处理的 API 工具
+# 🎨 IMGX
 
-## 背景
+**一个 URL，一张精美图片 —— AI 时代的低成本图片生成解决方案**
 
-有时候写文章时需要上传封面图，大部分情况我只需要简单的文字、LOGO、强调文字等即可。
+[![Version](https://img.shields.io/badge/version-0.8.3-blue.svg)](https://github.com/aatrooox/imgx)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
+[![Nuxt](https://img.shields.io/badge/Nuxt-4.3.0-00DC82.svg)](https://nuxt.com)
 
-现有的App、Web端需要我打开他们的平台，然后选择合适的模板，最后还要充个会员，不然就限制我下载图片的大小，给我加个水印什么的。
+[在线体验](https://imgx.zzao.club) · [快速开始](#-快速开始) · [模板示例](#-模板展示) · [API 文档](#-api-使用)
 
-此 API 可以帮助我快速在任意场景下拿到一张想要的图片。必要时可以下载，临时使用直接用链接。
-
-并且如果是文章中配图，大部分技术平台都支持自动转存，很省心。
-
-## 定位
-
-本项目属于 `“消费者”` ，使用了 [imgx-nitro](https://github.com/aatrooox/imgx-nitro) 的接口，实现了文字转图片的功能
-
-
-## 后续
-
-此项目会逐步变为 [imgx-nitro](https://github.com/aatrooox/imgx-nitro) 的前端展示、管理、录入的入口项目
-
-最初的接口会在某个版本直接删除
-
-## 使用
-
-API格式：<code> GET https://imgx.zzao.club/[预设码]/[文字内容]?[样式参数]=xxx </code>
-
-也可以不带任何附加内容，直接使用原默认信息
-如： <code> https://imgx.zzao.club/006/default </code>
-
-![](https://imgx.zzao.club/006/default)
-
-## 模板示例
-
-template:
-
-```vue
-<div class="flex w-full h-full" :style="{ backgroundColor: bgColor }">
-  <div class="flex flex-col w-full h-full items-center justify-center" :style="{ padding: padding + 'px' }">
-    <div class="flex w-full justify-center items-center mb-4">
-      <div class="flex text-center font-bold" :style="{ color: titleColor, fontSize: titleSize + 'px' }">
-        <span v-if="title.includes(highlightText)">
-          {{ title.split(highlightText)[0] }}
-          <span :style="{ color: highlightColor }">{{ highlightText }}</span>
-          {{ title.split(highlightText)[1] }}
-        </span>
-        <span v-else>{{ title }}</span>
-      </div>
-    </div>
-    <div class="flex w-full justify-center items-center mb-6">
-      <div class="flex text-center" :style="{ color: subtitleColor, fontSize: subtitleSize + 'px' }">{{ subtitle }}</div>
-    </div>
-    <div class="flex w-full justify-end items-center">
-      <div class="flex" :style="{ color: authorColor, fontSize: authorSize + 'px' }">{{ author }}</div>
-    </div>
-  </div>
 </div>
-```
 
-props
+---
 
-```js
-{
-  "title": "深入理解Vue3组合式API及其最佳实践",
-  "highlightText": "Vue3",
-  "highlightColor": "#42b883",
-  "subtitle": "探索现代前端开发的新范式",
-  "author": "@前端技术专家",
-  "bgColor": "#1e40af",
-  "titleColor": "#ffffff",
-  "subtitleColor": "#e5e7eb",
-  "authorColor": "#e5e7eb",
-  "titleSize": 36,
-  "subtitleSize": 24,
-  "authorSize": 18,
-  "padding": 40
-}
-```
+## 💡 核心理念
 
-然后在预设中 props 会分成三部分存储：
+**在 Stable Diffusion、Midjourney、DALL-E 横行的时代，为什么还需要 IMGX？**
 
-```js
-contenProps: {
-    "title": "深入理解Vue3组合式API及其最佳实践",
-    "highlightText": "Vue3",
-    "subtitle": "探索现代前端开发的新范式",
-    "author": "@前端技术专家",
-}
+因为并非所有场景都需要最新的生图大模型：
 
-styleProps: {
-   "highlightColor": "#42b883",
-   "bgColor": "#1e40af",
-   "titleColor": "#ffffff",
-   "subtitleColor": "#e5e7eb",
-   "authorColor": "#e5e7eb",
-   "titleSize": 36,
-   "subtitleSize": 24,
-   "authorSize": 18,
-   "padding": 40
-}
+- 🎯 **精准可控** - 你想要的是"带标题的封面"，而非"风格不确定的艺术品"
+- ⚡️ **即时响应** - URL 直出，无需等待 GPU 排队
+- 💰 **零成本** - 无需订阅 Midjourney Pro，无需购买 GPU 算力
+- 🔄 **稳定可复现** - 相同输入必定产出相同结果，适合自动化流程
 
-contentKeys: "title,highlightText,subtitle,author"
+**IMGX 的突破：** 曾因模板生产力不足而搁浅，现借助 AI Skill 能力重启——**让 AI 生产模板，而非生成图片**。你获得的不是一次性的图片，而是可复用的模板资产。
 
-```
+## ✨ 为什么选择 IMGX？
 
-所以 GET 请求的格式为 https://imgx.zzao.club/008/{title}/{highlightText}/{subtitle}/{author}?bgColor=xxx&titleColor=xxx
+### 传统方案的痛点
 
-传入的 /{title}/{highlightText}/{subtitle}/{author} 部分会按 `/` 分割出来，然后按 `contentKeys` 的顺序映射到 `customContentProps` 上，query 部分则是直接解析出来 `customStyleProps`。
+| 方案 | 问题 |
+|------|------|
+| 🎨 **设计工具** (Figma/PS) | 每次都要手动调整，无法自动化 |
+| 🤖 **AI 生图** (Midjourney/SD) | 成本高、不可控、结果随机 |
+| 💰 **在线工具** (创客贴等) | 限制下载、添加水印、需要会员 |
+| 📐 **截图/Canvas** | 代码实现复杂，维护成本高 |
 
-然后 `customContentProps` 和 `customStyleProps` 会分别与默认的 contentProps 和 styleProps 合并，没有传入的值就会使用预设的值
+### IMGX 的解决方案
 
-当然！正常实际使用没是有一串的参数的，预设的目的就是把样式固定下来，只传内容进去。甚至不传内容，只用默认值。
+- ✅ **一个 URL 搞定** - 改文字只需改 URL 参数
+- ✅ **完全免费** - 无水印、无限制、可商用
+- ✅ **结果可控** - 相同输入 = 相同输出
+- ✅ **AI 赋能** - 用 AI 生成模板代码，而非每次生图
+- ✅ **自托管友好** - 部署到自己的服务器，数据完全掌控
 
-所以只需要自己上传一个模板，或是使用别的人的模板，再修改尺寸和样式，就能变成自己的预设了！
+## 🚀 快速开始
 
-## 最新动态
+### 最简单的方式
 
-`V0.6.0`之后的版本已经包含了一套**模板录入+预设保存的机制**，用于解决一大堆参数的问题，保存预设时会得到一个 4(或3)位数的预设码，这个预设码包含了使用哪个模板、使用什么默认样式等信息。
-
-比如我需要一个带有图标和一行标题的图片作为公众号文章封面
-
+```bash
+# 使用默认样式
 https://imgx.zzao.club/006/default
+```
 
-![](https://imgx.zzao.club/006/default)
+![示例图片](https://imgx.zzao.club/006/能力强的人用~AI~更强)
 
+### 自定义内容
 
-模板是通过 Vue3 的组件完成，我把组件拆成两部分：
+```bash
+# 动态文字内容（使用 ~ 标记高亮部分）
+https://imgx.zzao.club/006/欢迎使用~IMGX~图片生成工具
+```
 
-一部分是 `template`，里面只包含符合 `satori` 要求的 `html` 和 `tailwindcss`。
+### 完整控制
 
-另一部分是 `props` , 这个 `props` 并非是组件里定义的那个 `defineProps` ，而是根据 `defineProps` 生成的 `JSON`
+```bash
+# GET 请求：路径传内容，query 传样式
+GET https://imgx.zzao.club/102/😊/🎉/IMGX~让图片生成~更简单
 
-通过 props ，我会解析为一个 `propsSchema` 数组，会尝试把 props 的每个 key=value，解析为 内容、尺寸、颜色 这三种类型。
+# POST 请求：完整 JSON 控制
+POST https://imgx.zzao.club/
+Content-Type: application/json
+{
+  "preset": "102",
+  "content": {
+    "topLeftIcon": "twemoji:fire",
+    "bottomRightIcon": "twemoji:rocket",
+    "text": "欢迎~使用~IMGX"
+  }
+}
+```
 
-生成后的 `propsSchema` 会以表单的形式在前端展示，**创建者需要自己勘误**，确认无误后即可保存模板。
+## 🎯 核心特性
 
-然后就可以去新增预设
+### 🤖 AI 驱动的模板生产
 
-预设指的是包含了一组默认 `props` 、`width`、`height` 的模板，所以在 template 中准确的生成 `propsSchema`，才能在预设中正常使用。
+**这才是 IMGX 的杀手锏！**
 
-其中预设中保存的 props 分为两类：`contentProps` 、 `styleProps`。
+- **传统方式：** 手写模板 → 调试约束 → 反复修改（耗时数小时）
+- **IMGX 方式：** 描述需求 → AI Skill 生成 → 微调保存（耗时数分钟）
 
-`contentProps` 指的是文字内容，在 `GET` 请求中以 `url` 路径的形式传递，如上文的示例，传递顺序会在 `propsSchema` 中由**模板创建者定义**
+示例对话：
+```
+你：「生成一个微信公众号封面，渐变背景，支持图标装饰」
+AI：✅ 生成符合 Satori 约束的 Vue 模板
+    ✅ 提供默认配置 JSON
+    ✅ 创建预设码：102
+你：🎉 立即可用！https://imgx.zzao.club/102/你的标题
+```
 
-`styleProps` 指的是样式，在 `GET` 请求中以 `query` 形式进行传递，如上边的 `?titleSize=60`
+### 🎨 可视化模板编辑器
+- Vue 3 组件式模板，所见即所得
+- 实时预览，即时调整
+- AI 生成 + 人工微调的混合工作流
 
-GET 请求中包含的 props，会和预设中保存的 props 合并，所以，即使你的预设中包含很多文字，但可能需要动态改变的文字没有那么多，只需要把不需要改的文字排序放在最后，然后在 GET 请求时只传入动态的内容即可。
+### 📦 预设系统
+- 创建可复用的配置预设
+- 3-4 位预设码，简单易记
+- 一次创建，无限复用（这就是成本优势所在）
 
-在 `POST` 请求中只需要正常在 Body 中按 JSON 格式来传值。
+### 🎭 Emoji & 图标支持
+- 内置 Twemoji 图标库（10,000+ 图标）
+- 支持 SVG 图标
+- 动态图标参数传递
 
-所以 `GET` 请求具有局限性，如果你的模板的内容有一个 `props` 要求是**数组**，则需要在 `propsSchema` 中指明分隔符，对应的，在使用者发出 GET请求时，要按照你设置的分隔符进行分割。
+### ⚡️ 高性能
+- 基于 Satori 的 SVG 渲染（不依赖浏览器，纯计算）
+- 服务端缓存机制
+- ETag 支持浏览器缓存
+- 响应速度 < 100ms
 
-所以 GET 请求看起来很繁琐，局限性很大，但 GET 请求的玩法要比 POST 多的多（我觉得）。
+### 🔧 灵活的 API
+- RESTful GET/POST 接口
+- 参数化内容控制
+- 样式实时覆盖
+- 支持批量生成
 
-比如自己生成一些 SVG 小图标，装饰 Github 主页，装饰笔记 App 的内容，装饰个人网站等等
+## 🖼️ 模板展示
 
-那要如何创建 template 呢，一个一个的写未免有些太麻烦，所以我测试了两套 `AI 提示词`
+### 预设 102 - 微信公众号封面（动态图标）
 
-一个是提供一个图片，让 AI 用 Vue3组件 仿写
-一个是提供描述，让 AI 自己生成美观的图片
+<table>
+<tr>
+<td width="50%">
 
-这样就可以大大提高模板的制作效率，降低制作门槛了，当然如果自己具备调试模板的能力，还是要更方便一些。
+**默认效果**
 
-制作这个工具的初衷，只是为了满足常用的文字生成图片场景，所以一般情况下每个人、每个场景有一个常用的预设就足够了。
+![预设 102 默认](https://imgx.zzao.club/102/default)
 
-其他的边做边看吧
+</td>
+<td width="50%">
 
-## 开发规划
+**自定义效果**
 
-### 当前版本
-- [x] 自定义模板
-- [x] 自定义预设
-- [x] GET、POST API 支持
-- [x] 支持免费字体: 优设标体黑、抖音美好体
+![预设 102 自定义](https://imgx.zzao.club/102/twemoji:fire/twemoji:rocket/IMGX~让图片生成~更简单)
 
-### 0.5.0
-- [x] 每行文字不同颜色
-- [x] 每行文字不同对齐方式
-- [x] 每行强调文字不同颜色
+</td>
+</tr>
+</table>
 
-### 0.6.0
-- [x] 模板管理系统
-- [x] 预设码机制
+```bash
+# 默认样式
+https://imgx.zzao.club/102/default
 
-### 0.7.0 [规划]
-- [ ] 丰富使用场景：Github、笔记 App、自定义小图标、头像等
-- [ ] 丰富模板和预设
-- [ ] 私有化部署流程，完全本地化
-- [ ] 完善模板缓存机制、预设缓存机制、图片存储机制
+# 自定义图标和文字
+https://imgx.zzao.club/102/{左上图标}/{右下图标}/{文字内容}
+```
 
-### 0.8.0 [规划]
-- [ ] Docker
-- [ ] NAS
-- [ ] 客户端
-- [ ] 图片服务 IPX (自带图片压缩、剪裁)
+### 预设 101 - 微信公众号封面（固定装饰）
 
-### 0.9.0
-- [ ] 代码优化
-- [ ] 功能完善
+<table>
+<tr>
+<td width="50%">
 
-### 1.0.0
-- [ ] 发布稳定版
+**默认效果**
 
+![预设 101 默认](https://imgx.zzao.club/101/default)
 
-## 新模板、功能建议、围观
-发邮件给我：gnakzz@qq.com
+</td>
+<td width="50%">
 
-添加微信好友 (请备注 IMGX)：
+**自定义效果**
 
-![](https://img.zzao.club/article/202412301618241.jpg)
+![预设 101 自定义](https://imgx.zzao.club/101/2025年度~技术总结)
 
+</td>
+</tr>
+</table>
 
-## 致谢
+```bash
+# 默认样式
+https://imgx.zzao.club/101/default
 
-- [v-satori](https://github.com/wobsoriano/v-satori)
+# 自定义文字（使用 ~ 标记高亮部分）
+https://imgx.zzao.club/101/2025年度~技术总结
+```
 
-## MIT
+### 预设 006 - 简洁标题卡片
 
-[LICENSE](./LICENSE)
+![预设 006](https://imgx.zzao.club/006/IMGX~让创作~更自由)
+
+```bash
+https://imgx.zzao.club/006/IMGX~让创作~更自由
+```
+
+## 📖 API 使用
+
+### GET 请求模式
+
+**格式：** `https://imgx.zzao.club/{预设码}/{动态内容}?{样式参数}`
+
+**参数说明：**
+- `预设码`：3-4 位数字，对应特定模板和默认样式
+- `动态内容`：路径参数，按预设的 `contentKeys` 顺序传递
+- `样式参数`：query 参数，覆盖预设的默认样式
+
+**示例：**
+
+```bash
+# 基础使用
+GET /102/default
+
+# 单个内容参数
+GET /006/欢迎使用~IMGX
+
+# 多个内容参数
+GET /102/😊/🎉/文字内容
+
+# 带样式覆盖
+GET /006/标题文字?fontSizes[]=100px&colors[]=FF0000
+```
+
+### POST 请求模式
+
+**端点：** `POST https://imgx.zzao.club/`
+
+**请求体：**
+
+```json
+{
+  "preset": "102",
+  "content": {
+    "topLeftIcon": "twemoji:beaming-face-with-smiling-eyes",
+    "bottomRightIcon": "twemoji:rocket", 
+    "text": "IMGX~快速生成~封面图"
+  },
+  "style": {
+    "fontSizes": ["120px"],
+    "colors": ["#FFFFFF"]
+  }
+}
+```
+
+### 文字高亮语法
+
+使用 `~` 符号标记需要高亮显示的文字：
+
+```bash
+# 原始文字
+IMGX 快速生成 封面图
+
+# 高亮"快速生成"部分
+IMGX~快速生成~封面图
+
+# 最终显示：IMGX 快速生成（金色） 封面图
+```
+
+## 🛠️ 技术栈
+
+### 核心技术
+
+- **框架：** [Nuxt 4](https://nuxt.com) - 现代化全栈框架
+- **渲染：** [Satori](https://github.com/vercel/satori) - HTML/CSS 转 SVG（不依赖浏览器）
+- **转换：** [Resvg](https://github.com/yisibl/resvg-js) - SVG 转 PNG（纯 Rust，高性能）
+- **UI：** Vue 3 + Tailwind CSS + shadcn-vue
+- **字体：** 优设标体黑、抖音美好体（免费商用）
+- **图标：** Twemoji、Iconify（10,000+ 图标）
+
+### 🤖 AI 加持
+
+- **模板生成：** 借助 `imgx-template-generator` Skill
+  - 输入：参考图片或文字描述
+  - 输出：符合 Satori 约束的 Vue 模板代码
+  - 优势：一次生成，无限复用；成本远低于 DALL-E/Midjourney
+
+**技术对比：**
+
+| 方案 | 成本 | 速度 | 可控性 | 适用场景 |
+|------|------|------|--------|---------|
+| **IMGX (模板)** | 一次性 | 毫秒级 | ⭐⭐⭐⭐⭐ | 标题卡片、封面图、徽章 |
+| **Midjourney** | 订阅制 | 秒级 | ⭐⭐ | 艺术创作、概念图 |
+| **DALL-E 3** | 按次付费 | 秒级 | ⭐⭐⭐ | 通用图片生成 |
+| **Stable Diffusion** | GPU 成本 | 秒级 | ⭐⭐⭐⭐ | 可控图片生成 |
+
+## 🎨 可用模板
+
+| 模板代码 | 模板名称 | 尺寸 | 适用场景 |
+|---------|---------|------|---------|
+| `WeChatCover` | 微信公众号封面 | 1200×510 | 公众号文章 |
+| `CleanTitle` | 简洁标题卡片 | 1200×510 | 文章封面、社交分享 |
+| `MacFolder` | Mac 文件夹风格 | 自定义 | 创意设计 |
+| `ArticleCover` | 文章封面通用 | 自定义 | 博客文章 |
+| `Base` | 基础模板 | 自定义 | 快速原型 |
+
+## 📋 开发路线
+
+### ✅ 已完成 (v0.8.3)
+
+- [x] 可视化模板编辑器
+- [x] 预设管理系统
+- [x] GET/POST API 支持
+- [x] Emoji 和图标支持
+- [x] 高亮文字语法
+- [x] 多字体支持
+- [x] 服务端缓存
+
+### 🚧 进行中 (v0.9.x)
+
+- [ ] Docker 容器化部署
+- [ ] 模板市场
+- [ ] 批量生成 API
+- [ ] Webhook 支持
+
+### 🔮 规划中 (v1.0)
+
+- [ ] 私有化部署文档
+- [ ] 图片处理管道（压缩、裁剪）
+- [ ] 桌面客户端
+- [ ] NAS 存储支持
+
+## 🧠 工作原理：AI 生产模板 vs AI 生成图片
+
+### 传统 AI 生图流程（按需生成）
+
+```mermaid
+用户需求 → Prompt 工程 → 调用 API → 等待渲染 → 获得图片
+   ↓
+每次都要花钱、花时间、结果不确定
+```
+
+### IMGX 流程（模板复用）
+
+```mermaid
+设计需求 → AI Skill 生成模板 → 保存为预设 → URL 参数化调用
+   ↓                             ↓
+一次性成本                     无限次免费使用
+```
+
+**关键差异：**
+
+1. **成本结构不同**
+   - 传统 AI 生图：每次 $0.02-0.1（累积成本）
+   - IMGX：模板创建一次性成本 + 无限次零成本使用
+
+2. **适用场景不同**
+   - 传统 AI 生图：需要创意、艺术性、多样性的场景
+   - IMGX：需要稳定、可控、批量生成的场景
+
+3. **生产力提升方式不同**
+   - 传统 AI 生图：降低单张图片制作难度
+   - IMGX：降低模板制作难度，然后批量复用
+
+### 💎 AI Skill 的价值
+
+**问题：** 写符合 Satori 约束的 Vue 模板很繁琐（必须用 Flexbox、不能用某些 CSS 属性）
+
+**解决：** `imgx-template-generator` Skill 可以：
+- 📷 根据参考图片反向生成模板代码
+- 📝 根据文字描述创建符合规范的模板
+- ✅ 自动处理 Satori 的各种限制和约束
+- 🎨 生成美观且可用的样式方案
+
+**示例：**
+
+```bash
+# 输入给 AI Skill
+"生成一个微信公众号封面模板，渐变紫色背景，白色标题，支持左上和右下角图标装饰"
+
+# AI Skill 输出
+✅ 完整的 Vue 模板代码（符合 Satori 约束）
+✅ 默认样式配置 JSON
+✅ 参数说明文档
+
+# 你获得
+🎯 可立即使用的预设
+🎯 可通过 URL 无限次调用
+🎯 总成本 ≈ 一次 GPT-4 对话
+```
+
+## 🤝 使用场景
+
+- 📱 **公众号文章封面** - 快速生成符合规格的封面图
+- 📝 **博客文章配图** - Markdown 友好的图片 URL
+- 🎨 **社交媒体分享** - 动态生成分享卡片
+- 🏷️ **徽章和标签** - GitHub Profile 装饰元素
+- 📊 **数据可视化标注** - 为图表添加标题卡片
+
+## 💡 高级玩法
+
+### 1. Markdown 中的动态图片
+
+```markdown
+![封面](https://imgx.zzao.club/006/你的文章标题~关键词~更多内容)
+```
+
+### 2. GitHub Profile 装饰
+
+```markdown
+![](https://imgx.zzao.club/102/twemoji:fire/twemoji:rocket/Hello~World)
+```
+
+### 3. 批量生成（结合脚本）
+
+```javascript
+const titles = ['标题1', '标题2', '标题3']
+const images = titles.map(t => 
+  `https://imgx.zzao.club/006/${encodeURIComponent(t)}`
+)
+```
+
+## 🏗️ 本地开发
+
+```bash
+# 克隆项目
+git clone https://github.com/aatrooox/imgx.git
+cd imgx
+
+# 安装依赖（需要 pnpm）
+pnpm install
+
+# 启动开发服务器
+pnpm dev
+
+# 构建生产版本
+pnpm build
+```
+
+## 📦 部署指南
+
+### 1. Node.js 环境
+
+```bash
+# 构建
+pnpm build
+
+# 启动
+node .output/server/index.mjs
+```
+
+### 2. Docker（开发中）
+
+```bash
+docker build -t imgx .
+docker run -p 3000:3000 imgx
+```
+
+## 🙏 致谢
+
+- [Satori](https://github.com/vercel/satori) - 强大的 HTML/CSS 转 SVG 引擎
+- [v-satori](https://github.com/wobsoriano/v-satori) - Vue 3 + Satori 集成
+- [Nuxt](https://nuxt.com) - 现代化全栈框架
+- [Resvg](https://github.com/yisibl/resvg-js) - 高质量 SVG 转图片
+
+## 📬 联系我们
+
+有新模板建议、功能需求或想围观开发进度？
+
+**邮箱：** gnakzz@qq.com
+
+**微信：** 请备注 IMGX
+
+<div align="center">
+  <img src="https://img.zzao.club/article/202412301618241.jpg" width="200" alt="微信二维码" />
+</div>
+
+---
+
+<div align="center">
+
+## 📄 License
+
+[MIT License](./LICENSE)
+
+**Made with ❤️ by [aatrooox](https://zzao.club)**
+
+如果这个项目对你有帮助，欢迎 ⭐️ Star 支持一下！
+
+</div>
