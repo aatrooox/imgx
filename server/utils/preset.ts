@@ -34,14 +34,12 @@ export async function loadPresets(): Promise<Record<string, Preset>> {
     for (const key of keys) {
       console.log('[loadPresets] Processing key:', key)
       if (key.endsWith('.json')) {
-        const content = await storage.getItem(key)
-        console.log('[loadPresets] Content for', key, ':', content ? 'exists' : 'null')
-        if (content) {
-          const preset = JSON.parse(content as string) as Preset
-          console.log('[loadPresets] Parsed preset:', preset.code, '-', preset.name)
-          if (preset.code) {
-            presetsCache[preset.code] = preset
-          }
+        // getItem() auto-parses JSON files, no need for JSON.parse()
+        const preset = await storage.getItem<Preset>(key)
+        console.log('[loadPresets] Content for', key, ':', preset ? 'exists' : 'null')
+        if (preset && preset.code) {
+          console.log('[loadPresets] Loaded preset:', preset.code, '-', preset.name)
+          presetsCache[preset.code] = preset
         }
       } else {
         console.log('[loadPresets] Skipping non-json key:', key)
