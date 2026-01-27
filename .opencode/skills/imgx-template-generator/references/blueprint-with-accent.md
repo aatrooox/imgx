@@ -74,8 +74,9 @@ const templateStrings: Record<string, string> = {
 
 ```json
 {
-  "code": "007",
-  "name": "Accent Template",
+  "code": "101",
+  "name": "Article Cover - Accent Title",
+  "description": "文章封面，短标题（10字以内），高亮关键词",
   "size": {
     "width": 1200,
     "height": 510
@@ -97,8 +98,8 @@ const templateStrings: Record<string, string> = {
     "textWrapBgColor": "transparent",
     "textWrapPadding": "0px",
     "colors": ["#000000"],
-    "accentColors": ["#4CAF50"],        // ← 关键：强调色
-    "fontSizes": ["64px"],
+    "accentColors": ["#4CAF50"],
+    "fontSizes": ["120px"],
     "aligns": ["justify-center"],
     "verticalAligns": ["center"],
     "fontFamily": "YouSheBiaoTiHei",
@@ -107,13 +108,45 @@ const templateStrings: Record<string, string> = {
 }
 ```
 
+---
+
+## 📏 字号选择指南
+
+根据**实际测试**，文章封面（2.35:1）字号建议：
+
+| 文字字数 | 推荐字号 | 示例 |
+|---------|---------|------|
+| **1-6字** | `140-160px` | "使用AI"、"开源之道" |
+| **7-10字** | `100-120px` | "能力强的人用AI更强" |
+| **11-15字** | `80-100px` | "深入理解Vue3组合式API" |
+| **16-25字** | `60-80px` | "2024年前端开发趋势与最佳实践" |
+| **26字以上** | `48-60px` | 多行长文本 |
+
+### ⚠️ 重要原则
+
+1. **文章封面以纯文字为主**，图标仅作点缀
+2. **字号应该填满画面**，避免大量空白
+3. **标题越短，字号越大**
+4. 宽度 1200px 时，字号建议范围：`1200 / 字数 × (0.8~1.2)`
+
+### 示例对比
+
+| 文字 | 字号 | 效果 |
+|-----|------|------|
+| ❌ 10字 + 64px | 太小 | 画面空旷，文字太小 |
+| ✅ 10字 + 120px | **推荐** | 画面饱满，视觉冲击力强 |
+| ✅ 5字 + 150px | **推荐** | 超大标题，醒目 |
+| ⚠️ 20字 + 120px | 过大 | 文字可能溢出或拥挤 |
+
+---
+
 ### 关键字段说明
 
 | 字段 | 作用 | 示例值 |
 |------|------|--------|
-| `accentColors` | **强调文本的颜色** | `["#4CAF50", "#FF5722"]` |
+| `accentColors` | **强调文本的背景色** | `["#4CAF50", "#FF5722"]` |
 | `colors` | 普通文本的颜色 | `["#000000"]` |
-| `fontSizes` | 文字大小 | `["64px"]` |
+| `fontSizes` | 文字大小 | `["120px"]` (10字以内短标题) |
 
 ---
 
@@ -280,10 +313,29 @@ Error: <span> must have display: flex
 
 ---
 
+### ❌ 陷阱 4: 字号设置过小
+
+```json
+{
+  "fontSizes": ["64px"]  // ❌ 10字以内的标题太小了
+}
+```
+
+**后果：** 画面空旷，文字不够醒目
+
+**解决：**
+```json
+{
+  "fontSizes": ["120px"]  // ✅ 10字以内短标题
+}
+```
+
+---
+
 ## 🧪 测试 URL
 
 ```
-http://localhost:4573/007/能力强的人用*AI*更强
+http://localhost:4573/101/能力强的人用*AI*更强
                           ^^^^^^^^  ^^ ^^^^
                           普通文本 强调 普通文本
 ```
@@ -297,7 +349,7 @@ http://localhost:4573/007/能力强的人用*AI*更强
 ### 多行测试
 
 ```
-http://localhost:4573/007/第一行/第二行有*强调*词/第三行
+http://localhost:4573/101/第一行/第二行有*强调*词/第三行
 ```
 
 **预期效果：**
@@ -321,14 +373,17 @@ http://localhost:4573/007/第一行/第二行有*强调*词/第三行
 
 - [ ] `template` 字段指向正确的模板 key
 - [ ] `styleProps` 包含 `accentColors` 字段
-- [ ] `styleProps` 包含所有 12 个必需字段
+- [ ] `styleProps` 包含所有必需字段
 - [ ] `contentProps.content` 提供示例（包含 accent 类型）
+- [ ] `fontSizes` 根据文字字数设置合理（参考字号选择指南）
+- [ ] `code` 使用新命名规范（文章封面用 1xx）
 
 ### 功能测试
 
 - [ ] 访问 `/{code}/*text*` 正常显示强调效果
 - [ ] 强调文本样式符合预期（背景/颜色/边框）
 - [ ] 多行混合内容正确渲染
+- [ ] 字号填满画面，无大量空白
 - [ ] 无 Vue 警告
 - [ ] 无 Satori 错误
 
@@ -340,6 +395,7 @@ http://localhost:4573/007/第一行/第二行有*强调*词/第三行
 - [Satori 约束](satori-constraints.md) - 确认样式属性支持
 - [常见模式](patterns.md) - 更多强调样式变体
 - [故障排除](troubleshooting.md) - 解决 Vue 警告问题
+- [Preset 命名规范](preset-naming-convention.md) - 了解 1xx/2xx/3xx 分类体系
 
 ---
 

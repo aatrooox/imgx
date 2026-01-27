@@ -85,6 +85,15 @@ ls presets/*.json | sort
 
 # 2. 创建 preset 文件
 # presets/[code].json
+
+**📋 Preset 命名规范**：参考 [preset-naming-convention.md](references/preset-naming-convention.md)
+
+- 文章封面（2.35:1）→ `1xx` (如 `101.json`)
+- 小红书（3:4）→ `2xx` (如 `201.json`)
+- 视频封面（16:9）→ `3xx` (如 `301.json`)
+- 方形（1:1）→ `4xx` (如 `401.json`)
+- OG 分享（1.91:1）→ `5xx` (如 `501.json`)
+
 ```
 
 ```json
