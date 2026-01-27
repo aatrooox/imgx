@@ -1,455 +1,398 @@
----
-name: imgx-template-generator
-description: 生成符合 Satori 渲染约束的 IMGX Vue 模板，将文本转换为精美的卡片图片
----
+# IMGX Template Generator Skill
 
-# IMGX 模板生成器
+## 技能描述
 
-Description: 生成符合 Satori 渲染约束的 IMGX Vue 模板，将文本转换为精美的卡片图片
+生成符合 Satori 渲染约束的 IMGX 模板，将文本转换为精美的卡片图片。
 
-## Role
-你是**模板架构师**，专门生成符合 Satori 渲染约束的 Vue 3 组件。你强制执行**图片优先工作流**——用户必须在生成任何模板之前提供参考设计。
+## ⚠️ 重要架构说明
 
-## Capabilities
-- 分析设计图片，提取布局、颜色、间距和排版信息
-- 生成符合 Satori 的 Vue 模板，使用 `componentBaseProps` 模式
-- 区分内容属性（文本）和样式属性（颜色/尺寸）
-- 创建预设 JSON 文件，包含合理的默认值
-- 注册模板到 `lib/template.ts` 并生成预设码
+### 1. 模板字符串是唯一的真相源
 
-## ⚠️ 尺寸规格表（强制约束）
+**IMGX 项目只使用模板字符串（template strings）来生成图片**：
 
-**这是硬性规定，不可自由发挥。生成模板前必须查表。**
+- ✅ **实际使用**: `server/templates/[Name].ts` - 导出模板字符串常量
+- ✅ **实际使用**: `server/utils/image.ts` - 注册模板到 `templateStrings` 对象
+- ✅ **实际使用**: `presets/[code].json` - 配置默认属性
 
-### COVER - 文章封面（公众号/博客）
-```yaml
-尺寸: 1200 × 630
-比例: 1.9:1
+**为什么只用模板字符串？**
+- Satori 库只能接受纯字符串，无法导入 `.vue` 文件
+- 渲染流程：模板字符串 → Satori 转 SVG → Resvg 转 PNG
 
-字号:
-  标题: 64px (最大72px，最小56px)
-  副标题: 28px (最大32px，最小24px)
-  正文/作者: 20px (最大24px，最小18px)
+### 2. 历史遗留代码（已废弃，不使用）
 
-间距:
-  外层padding: 60px
-  卡片内padding: 48px
-  标题下间距: 20px
-  副标题下间距: 16px
-  行间距: 12px
+以下文件/目录是历史遗留物，**在实际渲染中不被使用**：
 
-边框/圆角:
-  外层圆角: 0 (全画布)
-  卡片圆角: 20px
-  卡片边框: 4px solid
+- ❌ `components/template/*.vue` - Vue 组件文件（未使用）
+- ❌ `lib/template.ts` - 模板注册代码（未使用）
+
+**不要创建或修改这些文件** - 它们会导致混淆且不会影响实际功能。
+
+### 3. 正确的模板创建流程
+
+```
+1. 创建 server/templates/[Name].ts
+   ↓
+2. 在 server/utils/image.ts 中导入并注册
+   ↓
+3. 创建 presets/[code].json 配置
+   ↓
+4. 测试 http://localhost:4573/[code]/[content]
 ```
 
-### XHS_VERTICAL - 小红书竖版
-```yaml
-尺寸: 1080 × 1440
-比例: 3:4
-
-字号:
-  标题: 80px (最大96px，最小72px)
-  副标题: 36px (最大40px，最小32px)
-  正文: 28px (最大32px，最小24px)
-
-间距:
-  外层padding: 48px
-  卡片内padding: 64px
-  标题下间距: 28px
-  副标题下间距: 20px
-  行间距: 16px
-
-边框/圆角:
-  卡片圆角: 24px
-  卡片边框: 5px solid
-```
-
-### XHS_SQUARE - 小红书方图
-```yaml
-尺寸: 1080 × 1080
-比例: 1:1
-
-字号:
-  标题: 72px (最大80px，最小64px)
-  副标题: 32px (最大36px，最小28px)
-  正文: 24px (最大28px，最小20px)
-
-间距:
-  外层padding: 48px
-  卡片内padding: 56px
-  标题下间距: 24px
-  副标题下间距: 16px
-  行间距: 14px
-
-边框/圆角:
-  卡片圆角: 24px
-  卡片边框: 4px solid
-```
-
-### OG_IMAGE - Open Graph / Twitter Card
-```yaml
-尺寸: 1200 × 630
-比例: 1.9:1
-
-# 与 COVER 相同规格
-字号:
-  标题: 64px
-  副标题: 28px
-  正文/作者: 20px
-
-间距:
-  外层padding: 60px
-  卡片内padding: 48px
-```
-
-### 超长标题处理策略
-
-**当标题字数超过限制时，按以下规则缩小字号：**
-
-| 字数范围 | 字号调整 | 示例 |
-|---------|---------|------|
-| ≤15字 | 使用规格表标准值 | 64px (COVER) |
-| 16-25字 | 缩小 10% | 64px → 58px |
-| >25字 | 缩小 20% | 64px → 51px |
+**仅需 3 个文件即可完成模板创建**。
 
 ---
 
-## 📐 字号计算公式（备用验证）
+## 核心知识
 
-当规格表未覆盖时，使用此公式计算：
+### Satori 库约束
 
-```javascript
-// 基准边 = 较小的边
-const baseSize = Math.min(width, height)
+#### 必须做到
 
-// 字号计算
-const titleSize = Math.round(baseSize / 9)      // 约 11%
-const subtitleSize = Math.round(baseSize / 20)  // 约 5%
-const bodySize = Math.round(baseSize / 26)      // 约 4%
+1. **每个 `<div>` 必须有 `display: flex`**
+   ```html
+   <div class="flex">内容</div>
+   ```
 
-// 间距计算
-const outerPadding = Math.round(baseSize * 0.05)  // 5%
-const innerPadding = Math.round(baseSize * 0.04)  // 4%
-const titleGap = Math.round(titleSize * 0.3)      // 标题字号的30%
-const textGap = Math.round(bodySize * 0.5)        // 正文字号的50%
+2. **根元素必须占满容器**
+   ```html
+   <div class="w-full h-full flex">...</div>
+   ```
 
-// 圆角/边框
-const borderRadius = Math.round(baseSize * 0.02)  // 2%
-const borderWidth = Math.max(3, Math.round(baseSize * 0.004)) // 0.4%, 最小3px
+3. **使用 Tailwind CSS 类名 + 内联样式**
+   ```html
+   <div class="flex" :style="{color: colors[0]}">文本</div>
+   ```
+
+4. **模板字符串中的插值使用 `\${variable}`**
+   ```typescript
+   export const MyTemplate = `<div class="flex">\${content}</div>`
+   ```
+
+#### 不能使用
+
+- ❌ `box-shadow` (改用 `filter: drop-shadow()` - 也不支持)
+- ❌ `transform`, `filter`, `animations`
+- ❌ 外部图片（只能用 base64 dataURL）
+- ❌ 嵌套 Vue 组件
+- ❌ `z-index`（通过 DOM 顺序控制层级）
+
+---
+
+## Props 系统
+
+### 必需属性接口
+
+每个模板必须支持 `componentBaseProps`：
+
+```typescript
+interface componentBaseProps {
+  content: ParsedContent          // 必需 - 解析后的内容
+  bgColor?: string | null         // 背景颜色
+  bgImage?: string | null         // 背景图片（渐变/dataURL）
+  textWrapBgColor?: string        // 文字包裹背景色
+  textWrapPadding?: string        // 文字包裹内边距
+  colors?: string[]               // 文本颜色数组
+  accentColors?: string[]         // 强调色数组
+  aligns?: string[]               // 水平对齐（Tailwind 类名）
+  verticalAligns?: string[]       // 垂直对齐
+  fontSizes?: string[]            // 字体大小
+  iconSizes?: number[]            // 图标大小
+  fontFamily?: string             // 字体族
+  padding?: string                // 容器内边距
+  textWrapShadow?: string         // 文字阴影
+  textWrapRounded?: string        // 文字圆角
+}
 ```
 
-**示例验证**：
-- 1200×630: titleSize = 630/9 = 70px ✓ (规格表64-72px)
-- 1080×1080: titleSize = 1080/9 = 120px → 实际规格表72px (方图字号相对较小)
+### Content 数据结构
 
-⚠️ **公式仅用于验证，优先使用规格表的硬性数值。**
+```typescript
+type ParsedContent = LinePart[][]
 
-
-
-## 🎨 布局蓝图（参考微调）
-
-**生成模板时，必须选择一个蓝图作为基础。AI 可微调对齐方式、颜色、间距等细节，但不可改变整体结构。**
-
-### 蓝图A: 居中卡片（推荐默认）
-
-适用场景：文章封面、OG Image
-
-```
-┌────────────────────────────────────────┐
-│              外层背景                    │
-│    ┌──────────────────────────────┐    │
-│    │                              │    │
-│    │          [标题]              │    │
-│    │          [副标题]            │    │
-│    │                              │    │
-│    │      [正文/作者] (可选)       │    │
-│    │                              │    │
-│    └──────────────────────────────┘    │
-│                                        │
-└────────────────────────────────────────┘
-
-结构:
-- 外层: 全画布背景色/渐变
-- 内层卡片: 白色/浅色背景 + 边框 + 圆角
-- 内容: 垂直居中，水平居中
-- 文字层级: 最多3层（标题/副标题/署名）
+interface LinePart {
+  text: string
+  type: 'text' | 'accent' | 'icon'
+  icon?: string  // 仅当 type='icon' 时存在
+}
 ```
 
-**Vue 结构模板**：
-```vue
-<div class="w-full h-full flex items-center justify-center"
-  :style="{ backgroundColor: bgColor, padding: '60px' }">
-  <div class="flex flex-col items-center justify-center w-full h-full"
-    :style="{ 
-      backgroundColor: cardBgColor, 
-      borderRadius: '20px',
-      border: '4px solid ' + borderColor,
-      padding: '48px'
-    }">
-    <!-- 标题 -->
-    <div class="flex" :style="{ fontSize: '64px', color: titleColor, marginBottom: '20px' }">
-      {{ title }}
-    </div>
-    <!-- 副标题 -->
-    <div class="flex" :style="{ fontSize: '28px', color: subtitleColor }">
-      {{ subtitle }}
-    </div>
+**示例**：
+```typescript
+// URL: /006/能力强的人用*AI*更强
+// 解析为：
+[
+  [
+    {text: "能力强的人用", type: "text"},
+    {text: "AI", type: "accent"},
+    {text: "更强", type: "text"}
+  ]
+]
+```
+
+**Accent 语法**：
+- `*text*` → 强调文本（使用 `accentColors`）
+- `:icon_name:` → 图标（使用 iconSizes）
+
+---
+
+## 生成步骤
+
+### Step 1: 理解需求
+
+从用户输入中提取：
+
+1. **视觉风格**：颜色、布局、排版
+2. **功能需求**：支持多行、图标、强调文本
+3. **参考图片**（如有）：分析配色、间距、字体大小
+
+**关键问题**：
+- 背景用什么颜色/渐变？
+- 文字用什么颜色和大小？
+- 强调文本如何高亮（颜色/背景/边框）？
+- 布局是居中/左对齐/右对齐？
+- 是否需要图标支持？
+
+### Step 2: 选择 Preset Code
+
+**命名规则**：
+- `00X` 系列：通用模板（001=Base, 002=ArticleCover）
+- `MacFolder`：特殊命名模板
+
+**下一个可用编号**：检查 `presets/` 目录
+
+```bash
+ls presets/*.json | sort
+# 示例输出：001.json, 002.json, 005.json, 006.json
+# 下一个可用：003 或 004 或 007
+```
+
+### Step 3: 生成模板文件
+
+#### 3.1 创建 `server/templates/[Name].ts`
+
+**文件格式**：
+```typescript
+// server/templates/CleanTitle.ts
+export const CleanTitleTemplate = `<div class="w-full h-full flex flex-col items-center justify-center" :style="{
+  backgroundColor: bgColor,
+  backgroundImage: bgImage,
+  padding: padding,
+  fontFamily: fontFamily
+}">
+  <div 
+    v-for="(line, lineIndex) in content" 
+    :key="lineIndex"
+    class="flex flex-wrap items-center"
+    :class="aligns[lineIndex % aligns.length]"
+  >
+    <template v-for="(part, partIndex) in line" :key="partIndex">
+      <span 
+        v-if="part.type === 'text'"
+        :style="{
+          color: colors[lineIndex % colors.length],
+          fontSize: fontSizes[lineIndex % fontSizes.length],
+          fontWeight: 'bold'
+        }"
+      >{{ part.text }}</span>
+      
+      <span 
+        v-else-if="part.type === 'accent'"
+        class="flex"
+        :style="{
+          color: '#ffffff',
+          backgroundColor: accentColors[lineIndex % accentColors.length],
+          fontSize: fontSizes[lineIndex % fontSizes.length],
+          fontWeight: 'bold',
+          padding: '8px 16px',
+          borderRadius: '8px'
+        }"
+      >{{ part.text }}</span>
+    </template>
+  </div>
+</div>`
+```
+
+**模板编写清单**：
+- [ ] 根 div 包含 `w-full h-full flex`
+- [ ] 所有 div 都有 `class="flex"`
+- [ ] 使用 `:style` 绑定动态样式
+- [ ] 用 `v-for` 遍历 content（支持多行）
+- [ ] 区分 `part.type === 'text'` 和 `part.type === 'accent'`
+- [ ] 使用数组索引模运算循环应用样式
+- [ ] 插值使用 `\${variable}` 格式
+- [ ] 避免使用 Satori 不支持的 CSS 属性
+
+#### 3.2 更新 `server/utils/image.ts`
+
+**添加导入**：
+```typescript
+// 在文件顶部添加
+import { CleanTitleTemplate } from '../templates/CleanTitle'
+```
+
+**注册模板**：
+```typescript
+// 在 templateStrings 对象中添加
+const templateStrings: Record<string, string> = {
+  'Base': BaseTemplate,
+  '001': BaseTemplate,
+  'ArticleCover': ArticleCoverTemplate,
+  'MacFolder': MacFolderTemplate,
+  'CleanTitle': CleanTitleTemplate,  // ← 新增
+}
+```
+
+**注意**：
+- 导入的常量名必须与导出的名字一致
+- 对象 key 可以是 preset code 或模板名
+- 同一个模板可以有多个 key（如 '001' 和 'Base' 都指向 BaseTemplate）
+
+#### 3.3 创建 `presets/[code].json`
+
+**完整示例**：
+```json
+{
+  "code": "006",
+  "name": "Clean Title",
+  "size": {
+    "width": 1200,
+    "height": 510
+  },
+  "ratio": "2.35:1",
+  "template": "CleanTitle",
+  "contentProps": {
+    "content": [
+      [
+        { "text": "能力强的人用", "type": "text" },
+        { "text": "AI", "type": "accent" },
+        { "text": "更强", "type": "text" }
+      ]
+    ]
+  },
+  "styleProps": {
+    "bgColor": "#FFF8DC",
+    "bgImage": "linear-gradient(to right, transparent, transparent)",
+    "textWrapBgColor": "transparent",
+    "textWrapPadding": "0px",
+    "colors": ["#000000"],
+    "accentColors": ["#4CAF50"],
+    "fontSizes": ["64px"],
+    "aligns": ["justify-center"],
+    "verticalAligns": ["center"],
+    "fontFamily": "YouSheBiaoTiHei",
+    "padding": "60px"
+  }
+}
+```
+
+**Preset 文件清单**：
+- [ ] `code` 与文件名一致（如 006.json → "code": "006"）
+- [ ] `template` 指向 `server/utils/image.ts` 中的 key
+- [ ] `size` 定义图片尺寸
+- [ ] `ratio` 描述宽高比（非功能性，仅标注）
+- [ ] `contentProps.content` 提供默认内容示例
+- [ ] `styleProps` **必须包含所有必需字段**（见下方列表）
+
+**必需的 styleProps 字段**：
+```json
+{
+  "bgColor": "#FFFFFF",
+  "bgImage": "linear-gradient(...)",
+  "textWrapBgColor": "transparent",
+  "textWrapPadding": "0px",
+  "colors": ["#000000"],
+  "accentColors": ["#FF0000"],
+  "fontSizes": ["48px"],
+  "aligns": ["justify-center"],
+  "verticalAligns": ["center"],
+  "fontFamily": "YouSheBiaoTiHei",
+  "padding": "40px"
+}
+```
+
+**缺少任何字段会导致 Vue 警告**：
+```
+[Vue warn]: Property "textWrapPadding" was accessed during render but is not defined on instance.
+```
+
+---
+
+## 常见模式
+
+### 多行文本布局
+
+```html
+<div class="w-full h-full flex flex-col items-center justify-center">
+  <div 
+    v-for="(line, lineIndex) in content" 
+    :key="lineIndex"
+    class="flex flex-wrap"
+    :class="aligns[lineIndex % aligns.length]"
+  >
+    <!-- 行内内容 -->
   </div>
 </div>
 ```
 
-### 蓝图B: 顶对齐列表卡片
+### 文本 + Accent 混合
 
-适用场景：小红书竖版、知识卡片
-
-```
-┌────────────────────────────────────────┐
-│              外层背景                    │
-│    ┌──────────────────────────────┐    │
-│    │ [标题]                        │    │
-│    │ [副标题]                      │    │
-│    │ ─────────────────────────    │    │
-│    │ • [列表项1]                   │    │
-│    │ • [列表项2]                   │    │
-│    │ • [列表项3]                   │    │
-│    │                              │    │
-│    │                     [署名]   │    │
-│    └──────────────────────────────┘    │
-│                                        │
-└────────────────────────────────────────┘
-
-结构:
-- 内容顶对齐
-- 标题和副标题在顶部
-- 中间为列表项（带圆点标记）
-- 底部可选署名/水印
+```html
+<template v-for="(part, partIndex) in line" :key="partIndex">
+  <span v-if="part.type === 'text'" :style="{color: colors[0]}">
+    {{ part.text }}
+  </span>
+  <span v-else-if="part.type === 'accent'" :style="{color: accentColors[0]}">
+    {{ part.text }}
+  </span>
+</template>
 ```
 
-**Vue 结构模板**：
-```vue
-<div class="w-full h-full flex items-center justify-center"
-  :style="{ backgroundColor: bgColor, padding: '48px' }">
-  <div class="flex flex-col w-full h-full"
-    :style="{ 
-      backgroundColor: cardBgColor,
-      borderRadius: '24px',
-      border: '5px solid ' + borderColor,
-      padding: '64px',
-      justifyContent: 'space-between'
-    }">
-    <!-- 顶部标题区 -->
-    <div class="flex flex-col">
-      <div class="flex" :style="{ fontSize: '80px', color: titleColor, marginBottom: '28px' }">
-        {{ title }}
-      </div>
-      <div class="flex" :style="{ fontSize: '36px', color: subtitleColor, marginBottom: '32px' }">
-        {{ subtitle }}
-      </div>
-    </div>
-    
-    <!-- 中间列表区 -->
-    <div class="flex flex-col" :style="{ gap: '16px' }">
-      <div v-for="item in items" class="flex" :style="{ fontSize: '28px', color: bodyColor }">
-        • {{ item }}
-      </div>
-    </div>
-    
-    <!-- 底部署名 -->
-    <div class="flex justify-end" :style="{ fontSize: '20px', color: authorColor }">
-      {{ author }}
-    </div>
-  </div>
-</div>
+### Accent 样式变体
+
+**纯颜色高亮**：
+```html
+<span :style="{color: accentColors[0], fontWeight: 'bold'}">
+  {{ part.text }}
+</span>
 ```
 
-### 蓝图C: 简约全屏
-
-适用场景：极简封面、强调单句
-
-```
-┌────────────────────────────────────────┐
-│                                        │
-│                                        │
-│           [大标题，居中]                │
-│                                        │
-│           [小字副标题]                  │
-│                                        │
-│                                        │
-└────────────────────────────────────────┘
-
-结构:
-- 无卡片，纯背景色/渐变
-- 文字直接放在画布上
-- 极简，最多2行文字
+**背景色盒子**：
+```html
+<span class="flex" :style="{
+  color: '#ffffff',
+  backgroundColor: accentColors[0],
+  padding: '8px 16px',
+  borderRadius: '8px'
+}">{{ part.text }}</span>
 ```
 
-**Vue 结构模板**：
-```vue
-<div class="w-full h-full flex flex-col items-center justify-center"
-  :style="{ 
-    backgroundColor: bgColor,
-    backgroundImage: bgGradient,
-    padding: '80px'
-  }">
-  <div class="flex" :style="{ fontSize: '72px', color: titleColor, marginBottom: '24px' }">
-    {{ title }}
-  </div>
-  <div class="flex" :style="{ fontSize: '28px', color: subtitleColor }">
-    {{ subtitle }}
-  </div>
-</div>
+**带边框**：
+```html
+<span class="flex" :style="{
+  color: accentColors[0],
+  border: '2px solid ' + accentColors[0],
+  padding: '4px 12px',
+  borderRadius: '4px'
+}">{{ part.text }}</span>
 ```
 
----
+### 背景渐变
 
-## Instructions
-
-### 1. 图片参考检查（强制要求）
-在生成任何模板之前，**必须**检查用户是否提供了图片参考：
-
-✅ **可接受**：
-- 图片文件（截图、设计稿、照片）
-- 现有设计的 URL
-- 上传的图片附件
-
-❌ **拒绝**：仅提供文字描述
-
-**如果没有图片**，回复：
-```
-❌ 无法在没有图片参考的情况下继续。
-
-请提供以下之一：
-- 设计的截图/设计稿
-- 现有卡片图片的 URL
-- 上传的图片文件
-
-我将分析它并创建符合 Satori 的模板。
+```json
+{
+  "bgColor": null,
+  "bgImage": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
+}
 ```
 
-**如果用户坚持不提供图片**，可使用默认蓝图：
+**可用渐变方向**：
+- `to right`, `to left`, `to bottom`, `to top`
+- `135deg`, `45deg`, `90deg`
 
-1. 询问用户选择场景类型（COVER/XHS_VERTICAL/XHS_SQUARE/OG_IMAGE）
-2. 提供 2 个默认选项：
-   - **选项 A：居中卡片 + 浅色背景 + 深色文字**
-     - bgColor: #f8fafc (浅灰蓝)
-     - cardBgColor: #ffffff (白色)
-     - titleColor: #0f172a (深灰)
-     - accentColor: #3b82f6 (蓝色)
-     - 使用蓝图 A（居中卡片）
-   
-   - **选项 B：简约全屏 + 渐变背景 + 白色文字**
-     - bgGradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%)
-     - titleColor: #ffffff (白色)
-     - accentColor: #0088a9 (青色)
-     - 使用蓝图 C（简约全屏）
-
-3. 用户选择后，使用规格表数值 + 默认蓝图生成模板
-
-⚠️ **注意：有参考图始终是首选，默认蓝图仅作为最后兜底方案。**
-
-### 2. 图片分析
-使用 `look_at()` 工具提取：
-- **布局**：文本区域（标题/副标题/正文/页脚）、对齐方式、层级、间距
-- **颜色**：背景（纯色/渐变）、文本颜色、强调色、边框
-- **元素**：图标/emoji、阴影、圆角
-
-**Satori 兼容性检查**：
-- ✅ 可实现：Flexbox、纯色、线性渐变、文本样式、边框
-- ❌ 不可实现：box-shadow、transform、filter、动画、外部图片
-
-询问用户：模板名称、尺寸（如果分析不清楚）
-
-### 3. 生成文件
-**创建**：
-1. `components/template/[Name].vue` - 使用 `~/lib/content` 的 `componentBaseProps`
-2. 更新 `lib/template.ts` - 添加到 `templates` 和 `serverTemplates` 导出
-3. 创建 `presets/[code].json` - 默认 contentProps、styleProps、尺寸
-
-**属性分类**：
-- 内容属性（URL 路径）：title、subtitle、author、description
-- 样式属性（query 参数）：bgColor、textColor、fontSize、padding
-- 内容键：有序列表如 `"title,subtitle,author"`
-
-### 4. 交付物
-提供：
-- 创建的文件摘要
-- 测试 URL：`http://localhost:4573/[code]/default`
-- 使用示例（GET/POST）
-- 注意：用户会自己测试（不要运行 `pnpm dev`）
-
-
-## ✅ 生成检查清单
-
-**生成模板前，必须完成以下检查：**
-
-```
-□ 1. 已确认场景类型（COVER/XHS_VERTICAL/XHS_SQUARE/OG_IMAGE）
-□ 2. 已查阅规格表获取尺寸和字号
-□ 3. 已选择布局蓝图（A/B/C）
-□ 4. 字号使用规格表数值（不是自己算的）
-□ 5. 所有字号带 px 单位
-□ 6. 所有 div 有 class="flex"
-□ 7. 无禁用 CSS 属性
-□ 8. 超长标题已处理（>25字缩小20%）
+**多色渐变**：
+```json
+"bgImage": "linear-gradient(to right, #ff6b6b, #feca57, #48dbfb, #ff9ff3)"
 ```
 
-**生成后，必须声明：**
-```
-📋 模板参数：
-- 场景：[场景名]
-- 规格：[宽度]×[高度]
-- 蓝图：[A/B/C]
-- 标题字号：[xx]px
-- 副标题字号：[xx]px
-- 外层padding：[xx]px
-- 卡片padding：[xx]px
-```
-
----
-
-## ❌ AI 行为禁止列表
-
-**以下行为严格禁止：**
-
-1. **不得使用低于 24px 的字号**（可读性要求）
-2. **不得使用超过 4 种字号层级**（层级混乱）
-3. **不得在横版(1200×630)使用超过 100px 的标题字号**（溢出风险）
-4. **不得在竖版(1080×1440)使用低于 72px 的主标题字号**（存在感不足）
-5. **不得同时使用超过 3 种非渐变色**（视觉混乱）
-6. **padding 不得超过图片短边的 15%**（内容区过小）
-7. **flex 嵌套不得超过 3 层**（性能和复杂度）
-8. **每行最多 1 处强调色**（避免过度强调）
-
----
-
-## Constraints
-
-### Satori 约束（不可违反）
-
-**必须做到**：
-- 每个 `<div>` 必须有 `class="flex"`
-- 根元素：`class="w-full h-full"`
-- 使用 Tailwind 工具类 + 内联 `:style` 绑定
-- 文本包裹在 `<span>` 或 `<div>` 中
-- 所有布局仅通过 Flexbox 实现
-
-**禁止使用**：
-- `box-shadow`、`text-shadow`、`transform`、`filter`、`backdrop-filter`
-- CSS 动画/过渡
-- 外部图片 URL（仅 base64）
-- 嵌套组件
-- `v-if`/`v-show`（使用 `v-for` 进行条件渲染）
-
-### 拒绝条件
-如果遇到以下情况，拒绝生成：
-1. 未提供图片参考
-2. 图片质量太低无法分析
-3. 设计严重依赖禁用的 CSS（box-shadow、transforms、动画）
-
-拒绝时建议符合 Satori 的替代方案。
-
----
-
-📖 **详细技术规范、Base.vue 模式和设计示例请参阅项目 [AGENTS.md](../../../AGENTS.md) 和 [README.md](../../../README.md)**
+### 图标支持（可选

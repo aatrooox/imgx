@@ -1,6 +1,10 @@
 import { Resvg } from '@resvg/resvg-js'
 import type { Preset } from './preset'
 import { renderErrorSvg, vueTemplateToSatori, renderSVGBySatori } from './satori'
+import { BaseTemplate } from '../templates/Base'
+import { ArticleCoverTemplate } from '../templates/ArticleCover'
+import { MacFolderTemplate } from '../templates/MacFolder'
+import { CleanTitleTemplate } from '../templates/CleanTitle'
 
 interface GenerateImageOptions {
   preset: Preset
@@ -10,26 +14,11 @@ interface GenerateImageOptions {
 }
 
 const templateStrings: Record<string, string> = {
-  'Base': `<div class="w-full h-full flex items-center justify-center transition-all duration-300"
-    :style="{ backgroundColor: bgColor ?? 'transparent', backgroundImage: bgImage ?? 'linear-gradient(to right, transparent, transparent)', padding: padding, fontFamily: fontFamily }">
-    <div :class="[\`text-wrap flex w-full h-full rounded-\${textWrapRounded} shadow-\${textWrapShadow}\`]"
-      :style="{ backgroundColor: textWrapBgColor, padding: textWrapPadding , justifyContent: verticalAligns[0] ?? 'center' }">
-      <div class="flex flex-col w-full">
-        <template v-for="(line, index) in content">
-          <div :class="['font-bold flex', aligns[index]]" :style="{ color: colors[index], fontSize: fontSizes[index] }">
-            <template v-for="(text, index) in line" :key="index">
-              <span class="flex" v-if="text.type === 'emoji'"
-                :style="{ width: iconSizes && iconSizes[index] + 'px', height: iconSizes && iconSizes[index] + 'px', backgroundImage: \`url(\${text.base64URL})\`, backgroundRepeat: 'no-repeat', backgroundSize: '100% 100%' }"></span>
-              <span class="text-nowrap" v-else
-                :style="{ color: text.type === 'accent' ? (accentColors[index] || '') : '' }">
-                {{ text.text }}
-              </span>
-            </template>
-          </div>
-        </template>
-      </div>
-    </div>
-  </div>`
+  'Base': BaseTemplate,
+  '001': BaseTemplate,
+  'ArticleCover': ArticleCoverTemplate,
+  'MacFolder': MacFolderTemplate,
+  'CleanTitle': CleanTitleTemplate,
 }
 
 export async function generateImage({ 
