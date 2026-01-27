@@ -1,0 +1,97 @@
+name: Deploy via GitHub Actions (SSH + PM2)
+
+on:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: deploy-main
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    # 只在 release 提交时部署
+    if: contains(github.event.head_commit.message, 'chore(release)')
+    runs-on: ubuntu-latest
+    environment:
+      name: imgx
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Build project
+        run: pnpm build
+
+      - name: Pack artifact
+        run: |
+          rm -rf distpkg && mkdir -p distpkg
+          cp -R .output/* distpkg/
+          cp -f ecosystem.config.cjs distpkg/
+          tar -C distpkg -czf artifact.tgz .
+          du -h artifact.tgz
+
+      - name: Prepare SSH key
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+      - name: Upload artifact via scp
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+        run: |
+          ssh -o StrictHostKeyChecking=no -p "${SSH_PORT}" "${SSH_USER}@${SSH_HOST}" "mkdir -p /root/web/imgx"
+          scp -P "${SSH_PORT}" artifact.tgz "${SSH_USER}@${SSH_HOST}:/root/web/imgx/artifact.tgz"
+
+      - name: Deploy and restart with PM2
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+        run: |
+          ssh -o StrictHostKeyChecking=no -p "${SSH_PORT}" "${SSH_USER}@${SSH_HOST}" << 'EOSSH'
+          set -e
+          APP_DIR=/root/web/imgx
+          ENVFILE=/root/envs/imgx/.env
+          mkdir -p "$APP_DIR"
+          cd "$APP_DIR"
+          # Clean app dir but keep artifact
+          find "$APP_DIR" -mindepth 1 -maxdepth 1 ! -name artifact.tgz -exec rm -rf {} +
+          tar -xzf artifact.tgz -C "$APP_DIR"
+          rm -f artifact.tgz
+          
+          # Load environment variables if .env exists
+          if [ -f "$ENVFILE" ]; then
+            set -a
+            . "$ENVFILE"
+            set +a
+          fi
+          
+          # Restart PM2 application
+          pm2 delete IMGX >/dev/null 2>&1 || true
+          pm2 start ecosystem.config.cjs --update-env
+          pm2 save
+          EOSSH
+
+      - name: Notify (Feishu)
+        if: always()
+        run: |
+          curl -X POST -H "Content-Type: application/json" \
+            -d '{"msg_type":"text","content":{"text":"'"${{ github.repository }}"' - release ['"${{ job.status }}"']"}}' \
+            "${{ secrets.FEISHU_WEBHOOK }}"
