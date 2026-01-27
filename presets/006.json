@@ -15,7 +15,7 @@
     "textWrapPadding": "0px",
     "colors": ["#000000"],
     "accentColors": ["#4CAF50"],
-    "fontSizes": ["64px"],
+    "fontSizes": ["120px"],
     "aligns": ["justify-center"],
     "verticalAligns": ["center"],
     "fontFamily": "YouSheBiaoTiHei",
