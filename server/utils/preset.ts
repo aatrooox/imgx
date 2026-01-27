@@ -14,27 +14,45 @@ export interface Preset {
 let presetsCache: Record<string, Preset> | null = null
 
 export async function loadPresets(): Promise<Record<string, Preset>> {
-  if (presetsCache) return presetsCache
+  console.log('[loadPresets] Starting to load presets...')
+  
+  if (presetsCache) {
+    console.log('[loadPresets] Returning cached presets, count:', Object.keys(presetsCache).length)
+    return presetsCache
+  }
   
   presetsCache = {}
   
   try {
+    console.log('[loadPresets] Initializing storage with key: assets:presets')
     const storage = useStorage('assets:presets')
+    
+    console.log('[loadPresets] Getting storage keys...')
     const keys = await storage.getKeys()
+    console.log('[loadPresets] Found keys:', keys)
     
     for (const key of keys) {
+      console.log('[loadPresets] Processing key:', key)
       if (key.endsWith('.json')) {
         const content = await storage.getItem(key)
+        console.log('[loadPresets] Content for', key, ':', content ? 'exists' : 'null')
         if (content) {
           const preset = JSON.parse(content as string) as Preset
+          console.log('[loadPresets] Parsed preset:', preset.code, '-', preset.name)
           if (preset.code) {
             presetsCache[preset.code] = preset
           }
         }
+      } else {
+        console.log('[loadPresets] Skipping non-json key:', key)
       }
     }
+    
+    console.log('[loadPresets] Loaded presets count:', Object.keys(presetsCache).length)
+    console.log('[loadPresets] Preset codes:', Object.keys(presetsCache))
   } catch (error) {
-    console.error('Failed to load presets:', error)
+    console.error('[loadPresets] Failed to load presets:', error)
+    console.error('[loadPresets] Error stack:', error instanceof Error ? error.stack : 'No stack')
   }
   
   return presetsCache
