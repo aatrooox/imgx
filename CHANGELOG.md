@@ -4,6 +4,18 @@
 
 [compare changes](https://github.com/aatrooox/imgx/compare/0.4.0...v0.5.1)
 
+## v0.8.2
+
+[compare changes](https://github.com/aatrooox/imgx/compare/v0.8.1...v0.8.2)
+
+### 🩹 Fixes
+
+- 增加日志; 修改preset dir path ([095ff83](https://github.com/aatrooox/imgx/commit/095ff83))
+
+### ❤️ Contributors
+
+- Aatrox <gnakzz@qq.com>
+
 ## v0.8.1
 
 [compare changes](https://github.com/aatrooox/imgx/compare/v0.8.0...v0.8.1)
