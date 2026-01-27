@@ -1,1554 +1,455 @@
 ---
 name: imgx-template-generator
-description: Generate IMGX-compatible Vue templates that convert text to beautiful card images with Satori
-license: MIT
-compatibility: opencode
-metadata:
-  audience: template-creators
-  workflow: imgx-development
+description: 生成符合 Satori 渲染约束的 IMGX Vue 模板，将文本转换为精美的卡片图片
 ---
 
-# IMGX Template Generator
+# IMGX 模板生成器
 
-Generate Vue templates that convert text into card images using Satori rendering engine.
+Description: 生成符合 Satori 渲染约束的 IMGX Vue 模板，将文本转换为精美的卡片图片
 
-## What I do
+## Role
+你是**模板架构师**，专门生成符合 Satori 渲染约束的 Vue 3 组件。你强制执行**图片优先工作流**——用户必须在生成任何模板之前提供参考设计。
 
-- Generate Vue 3 `<template>` code following strict Satori/IMGX constraints
-- Create corresponding `props` JSON with proper type classification
-- Provide ready-to-use code for IMGX Playground
-- Suggest semantic prop names and default values
-- Support special syntax: `*accent*`, `[emoji]`, `+` line separators
-- Ensure all code meets Satori rendering requirements
-- Guide you through the complete template creation workflow
+## Capabilities
+- 分析设计图片，提取布局、颜色、间距和排版信息
+- 生成符合 Satori 的 Vue 模板，使用 `componentBaseProps` 模式
+- 区分内容属性（文本）和样式属性（颜色/尺寸）
+- 创建预设 JSON 文件，包含合理的默认值
+- 注册模板到 `lib/template.ts` 并生成预设码
 
-## When to use me
+## ⚠️ 尺寸规格表（强制约束）
 
-Use this skill when you need to:
-- Create a new IMGX template from scratch
-- Convert a design description into IMGX-compatible code
-- Adapt an existing design or mockup to IMGX format
-- Generate templates for common use cases (covers, social cards, badges)
-- Understand Satori constraints and best practices for template creation
-## Critical constraints
+**这是硬性规定，不可自由发挥。生成模板前必须查表。**
 
-### Satori rendering rules (MANDATORY)
+### COVER - 文章封面（公众号/博客）
+```yaml
+尺寸: 1200 × 630
+比例: 1.9:1
 
-```
-✅ MUST:
-- Every <div> explicitly declares display: flex
-- Root element is class="w-full h-full"
-- Use only Tailwind utility classes + inline :style
-- All text inside <span> or <div>, never raw text nodes
-- All layouts via Flexbox (flex-row, flex-col, items-*, justify-*)
+字号:
+  标题: 64px (最大72px，最小56px)
+  副标题: 28px (最大32px，最小24px)
+  正文/作者: 20px (最大24px，最小18px)
 
-❌ NEVER:
-- CSS properties: box-shadow, transform, filter, backdrop-filter
-- CSS animations or transitions
-- External images (use base64 DataURL only)
-- Nested components or slots
-- v-if/v-show (use template v-for instead)
-- Complex selectors or pseudo-elements
+间距:
+  外层padding: 60px
+  卡片内padding: 48px
+  标题下间距: 20px
+  副标题下间距: 16px
+  行间距: 12px
+
+边框/圆角:
+  外层圆角: 0 (全画布)
+  卡片圆角: 20px
+  卡片边框: 4px solid
 ```
 
-### Template structure
+### XHS_VERTICAL - 小红书竖版
+```yaml
+尺寸: 1080 × 1440
+比例: 3:4
 
+字号:
+  标题: 80px (最大96px，最小72px)
+  副标题: 36px (最大40px，最小32px)
+  正文: 28px (最大32px，最小24px)
+
+间距:
+  外层padding: 48px
+  卡片内padding: 64px
+  标题下间距: 28px
+  副标题下间距: 20px
+  行间距: 16px
+
+边框/圆角:
+  卡片圆角: 24px
+  卡片边框: 5px solid
+```
+
+### XHS_SQUARE - 小红书方图
+```yaml
+尺寸: 1080 × 1080
+比例: 1:1
+
+字号:
+  标题: 72px (最大80px，最小64px)
+  副标题: 32px (最大36px，最小28px)
+  正文: 24px (最大28px，最小20px)
+
+间距:
+  外层padding: 48px
+  卡片内padding: 56px
+  标题下间距: 24px
+  副标题下间距: 16px
+  行间距: 14px
+
+边框/圆角:
+  卡片圆角: 24px
+  卡片边框: 4px solid
+```
+
+### OG_IMAGE - Open Graph / Twitter Card
+```yaml
+尺寸: 1200 × 630
+比例: 1.9:1
+
+# 与 COVER 相同规格
+字号:
+  标题: 64px
+  副标题: 28px
+  正文/作者: 20px
+
+间距:
+  外层padding: 60px
+  卡片内padding: 48px
+```
+
+### 超长标题处理策略
+
+**当标题字数超过限制时，按以下规则缩小字号：**
+
+| 字数范围 | 字号调整 | 示例 |
+|---------|---------|------|
+| ≤15字 | 使用规格表标准值 | 64px (COVER) |
+| 16-25字 | 缩小 10% | 64px → 58px |
+| >25字 | 缩小 20% | 64px → 51px |
+
+---
+
+## 📐 字号计算公式（备用验证）
+
+当规格表未覆盖时，使用此公式计算：
+
+```javascript
+// 基准边 = 较小的边
+const baseSize = Math.min(width, height)
+
+// 字号计算
+const titleSize = Math.round(baseSize / 9)      // 约 11%
+const subtitleSize = Math.round(baseSize / 20)  // 约 5%
+const bodySize = Math.round(baseSize / 26)      // 约 4%
+
+// 间距计算
+const outerPadding = Math.round(baseSize * 0.05)  // 5%
+const innerPadding = Math.round(baseSize * 0.04)  // 4%
+const titleGap = Math.round(titleSize * 0.3)      // 标题字号的30%
+const textGap = Math.round(bodySize * 0.5)        // 正文字号的50%
+
+// 圆角/边框
+const borderRadius = Math.round(baseSize * 0.02)  // 2%
+const borderWidth = Math.max(3, Math.round(baseSize * 0.004)) // 0.4%, 最小3px
+```
+
+**示例验证**：
+- 1200×630: titleSize = 630/9 = 70px ✓ (规格表64-72px)
+- 1080×1080: titleSize = 1080/9 = 120px → 实际规格表72px (方图字号相对较小)
+
+⚠️ **公式仅用于验证，优先使用规格表的硬性数值。**
+
+
+
+## 🎨 布局蓝图（参考微调）
+
+**生成模板时，必须选择一个蓝图作为基础。AI 可微调对齐方式、颜色、间距等细节，但不可改变整体结构。**
+
+### 蓝图A: 居中卡片（推荐默认）
+
+适用场景：文章封面、OG Image
+
+```
+┌────────────────────────────────────────┐
+│              外层背景                    │
+│    ┌──────────────────────────────┐    │
+│    │                              │    │
+│    │          [标题]              │    │
+│    │          [副标题]            │    │
+│    │                              │    │
+│    │      [正文/作者] (可选)       │    │
+│    │                              │    │
+│    └──────────────────────────────┘    │
+│                                        │
+└────────────────────────────────────────┘
+
+结构:
+- 外层: 全画布背景色/渐变
+- 内层卡片: 白色/浅色背景 + 边框 + 圆角
+- 内容: 垂直居中，水平居中
+- 文字层级: 最多3层（标题/副标题/署名）
+```
+
+**Vue 结构模板**：
 ```vue
-<script setup lang="ts">
-import type { componentBaseProps } from '~/lib/content'
-
-// Define props with componentBaseProps type
-const {
-  content = [],
-  bgColor = '',
-  bgImage = 'linear-gradient(to right, transparent, transparent)',
-  
-  colors = ['#000000'],
-  accentColors = ['#0088a9'],
-  fontSizes = ['30px'],
-  aligns = ['justify-start'],
-  iconSizes = [30],
-  
-  fontFamily = 'YouSheBiaoTiHei',
-  padding = '30px',
-  textWrapBgColor = 'transparent',
-  textWrapPadding = '0px',
-  textWrapRounded = 'none',
-  textWrapShadow = 'none'
-} = defineProps<componentBaseProps>()
-</script>
-
-<template>
-  <!-- Root: w-full h-full flex -->
-  <div class="w-full h-full flex items-center justify-center"
-    :style="{ backgroundColor: bgColor, backgroundImage: bgImage, padding, fontFamily }">
-    
-    <!-- Content wrapper (optional) -->
-    <div class="flex w-full h-full"
-      :style="{ backgroundColor: textWrapBgColor, padding: textWrapPadding }">
-      
-      <!-- Line-by-line rendering -->
-      <div class="flex flex-col w-full">
-        <template v-for="(line, lineIdx) in content" :key="lineIdx">
-          <div :class="['flex', aligns[lineIdx]]" 
-            :style="{ color: colors[lineIdx], fontSize: fontSizes[lineIdx] }">
-            
-            <!-- Text parts: normal | accent | emoji -->
-            <template v-for="(part, partIdx) in line" :key="partIdx">
-              <!-- Emoji: background image in flex div -->
-              <span v-if="part.type === 'emoji'" class="flex"
-                :style="{ 
-                  width: iconSizes[lineIdx] + 'px', 
-                  height: iconSizes[lineIdx] + 'px',
-                  backgroundImage: `url(${part.base64URL})`,
-                  backgroundSize: '100% 100%'
-                }"></span>
-              
-              <!-- Text or accent text -->
-              <span v-else class="text-nowrap"
-                :style="{ color: part.type === 'accent' ? accentColors[lineIdx] : '' }">
-                {{ part.text }}
-              </span>
-            </template>
-          </div>
-        </template>
-      </div>
-    </div>
-  </div>
-</template>
-```
-
-### Props JSON structure
-
-```json
-{
-  "bgColor": ["#ffffff", "#000000"],
-  "title": "Main heading text",
-  "subtitle": "Secondary text",
-  "titleFontSize": 48,
-  "subtitleFontSize": 24,
-  "textColor": "#000000",
-  "accentColor": "#ff0000",
-  "padding": 40,
-  "icon": "[logos:vuejs]"
-}
-```
-
-#### Prop type classification
-
-**Content props** (text data, mapped from URL path):
-- String values like `title`, `subtitle`, `author`, `description`
-- Arrays like `lines` (if using comma separator)
-
-**Style props** (visual config, passed via query params):
-- Colors: `bgColor`, `textColor`, `accentColor` (hex with/without #)
-- Sizes: `titleFontSize`, `iconWidth`, `padding` (numbers in px)
-- Layout: `align` (0=left, 1=center, 2=justify, 3=around)
-
-### Special syntax support
-
-When users input text via API, these patterns are auto-parsed:
-
-| Syntax | Type | Example | Usage in template |
-|--------|------|---------|------------------|
-| `*text*` | accent | `Hello *world*` | `part.type === 'accent'` |
-| `[icon]` | emoji | `[logos:vuejs] Vue` | `part.type === 'emoji'`, `part.base64URL` |
-| `+` | separator | `Title+Subtitle` | Splits into `content[0]`, `content[1]` |
-
-**Icons**: Use Iconify notation like `[logos:vuejs]`, `[mdi:github]`, `[twemoji:fire]`
-
-### Available fonts
-
-Only these fonts are preloaded:
-- `YouSheBiaoTiHei` (优设标体黑) - default, bold display
-- `DouyinSansBold` (抖音美好体) - rounded, friendly
-
-## Quality checklist
-
-Before delivering template code, verify:
-
-- [ ] Root element is `class="w-full h-full"`
-- [ ] Every `<div>` has explicit `flex` class
-- [ ] No forbidden CSS (box-shadow, transform, filter)
-- [ ] All text wrapped in `<span>` or `<div>`
-- [ ] Colors use hex format (with/without #)
-- [ ] Sizes use `px` unit in inline styles
-- [ ] Props follow `componentBaseProps` type
-- [ ] Content props are strings/arrays
-- [ ] Style props are colors/numbers
-- [ ] Default values are reasonable
-- [ ] Layout works at different sizes (test 1200x630, 1000x500, 800x418)
-
-## Common pitfalls to avoid
-
-1. ❌ Forgetting `flex` on every `<div>`
-2. ❌ Using `v-if` instead of `v-for` with guards
-3. ❌ External image URLs (Satori can't fetch them)
-4. ❌ Inconsistent prop types (string vs number)
-5. ❌ Missing default values in destructuring
-6. ❌ Poor contrast (dark text on dark bg)
-7. ❌ Over-engineering (too many customization props)
-
-## Standard reference template
-
-The following template (`components/template/Base.vue`) is the **standard reference** for IMGX templates. It demonstrates all best practices and supports every feature:
-
-```vue
-<script setup lang="ts">
-import type { componentBaseProps } from '~/lib/content'
-
-// Props with comprehensive defaults
-const {
-  content = [],
-  bgColor = '',
-  
-  colors = ['#000000'],
-  accentColors = ['#0088a9'],
-  aligns = ['justify-start'], // 横向对齐方式
-  fontSizes = ['30px'],
-  verticalAligns = ['center'],
-  
-  fontFamily = 'YouSheBiaoTiHei',
-  padding = '30px',
-  bgImage = 'linear-gradient(to right, transparent, transparent)',
-  textWrapBgColor = 'transparent',
-  textWrapShadow = 'none',
-  textWrapPadding = '0px',
-  textWrapRounded = 'none'
-} = defineProps<componentBaseProps>()
-</script>
-
-<template>
-  <!-- Root: w-full h-full flex -->
-  <div class="w-full h-full flex items-center justify-center transition-all duration-300"
+<div class="w-full h-full flex items-center justify-center"
+  :style="{ backgroundColor: bgColor, padding: '60px' }">
+  <div class="flex flex-col items-center justify-center w-full h-full"
     :style="{ 
-      backgroundColor: bgColor ?? 'transparent', 
-      backgroundImage: bgImage ?? 'linear-gradient(to right, transparent, transparent)', 
-      padding: padding, 
-      fontFamily: fontFamily 
+      backgroundColor: cardBgColor, 
+      borderRadius: '20px',
+      border: '4px solid ' + borderColor,
+      padding: '48px'
     }">
-    
-    <!-- Content wrapper (optional background/padding layer) -->
-    <div :class="[`text-wrap flex w-full h-full rounded-${textWrapRounded} shadow-${textWrapShadow}`]"
-      :style="{ 
-        backgroundColor: textWrapBgColor, 
-        padding: textWrapPadding, 
-        justifyContent: verticalAligns[0] ?? 'center' 
-      }">
-      
-      <!-- Line container -->
-      <div class="flex flex-col w-full">
-        <!-- Render each line from content -->
-        <template v-for="(line, index) in content">
-          <div :class="['font-bold flex', aligns[index]]" 
-            :style="{ color: colors[index], fontSize: fontSizes[index] }">
-            
-            <!-- Render each text part -->
-            <template v-for="(text, index) in line" :key="index">
-              <!-- Emoji/Icon: Use background image -->
-              <span class="flex" v-if="text.type === 'emoji'"
-                :style="{ 
-                  width: iconSizes && iconSizes[index] + 'px', 
-                  height: iconSizes && iconSizes[index] + 'px', 
-                  backgroundImage: `url(${text.base64URL})`, 
-                  backgroundRepeat: 'no-repeat', 
-                  backgroundSize: '100% 100%' 
-                }"></span>
-              
-              <!-- Text or accent text -->
-              <span class="text-nowrap" v-else
-                :style="{ color: text.type === 'accent' ? (accentColors[index] || '') : '' }">
-                {{ text.text }}
-              </span>
-            </template>
-          </div>
-        </template>
-      </div>
-    </div>
-  </div>
-</template>
-```
-
-### Why this is the standard
-
-- ✅ **Fully Satori-compliant**: Every div has explicit flex, no forbidden CSS
-- ✅ **Supports all special syntax**: Handles `*accent*`, `[emoji]`, `+` separators
-- ✅ **Props properly classified**: Clear distinction between content and style props
-- ✅ **Multi-line rendering**: Supports variable number of content lines
-- ✅ **Customizable alignment**: Per-line horizontal and vertical alignment
-- ✅ **Optional content wrapper**: Adds background/padding layer when needed
-- ✅ **Comprehensive defaults**: Every prop has a sensible fallback value
-- ✅ **Type-safe**: Uses `componentBaseProps` interface
-
-### Best practices from Base.vue
-
-1. **Always use componentBaseProps type** for props definition
-2. **Provide defaults for every prop** to avoid undefined errors
-3. **Use arrays for per-line styling** (colors, fontSizes, aligns)
-4. **Null-safe style bindings** with `??` operator
-5. **Text wrapping in spans** - never raw text nodes
-6. **Emoji as background images** in flex containers
-7. **Conditional styling** via ternary operators in :style
-
-## Design patterns
-
-### Pattern 1: Simple title card
-
-Centered title with gradient background - perfect for article covers and social sharing.
-
-```vue
-<template>
-  <div class="w-full h-full flex items-center justify-center"
-    :style="{ backgroundImage: `linear-gradient(135deg, ${bgColor[0]}, ${bgColor[1]})`, padding }">
-    <div class="flex font-bold text-center" 
-      :style="{ fontSize: titleSize + 'px', color: titleColor }">
+    <!-- 标题 -->
+    <div class="flex" :style="{ fontSize: '64px', color: titleColor, marginBottom: '20px' }">
       {{ title }}
     </div>
-  </div>
-</template>
-```
-
-**Props JSON**:
-```json
-{
-  "bgColor": ["#1e40af", "#7c3aed"],
-  "title": "Building Modern Web Applications",
-  "titleColor": "#ffffff",
-  "titleSize": 48,
-  "padding": 60
-}
-```
-
-**Classification**:
-- Content props: `title`
-- Style props: `bgColor`, `titleColor`, `titleSize`, `padding`
-- Content keys: `"title"`
-
-**Usage**: `GET /preset-code/Building+Modern+Web+Applications?bgColor=1e40af-7c3aed`
-
----
-
-### Pattern 2: Icon + Title
-
-Icon on left, title on right - great for branded content and project showcases.
-
-```vue
-<template>
-  <div class="w-full h-full flex items-center justify-center"
-    :style="{ backgroundImage: `linear-gradient(to right, ${bgColor[0]}, ${bgColor[1]})`, padding }">
-    <div class="flex items-center gap-6">
-      <!-- Icon container -->
-      <div class="flex" :style="{ width: iconSize + 'px', height: iconSize + 'px' }">
-        <img :src="iconUrl" class="w-full" alt="icon" />
-      </div>
-      
-      <!-- Title -->
-      <div class="flex font-bold" 
-        :style="{ fontSize: titleSize + 'px', color: titleColor }">
-        {{ title }}
-      </div>
+    <!-- 副标题 -->
+    <div class="flex" :style="{ fontSize: '28px', color: subtitleColor }">
+      {{ subtitle }}
     </div>
   </div>
-</template>
+</div>
 ```
 
-**Props JSON**:
-```json
-{
-  "bgColor": ["#0f172a", "#1e293b"],
-  "icon": "[logos:vue]",
-  "iconSize": 120,
-  "title": "Vue 3 Masterclass",
-  "titleColor": "#ffffff",
-  "titleSize": 56,
-  "padding": 60
-}
+### 蓝图B: 顶对齐列表卡片
+
+适用场景：小红书竖版、知识卡片
+
+```
+┌────────────────────────────────────────┐
+│              外层背景                    │
+│    ┌──────────────────────────────┐    │
+│    │ [标题]                        │    │
+│    │ [副标题]                      │    │
+│    │ ─────────────────────────    │    │
+│    │ • [列表项1]                   │    │
+│    │ • [列表项2]                   │    │
+│    │ • [列表项3]                   │    │
+│    │                              │    │
+│    │                     [署名]   │    │
+│    └──────────────────────────────┘    │
+│                                        │
+└────────────────────────────────────────┘
+
+结构:
+- 内容顶对齐
+- 标题和副标题在顶部
+- 中间为列表项（带圆点标记）
+- 底部可选署名/水印
 ```
 
-**Classification**:
-- Content props: `icon`, `title`
-- Style props: `bgColor`, `iconSize`, `titleColor`, `titleSize`, `padding`
-- Content keys: `"icon,title"`
-
-**Usage**: `GET /preset-code/[logos:vue]/Vue+3+Masterclass?iconSize=120`
-
----
-
-### Pattern 3: Blog post cover
-
-Multi-line vertical layout with title, subtitle, and author - ideal for blog articles.
-
+**Vue 结构模板**：
 ```vue
-<template>
-  <div class="w-full h-full flex items-center justify-center"
-    :style="{ backgroundImage: `linear-gradient(135deg, ${bgColor[0]}, ${bgColor[1]})`, padding }">
-    <div class="flex flex-col w-full gap-8">
-      <!-- Title -->
-      <div class="flex justify-center font-bold text-center" 
-        :style="{ fontSize: titleSize + 'px', color: titleColor }">
+<div class="w-full h-full flex items-center justify-center"
+  :style="{ backgroundColor: bgColor, padding: '48px' }">
+  <div class="flex flex-col w-full h-full"
+    :style="{ 
+      backgroundColor: cardBgColor,
+      borderRadius: '24px',
+      border: '5px solid ' + borderColor,
+      padding: '64px',
+      justifyContent: 'space-between'
+    }">
+    <!-- 顶部标题区 -->
+    <div class="flex flex-col">
+      <div class="flex" :style="{ fontSize: '80px', color: titleColor, marginBottom: '28px' }">
         {{ title }}
       </div>
-      
-      <!-- Subtitle -->
-      <div class="flex justify-center text-center" 
-        :style="{ fontSize: subtitleSize + 'px', color: subtitleColor }">
+      <div class="flex" :style="{ fontSize: '36px', color: subtitleColor, marginBottom: '32px' }">
         {{ subtitle }}
       </div>
-      
-      <!-- Author -->
-      <div class="flex justify-end" 
-        :style="{ fontSize: authorSize + 'px', color: authorColor }">
-        by {{ author }}
-      </div>
     </div>
-  </div>
-</template>
-```
-
-**Props JSON**:
-```json
-{
-  "bgColor": ["#1e40af", "#7c3aed"],
-  "title": "Deep Dive into Vue 3 Composition API",
-  "subtitle": "Best practices and patterns for modern Vue development",
-  "author": "@frontend-guru",
-  "titleColor": "#ffffff",
-  "subtitleColor": "#e5e7eb",
-  "authorColor": "#d1d5db",
-  "titleSize": 48,
-  "subtitleSize": 28,
-  "authorSize": 20,
-  "padding": 60
-}
-```
-
-**Classification**:
-- Content props: `title`, `subtitle`, `author`
-- Style props: `bgColor`, `titleColor`, `subtitleColor`, `authorColor`, `titleSize`, `subtitleSize`, `authorSize`, `padding`
-- Content keys: `"title,subtitle,author"`
-
-**Usage**: `GET /preset-code/Deep+Dive+into+Vue+3/Best+practices/@frontend-guru`
-
----
-
-### Pattern 4: Social share card
-
-Compact layout with icon and accent text - optimized for Twitter/LinkedIn sharing.
-
-```vue
-<template>
-  <div class="w-full h-full flex items-center justify-center"
-    :style="{ backgroundColor: bgColor, padding }">
-    <div class="flex flex-col items-center gap-6">
-      <!-- Icon -->
-      <div class="flex" :style="{ width: iconSize + 'px', height: iconSize + 'px' }">
-        <img :src="iconUrl" class="w-full" alt="icon" />
-      </div>
-      
-      <!-- Title with accent -->
-      <div class="flex text-center font-bold" 
-        :style="{ fontSize: titleSize + 'px', color: titleColor }">
-        <span>{{ titlePart1 }}</span>
-        <span :style="{ color: accentColor }">{{ accentText }}</span>
-        <span>{{ titlePart2 }}</span>
-      </div>
-    </div>
-  </div>
-</template>
-```
-
-**Props JSON**:
-```json
-{
-  "bgColor": "#ffffff",
-  "icon": "[twemoji:rocket]",
-  "iconSize": 80,
-  "title": "Launch Your *Next Project* Today",
-  "titleColor": "#1f2937",
-  "accentColor": "#ef4444",
-  "titleSize": 36,
-  "padding": 40
-}
-```
-
-**Classification**:
-- Content props: `icon`, `title`
-- Style props: `bgColor`, `iconSize`, `titleColor`, `accentColor`, `titleSize`, `padding`
-- Content keys: `"icon,title"`
-
-**Note**: The `*Next Project*` syntax auto-parses into accent styling.
-
----
-
-## Output format
-
-When generating templates, provide:
-
-### 1. Template code
-```vue
-<template>
-  <!-- Complete Vue template following all constraints -->
-</template>
-```
-
-### 2. Props JSON
-```json
-{
-  "prop1": "value1",
-  "prop2": 42
-}
-```
-
-### 3. Usage example
-```
-GET https://imgx.zzao.club/{presetCode}/{title}/{subtitle}?bgColor=fff&titleSize=60
-```
-
-### 4. Prop classification guide
-```
-Content props (URL path): title, subtitle, author
-Style props (query params): bgColor, titleSize, padding
-Content keys order: "title,subtitle,author"
-```
-
-## Workflow
-
-When generating an IMGX template, follow these 4 phases:
-
-### 1. Gather requirements
-
-Ask the user these questions:
-
-**Purpose**
-- What's the primary use case? (blog cover, social share card, badge, quote card, etc.)
-- What platform is this for? (Twitter/X, WeChat, general web, etc.)
-
-**Content structure**
-- How many text fields do you need? (single title, title + subtitle, title + subtitle + author, etc.)
-- Do you need emoji/icon support?
-- Do you need multi-line text with separators (`+`)?
-- Do you need accent text (`*emphasized*`)?
-
-**Visual style**
-- What's the visual style? (minimal, bold, gradient, with icons, geometric, etc.)
-- Do you have a color scheme preference? (fixed colors or user-customizable?)
-- Do you have a reference design or inspiration?
-
-**Layout preferences**
-- Alignment preference? (center, left, right, mixed)
-- Single-column or multi-section layout?
-- Background style? (solid, gradient, pattern, image)
-
-### 2. Design layout
-
-Based on requirements, choose a layout strategy:
-
-**For simple single-focus cards** (quotes, badges, announcements)
-- Center-aligned layout with `items-center justify-center`
-- Large font size (text-6xl or larger)
-- Minimal content wrapper padding
-- Use gradient or solid background
-
-**For structured content cards** (blog covers, social shares)
-- Vertical flex layout with `flex-col justify-between`
-- Multiple sections (header, main content, footer)
-- Consistent padding and spacing
-- Use semantic alignment (title left, author bottom-left)
-
-**For icon-based cards** (feature highlights, stats)
-- Horizontal layout with `flex-row items-center`
-- Icon/emoji on left, text on right
-- Use `gap-*` utilities for spacing
-- Balance icon size with text size
-
-**For multi-line text cards** (lists, agendas)
-- Vertical flex with `flex-col` on content wrapper
-- Use `v-for` to iterate over `content` array
-- Consistent line spacing with `gap-*`
-- Consider alternate styling for variety
-
-### 3. Generate code
-
-Follow this step-by-step process:
-
-**Step 1: Define props interface**
-```vue
-<script setup lang="ts">
-interface Props {
-  // Content props (from URL path)
-  title: string
-  subtitle?: string
-  author?: string
-  
-  // Style props (from query params)
-  bgColor?: string
-  titleColor?: string
-  fontSize?: string
-  padding?: string
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  // Provide sensible defaults
-  bgColor: '#1a1a1a',
-  titleColor: '#ffffff',
-  fontSize: '64px',
-  padding: '80px'
-})
-</script>
-```
-
-**Step 2: Build root container**
-```vue
-<template>
-  <div class="w-full h-full flex items-center justify-center">
-    <!-- Always start with w-full h-full flex -->
-  </div>
-</template>
-```
-
-**Step 3: Add background/content wrapper**
-```vue
-<div 
-  class="w-full h-full flex items-center justify-center"
-  :style="{ background: props.bgColor }"
->
-  <div 
-    class="flex flex-col gap-4"
-    :style="{ padding: props.padding }"
-  >
-    <!-- Content goes here -->
-  </div>
-</div>
-```
-
-**Step 4: Render content fields**
-
-For simple text:
-```vue
-<div 
-  class="text-6xl font-bold text-center"
-  :style="{ color: props.titleColor, fontSize: props.fontSize }"
->
-  {{ props.title }}
-</div>
-```
-
-For parsed content (with accent/emoji support):
-```vue
-<div class="text-6xl font-bold">
-  <template v-for="(part, i) in parsedTitle" :key="i">
-    <span v-if="part.type === 'normal'">{{ part.text }}</span>
-    <span v-else-if="part.type === 'accent'" class="text-blue-400">
-      {{ part.text }}
-    </span>
-    <img 
-      v-else-if="part.type === 'emoji'" 
-      :src="part.base64URL" 
-      class="inline-block"
-      style="width: 1em; height: 1em;"
-    />
-  </template>
-</div>
-```
-
-**Step 5: Add helper functions if needed**
-```vue
-<script setup lang="ts">
-import { parseContent } from '~/lib/content'
-
-// ... props definition ...
-
-const parsedTitle = computed(() => parseContent(props.title))
-</script>
-```
-
-### 4. Provide usage
-
-After generating the template code, provide:
-
-**1. Complete Vue component code**
-```vue
-<script setup lang="ts">
-// ... full code ...
-</script>
-
-<template>
-  <!-- ... full template ... -->
-</template>
-```
-
-**2. Props JSON with categories**
-```json
-{
-  "contentProps": {
-    "title": {
-      "type": "string",
-      "default": "Hello World",
-      "description": "Main title text"
-    }
-  },
-  "styleProps": {
-    "bgColor": {
-      "type": "string", 
-      "default": "#1a1a1a",
-      "description": "Background color"
-    }
-  }
-}
-```
-
-**3. GET API examples**
-```
-Basic usage:
-GET /api/img/1200x630/YourTemplate/Hello+World
-
-With style params:
-GET /api/img/1200x630/YourTemplate/Hello+World?bgColor=ff6b6b&titleColor=ffffff
-
-With multi-field content (if applicable):
-GET /api/img/1200x630/YourTemplate/Hello+World/Subtitle+Text/Author+Name
-```
-
-**4. Testing instructions**
-```
-1. Copy the template code
-2. Go to http://localhost:4573/playground
-3. Paste code in left editor
-4. Paste props JSON in right editor
-5. Adjust props and see live preview
-6. Export when satisfied
-```
-
-## Examples
-
-### Example 1: Minimalist quote card
-
-**Scenario**: User wants a simple centered quote card with gradient background for social media sharing.
-
-**Requirements gathered**:
-- Purpose: Share inspirational quotes on Twitter
-- Content: Single text field (the quote)
-- Style: Minimal, centered, gradient background
-- Support for emphasis text (`*word*`)
-
-**Generated template**:
-
-```vue
-<script setup lang="ts">
-import { parseContent } from '~/lib/content'
-
-interface Props {
-  quote: string
-  bgFrom?: string
-  bgTo?: string
-  textColor?: string
-  fontSize?: string
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  bgFrom: '#667eea',
-  bgTo: '#764ba2',
-  textColor: '#ffffff',
-  fontSize: '72px'
-})
-
-const parsed = computed(() => parseContent(props.quote))
-</script>
-
-<template>
-  <div 
-    class="w-full h-full flex items-center justify-center"
-    :style="{ 
-      background: `linear-gradient(135deg, ${props.bgFrom}, ${props.bgTo})` 
-    }"
-  >
-    <div 
-      class="flex flex-col items-center text-center px-20"
-      :style="{ maxWidth: '900px' }"
-    >
-      <div 
-        class="font-bold leading-tight"
-        :style="{ color: props.textColor, fontSize: props.fontSize }"
-      >
-        <template v-for="(part, i) in parsed" :key="i">
-          <span v-if="part.type === 'normal'">{{ part.text }}</span>
-          <span 
-            v-else-if="part.type === 'accent'" 
-            :style="{ color: props.bgFrom, background: props.textColor, padding: '0 8px' }"
-          >
-            {{ part.text }}
-          </span>
-        </template>
-      </div>
-    </div>
-  </div>
-</template>
-```
-
-**Props JSON**:
-```json
-{
-  "contentProps": {
-    "quote": {
-      "type": "string",
-      "default": "The only way to do *great work* is to love what you do",
-      "description": "Quote text (use *text* for emphasis)"
-    }
-  },
-  "styleProps": {
-    "bgFrom": {
-      "type": "string",
-      "default": "#667eea",
-      "description": "Gradient start color"
-    },
-    "bgTo": {
-      "type": "string",
-      "default": "#764ba2", 
-      "description": "Gradient end color"
-    },
-    "textColor": {
-      "type": "string",
-      "default": "#ffffff",
-      "description": "Text color"
-    },
-    "fontSize": {
-      "type": "string",
-      "default": "72px",
-      "description": "Font size"
-    }
-  }
-}
-```
-
-**GET API usage**:
-```
-Basic:
-GET /api/img/1200x630/Quote/The+only+way+to+do+*great+work*+is+to+love+what+you+do
-
-Custom colors:
-GET /api/img/1200x630/Quote/Do+what+you+*love*?bgFrom=ff6b6b&bgTo=feca57&textColor=2d3436
-
-Different size:
-GET /api/img/800x800/Quote/Be+*awesome*+today?fontSize=64px
-```
-
-### Example 2: Blog post cover with metadata
-
-**Scenario**: User needs a blog post cover image with title, subtitle, and author info.
-
-**Requirements gathered**:
-- Purpose: Blog post OG images
-- Content: Title, subtitle, author name
-- Style: Left-aligned, clean, professional
-- Layout: Title at top, subtitle below, author at bottom
-
-**Generated template**:
-
-```vue
-<script setup lang="ts">
-interface Props {
-  title: string
-  subtitle: string
-  author: string
-  bgColor?: string
-  accentCo
-
-## Workflow
-
-When generating an IMGX template, follow these 4 phases:
-
-### 1. Gather requirements
-
-Ask the user these questions:
-
-**Purpose**
-- What's the primary use case? (blog cover, social share card, badge, quote card, etc.)
-- What platform is this for? (Twitter/X, WeChat, general web, etc.)
-
-**Content structure**
-- How many text fields do you need? (single title, title + subtitle, title + subtitle + author, etc.)
-- Do you need emoji/icon support?
-- Do you need multi-line text with separators (`+`)?
-- Do you need accent text (`*emphasized*`)?
-
-**Visual style**
-- What's the visual style? (minimal, bold, gradient, with icons, geometric, etc.)
-- Do you have a color scheme preference? (fixed colors or user-customizable?)
-- Do you have a reference design or inspiration?
-
-**Layout preferences**
-- Alignment preference? (center, left, right, mixed)
-- Single-column or multi-section layout?
-- Background style? (solid, gradient, pattern, image)
-
-### 2. Design layout
-
-Based on requirements, choose a layout strategy:
-
-**For simple single-focus cards** (quotes, badges, announcements)
-- Center-aligned layout with `items-center justify-center`
-- Large font size (text-6xl or larger)
-- Minimal content wrapper padding
-- Use gradient or solid background
-
-**For structured content cards** (blog covers, social shares)
-- Vertical flex layout with `flex-col justify-between`
-- Multiple sections (header, main content, footer)
-- Consistent padding and spacing
-- Use semantic alignment (title left, author bottom-left)
-
-**For icon-based cards** (feature highlights, stats)
-- Horizontal layout with `flex-row items-center`
-- Icon/emoji on left, text on right
-- Use `gap-*` utilities for spacing
-- Balance icon size with text size
-
-**For multi-line text cards** (lists, agendas)
-- Vertical flex with `flex-col` on content wrapper
-- Use `v-for` to iterate over `content` array
-- Consistent line spacing with `gap-*`
-- Consider alternate styling for variety
-
-### 3. Generate code
-
-Follow this step-by-step process:
-
-**Step 1: Define props interface**
-```vue
-<script setup lang="ts">
-interface Props {
-  // Content props (from URL path)
-  title: string
-  subtitle?: string
-  author?: string
-  
-  // Style props (from query params)
-  bgColor?: string
-  titleColor?: string
-  fontSize?: string
-  padding?: string
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  // Provide sensible defaults
-  bgColor: '#1a1a1a',
-  titleColor: '#ffffff',
-  fontSize: '64px',
-  padding: '80px'
-})
-</script>
-```
-
-**Step 2: Build root container**
-```vue
-<template>
-  <div class="w-full h-full flex items-center justify-center">
-    <!-- Always start with w-full h-full flex -->
-  </div>
-</template>
-```
-
-**Step 3: Add background/content wrapper**
-```vue
-<div 
-  class="w-full h-full flex items-center justify-center"
-  :style="{ background: props.bgColor }"
->
-  <div 
-    class="flex flex-col gap-4"
-    :style="{ padding: props.padding }"
-  >
-    <!-- Content goes here -->
-  </div>
-</div>
-```
-
-**Step 4: Render content fields**
-
-For simple text:
-```vue
-<div 
-  class="text-6xl font-bold text-center"
-  :style="{ color: props.titleColor, fontSize: props.fontSize }"
->
-  {{ props.title }}
-</div>
-```
-
-For parsed content (with accent/emoji support):
-```vue
-<div class="text-6xl font-bold">
-  <template v-for="(part, i) in parsedTitle" :key="i">
-    <span v-if="part.type === 'normal'">{{ part.text }}</span>
-    <span v-else-if="part.type === 'accent'" class="text-blue-400">
-      {{ part.text }}
-    </span>
-    <img 
-      v-else-if="part.type === 'emoji'" 
-      :src="part.base64URL" 
-      class="inline-block"
-      style="width: 1em; height: 1em;"
-    />
-  </template>
-</div>
-```
-
-**Step 5: Add helper functions if needed**
-```vue
-<script setup lang="ts">
-import { parseContent } from '~/lib/content'
-
-// ... props definition ...
-
-const parsedTitle = computed(() => parseContent(props.title))
-</script>
-```
-
-### 4. Provide usage
-
-After generating the template code, provide:
-
-**1. Complete Vue component code**
-```vue
-<script setup lang="ts">
-// ... full code ...
-</script>
-
-<template>
-  <!-- ... full template ... -->
-</template>
-```
-
-**2. Props JSON with categories**
-```json
-{
-  "contentProps": {
-    "title": {
-      "type": "string",
-      "default": "Hello World",
-      "description": "Main title text"
-    }
-  },
-  "styleProps": {
-    "bgColor": {
-      "type": "string", 
-      "default": "#1a1a1a",
-      "description": "Background color"
-    }
-  }
-}
-```
-
-**3. GET API examples**
-```
-Basic usage:
-GET /api/img/1200x630/YourTemplate/Hello+World
-
-With style params:
-GET /api/img/1200x630/YourTemplate/Hello+World?bgColor=ff6b6b&titleColor=ffffff
-
-With multi-field content (if applicable):
-GET /api/img/1200x630/YourTemplate/Hello+World/Subtitle+Text/Author+Name
-```
-
-**4. Testing instructions**
-```
-1. Copy the template code
-2. Go to http://localhost:4573/playground
-3. Paste code in left editor
-4. Paste props JSON in right editor
-5. Adjust props and see live preview
-6. Export when satisfied
-```
-
-
-## Examples
-
-### Example 1: Minimalist quote card
-
-**Scenario**: User wants a simple centered quote card with gradient background for social media sharing.
-
-**Requirements gathered**:
-- Purpose: Share inspirational quotes on Twitter
-- Content: Single text field (the quote)
-- Style: Minimal, centered, gradient background
-- Support for emphasis text (`*word*`)
-
-**Generated template**:
-
-```vue
-<script setup lang="ts">
-import { parseContent } from '~/lib/content'
-
-interface Props {
-  quote: string
-  bgFrom?: string
-  bgTo?: string
-  textColor?: string
-  fontSize?: string
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  bgFrom: '#667eea',
-  bgTo: '#764ba2',
-  textColor: '#ffffff',
-  fontSize: '72px'
-})
-
-const parsed = computed(() => parseContent(props.quote))
-</script>
-
-<template>
-  <div 
-    class="w-full h-full flex items-center justify-center"
-    :style="{ 
-      background: `linear-gradient(135deg, ${props.bgFrom}, ${props.bgTo})` 
-    }"
-  >
-    <div 
-      class="flex flex-col items-center text-center px-20"
-      :style="{ maxWidth: '900px' }"
-    >
-      <div 
-        class="font-bold leading-tight"
-        :style="{ color: props.textColor, fontSize: props.fontSize }"
-      >
-        <template v-for="(part, i) in parsed" :key="i">
-          <span v-if="part.type === 'normal'">{{ part.text }}</span>
-          <span 
-            v-else-if="part.type === 'accent'" 
-            :style="{ color: props.bgFrom, background: props.textColor, padding: '0 8px' }"
-          >
-            {{ part.text }}
-          </span>
-        </template>
-      </div>
-    </div>
-  </div>
-</template>
-```
-
-**Props JSON**:
-```json
-{
-  "contentProps": {
-    "quote": {
-      "type": "string",
-      "default": "The only way to do *great work* is to love what you do",
-      "description": "Quote text (use *text* for emphasis)"
-    }
-  },
-  "styleProps": {
-    "bgFrom": {
-      "type": "string",
-      "default": "#667eea",
-      "description": "Gradient start color"
-    },
-    "bgTo": {
-      "type": "string",
-      "default": "#764ba2", 
-      "description": "Gradient end color"
-    },
-    "textColor": {
-      "type": "string",
-      "default": "#ffffff",
-      "description": "Text color"
-    },
-    "fontSize": {
-      "type": "string",
-      "default": "72px",
-      "description": "Font size"
-    }
-  }
-}
-```
-
-**GET API usage**:
-```
-Basic:
-GET /api/img/1200x630/Quote/The+only+way+to+do+*great+work*+is+to+love+what+you+do
-
-Custom colors:
-GET /api/img/1200x630/Quote/Do+what+you+*love*?bgFrom=ff6b6b&bgTo=feca57&textColor=2d3436
-
-Different size:
-GET /api/img/800x800/Quote/Be+*awesome*+today?fontSize=64px
-```
-
-### Example 2: Blog post cover with metadata
-
-**Scenario**: User needs a blog post cover image with title, subtitle, and author info.
-
-**Requirements gathered**:
-- Purpose: Blog post OG images
-- Content: Title, subtitle, author name
-- Style: Left-aligned, clean, professional
-- Layout: Title at top, subtitle below, author at bottom
-
-**Generated template**:
-
-```vue
-<script setup lang="ts">
-interface Props {
-  title: string
-  subtitle: string
-  author: string
-  bgColor?: string
-  accentColor?: string
-  textColor?: string
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  bgColor: '#0f172a',
-  accentColor: '#3b82f6',
-  textColor: '#f1f5f9'
-})
-</script>
-
-<template>
-  <div 
-    class="w-full h-full flex flex-col justify-between p-20"
-    :style="{ background: props.bgColor }"
-  >
-    <!-- Top accent bar -->
-    <div 
-      class="w-32 h-2 rounded-full"
-      :style="{ background: props.accentColor }"
-    />
     
-    <!-- Main content -->
-    <div class="flex flex-col gap-6">
-      <div 
-        class="text-7xl font-black leading-tight"
-        :style="{ color: props.textColor }"
-      >
-        {{ props.title }}
-      </div>
-      
-      <div 
-        class="text-3xl opacity-80"
-        :style="{ color: props.textColor }"
-      >
-        {{ props.subtitle }}
+    <!-- 中间列表区 -->
+    <div class="flex flex-col" :style="{ gap: '16px' }">
+      <div v-for="item in items" class="flex" :style="{ fontSize: '28px', color: bodyColor }">
+        • {{ item }}
       </div>
     </div>
     
-    <!-- Author footer -->
-    <div class="flex items-center gap-4">
-      <div 
-        class="w-3 h-3 rounded-full"
-        :style="{ background: props.accentColor }"
-      />
-      <div 
-        class="text-2xl font-medium"
-        :style="{ color: props.textColor }"
-      >
-        {{ props.author }}
-      </div>
+    <!-- 底部署名 -->
+    <div class="flex justify-end" :style="{ fontSize: '20px', color: authorColor }">
+      {{ author }}
     </div>
   </div>
-</template>
-```
-
-**Props JSON**:
-```json
-{
-  "contentProps": {
-    "title": {
-      "type": "string",
-      "default": "Building Scalable APIs",
-      "description": "Blog post title"
-    },
-    "subtitle": {
-      "type": "string", 
-      "default": "A practical guide to REST and GraphQL",
-      "description": "Blog post subtitle"
-    },
-    "author": {
-      "type": "string",
-      "default": "Jane Developer",
-      "description": "Author name"
-    }
-  },
-  "styleProps": {
-    "bgColor": {
-      "type": "string",
-      "default": "#0f172a",
-      "description": "Background color"
-    },
-    "accentColor": {
-      "type": "string",
-      "default": "#3b82f6",
-      "description": "Accent color for bars and dots"
-    },
-    "textColor": {
-      "type": "string",
-      "default": "#f1f5f9",
-      "description": "Text color"
-    }
-  }
-}
-```
-
-**GET API usage**:
-```
-Basic:
-GET /api/img/1200x630/BlogCover/Building+Scalable+APIs/A+practical+guide/Jane+Developer
-
-Custom theme:
-GET /api/img/1200x630/BlogCover/GraphQL+vs+REST/Performance+comparison/Tech+Blog?bgColor=1a1a2e&accentColor=16c79a&textColor=eaeaea
-
-Vertical format:
-GET /api/img/1080x1920/BlogCover/Mobile+First+Design/Tips+and+tricks/Sarah+Chen
-```
-
-
-## Next steps after generation
-
-After you generate a template, guide the user through these steps:
-
-### 1. Copy to Playground for testing
-```
-1. Copy the complete <script setup> + <template> code
-2. Navigate to http://localhost:4573/playground
-3. Paste code in the left editor
-4. Paste props JSON in the right editor
-5. Click "Render" to see preview
-```
-
-### 2. Test with different content
-```
-- Try different text lengths (short, medium, long)
-- Test special syntax: *accent*, [iconify:mdi:check], + separator
-- Verify colors and sizes look good
-- Check text doesn't overflow or get cut off
-```
-
-### 3. Adjust and iterate
-```
-- Modify font sizes if text doesn't fit
-- Adjust padding/spacing for better balance  
-- Try different color combinations
-- Test at different image sizes (1200x630, 800x800, 1080x1920)
-```
-
-### 4. Export to template file
-```
-When satisfied with the template:
-1. In Playground, click "导出为模板" (Export as Template)
-2. Or manually create: components/template/YourName.vue
-3. Paste the finalized code
-```
-
-### 5. Create template in admin
-```
-1. Go to http://localhost:4573 (Template Editor page)
-2. Click "新建模板" (New Template)
-3. Fill in template name (must match Vue filename)
-4. Paste the props JSON
-5. System will auto-generate propsSchema validation
-6. Review and save
-```
-
-### 6. Create preset (optional)
-```
-1. Go to Preset Editor
-2. Click "新建预设" (New Preset)  
-3. Select your template from dropdown
-4. Fill in default content and style values
-5. Save and copy the preset code
-```
-
-### 7. Use in production
-```
-With template only:
-GET /api/img/{size}/{TemplateName}/{content}
-
-With preset:
-GET /api/img/{PresetCode}
-
-Examples:
-GET /api/img/1200x630/BlogCover/My+Title/My+Subtitle/Author
-GET /api/img/tech-blog-preset-001
-```
-
-### 8. (Optional) Add to template gallery
-```
-- Take a screenshot of a good example
-- Document common use cases
-- Share with team or community
-```
-
-## Questions to ask
-
-Before generating, clarify these points with the user:
-
-### 1. What's the primary use case?
-- Blog post cover (OG image)
-- Social media share card (Twitter, WeChat, etc.)
-- Badge or label (certification, achievement)
-- Quote or testimonial card
-- Event announcement
-- Product feature highlight
-- Other (ask for details)
-
-### 2. How many text fields are needed?
-- Single text field (title only)
-- Two fields (title + subtitle)
-- Three fields (title + subtitle + metadata like author/date)
-- Multiple lines (list items, agenda, etc.)
-- Do you need the `+` separator for multi-line content?
-
-### 3. What visual style do you prefer?
-- Minimal and clean
-- Bold and vibrant  
-- Gradient backgrounds
-- Geometric patterns
-- With icons/emojis
-- Professional/corporate
-- Fun and playful
-- Show me a reference image
-
-### 4. Do you need special text features?
-- Accent/emphasis text using `*word*` syntax?
-- Emoji/icon support using `[iconify:name]` syntax?
-- Multiple font sizes in same field?
-- Text alignment options (left, center, right)?
-
-### 5. Colors: fixed or customizable?
-- Fixed colors (hardcoded in template) - simpler
-- Customizable colors (via styleProps) - more flexible
-- Preset themes (light, dark, brand colors)
-
-### 6. Any reference or inspiration?
-- Do you have a design mockup?
-- Link to a similar card you like?
-- Brand guidelines to follow?
-
-### 7. What image size(s) will you use?
-- Standard social (1200x630 for OG images)
-- Square (800x800, 1080x1080)
-- Vertical (1080x1920 for stories)
-- Custom size
-- Multiple sizes (adjust layout accordingly)
-
-
-## Tips for great templates
-
-### 1. Use semantic prop names
-```vue
-// Good
-interface Props {
-  title: string
-  author: string
-  publishDate: string
-}
-
-// Avoid
-interface Props {
-  text1: string
-  text2: string
-  text3: string
-}
-```
-
-### 2. Provide sensible defaults
-Every styleProps should have a default that looks good out of the box. Users can override if needed.
-
-```vue
-const props = withDefaults(defineProps<Props>(), {
-  bgColor: '#1a1a1a',      // Dark background
-  titleColor: '#ffffff',    // White text
-  accentColor: '#3b82f6',   // Blue accent
-  fontSize: '64px',         // Large readable text
-  padding: '80px'           // Generous padding
-})
-```
-
-### 3. Test with extreme content lengths
-- Very short: "Hi"
-- Medium: "Building Great Products"  
-- Long: "The Complete Guide to Modern Web Development with React, TypeScript, and Advanced Patterns"
-- Use `leading-tight` for long text to prevent overflow
-
-### 4. Make layout responsive to content
-```vue
-<!-- Adjusts height based on content -->
-<div class="flex flex-col gap-4">
-  <div class="text-6xl">{{ title }}</div>
-  <div v-if="subtitle" class="text-3xl">{{ subtitle }}</div>
 </div>
 ```
 
-### 5. Use consistent spacing system
-Stick to Tailwind's spacing scale for visual consistency:
-- `gap-2` (8px) for tight spacing
-- `gap-4` (16px) for related items
-- `gap-8` (32px) for distinct sections  
-- `p-12` (48px), `p-16` (64px), `p-20` (80px) for padding
+### 蓝图C: 简约全屏
 
-### 6. Add visual hierarchy
-Use size, weight, and opacity to create hierarchy:
+适用场景：极简封面、强调单句
+
+```
+┌────────────────────────────────────────┐
+│                                        │
+│                                        │
+│           [大标题，居中]                │
+│                                        │
+│           [小字副标题]                  │
+│                                        │
+│                                        │
+└────────────────────────────────────────┘
+
+结构:
+- 无卡片，纯背景色/渐变
+- 文字直接放在画布上
+- 极简，最多2行文字
+```
+
+**Vue 结构模板**：
 ```vue
-<div class="text-7xl font-black">Main Title</div>      <!-- Largest, boldest -->
-<div class="text-3xl font-medium opacity-80">Subtitle</div>  <!-- Medium, less emphasis -->
-<div class="text-xl opacity-60">Metadata</div>         <!-- Smallest, subtle -->
-```
-
-### 7. Consider color contrast
-Ensure text is readable on backgrounds:
-- Light text (#ffffff, #f1f5f9) on dark backgrounds
-- Dark text (#1a1a1a, #2d3436) on light backgrounds  
-- Use semi-transparent overlays if using background images
-- Test with different bgColor values
-
-### 8. Keep it simple
-The best templates are often the simplest:
-- Don't overcomplicate the layout
-- Limit font sizes to 2-3 variants
-- Use whitespace effectively
-- One clear focal point
-
-### 9. Document special features
-If your template supports special syntax, mention it in prop descriptions:
-```json
-{
-  "title": {
-    "description": "Title text. Use *text* for emphasis, [iconify:mdi:check] for icons, + for line breaks"
-  }
-}
-```
-
-### 10. Think about reusability
-Can this template work for multiple scenarios with different props?
-```
-Same template with different props:
-- Tech blog cover → bgColor=#1a1a2e, accentColor=#16c79a
-- Business blog → bgColor=#f8f9fa, accentColor=#2d3436  
-- Personal blog → bgColor=#667eea, accentColor=#764ba2
+<div class="w-full h-full flex flex-col items-center justify-center"
+  :style="{ 
+    backgroundColor: bgColor,
+    backgroundImage: bgGradient,
+    padding: '80px'
+  }">
+  <div class="flex" :style="{ fontSize: '72px', color: titleColor, marginBottom: '24px' }">
+    {{ title }}
+  </div>
+  <div class="flex" :style="{ fontSize: '28px', color: subtitleColor }">
+    {{ subtitle }}
+  </div>
+</div>
 ```
 
 ---
 
-## Ready to generate! 🎨
+## Instructions
 
-With this guide, you're equipped to:
-- ✅ Understand Satori constraints and limitations
-- ✅ Use the proven Base.vue pattern  
-- ✅ Apply design patterns for common scenarios
-- ✅ Ask the right questions to gather requirements
-- ✅ Generate complete, production-ready templates
-- ✅ Provide props JSON and usage examples
-- ✅ Guide users through testing and deployment
+### 1. 图片参考检查（强制要求）
+在生成任何模板之前，**必须**检查用户是否提供了图片参考：
 
-**Start by asking the user about their use case, then follow the workflow!**
+✅ **可接受**：
+- 图片文件（截图、设计稿、照片）
+- 现有设计的 URL
+- 上传的图片附件
 
-When generating templates, remember:
-- Every `<div>` needs explicit `flex`
-- Root element is always `class="w-full h-full"`
-- Use `:style` bindings for customizable properties
-- Test with the `parseContent()` function for accent/emoji support
-- Provide complete code + props JSON + API examples
-- Keep it simple, semantic, and reusable
+❌ **拒绝**：仅提供文字描述
 
-Happy template generating! 🚀
+**如果没有图片**，回复：
+```
+❌ 无法在没有图片参考的情况下继续。
+
+请提供以下之一：
+- 设计的截图/设计稿
+- 现有卡片图片的 URL
+- 上传的图片文件
+
+我将分析它并创建符合 Satori 的模板。
+```
+
+**如果用户坚持不提供图片**，可使用默认蓝图：
+
+1. 询问用户选择场景类型（COVER/XHS_VERTICAL/XHS_SQUARE/OG_IMAGE）
+2. 提供 2 个默认选项：
+   - **选项 A：居中卡片 + 浅色背景 + 深色文字**
+     - bgColor: #f8fafc (浅灰蓝)
+     - cardBgColor: #ffffff (白色)
+     - titleColor: #0f172a (深灰)
+     - accentColor: #3b82f6 (蓝色)
+     - 使用蓝图 A（居中卡片）
+   
+   - **选项 B：简约全屏 + 渐变背景 + 白色文字**
+     - bgGradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%)
+     - titleColor: #ffffff (白色)
+     - accentColor: #0088a9 (青色)
+     - 使用蓝图 C（简约全屏）
+
+3. 用户选择后，使用规格表数值 + 默认蓝图生成模板
+
+⚠️ **注意：有参考图始终是首选，默认蓝图仅作为最后兜底方案。**
+
+### 2. 图片分析
+使用 `look_at()` 工具提取：
+- **布局**：文本区域（标题/副标题/正文/页脚）、对齐方式、层级、间距
+- **颜色**：背景（纯色/渐变）、文本颜色、强调色、边框
+- **元素**：图标/emoji、阴影、圆角
+
+**Satori 兼容性检查**：
+- ✅ 可实现：Flexbox、纯色、线性渐变、文本样式、边框
+- ❌ 不可实现：box-shadow、transform、filter、动画、外部图片
+
+询问用户：模板名称、尺寸（如果分析不清楚）
+
+### 3. 生成文件
+**创建**：
+1. `components/template/[Name].vue` - 使用 `~/lib/content` 的 `componentBaseProps`
+2. 更新 `lib/template.ts` - 添加到 `templates` 和 `serverTemplates` 导出
+3. 创建 `presets/[code].json` - 默认 contentProps、styleProps、尺寸
+
+**属性分类**：
+- 内容属性（URL 路径）：title、subtitle、author、description
+- 样式属性（query 参数）：bgColor、textColor、fontSize、padding
+- 内容键：有序列表如 `"title,subtitle,author"`
+
+### 4. 交付物
+提供：
+- 创建的文件摘要
+- 测试 URL：`http://localhost:4573/[code]/default`
+- 使用示例（GET/POST）
+- 注意：用户会自己测试（不要运行 `pnpm dev`）
+
+
+## ✅ 生成检查清单
+
+**生成模板前，必须完成以下检查：**
+
+```
+□ 1. 已确认场景类型（COVER/XHS_VERTICAL/XHS_SQUARE/OG_IMAGE）
+□ 2. 已查阅规格表获取尺寸和字号
+□ 3. 已选择布局蓝图（A/B/C）
+□ 4. 字号使用规格表数值（不是自己算的）
+□ 5. 所有字号带 px 单位
+□ 6. 所有 div 有 class="flex"
+□ 7. 无禁用 CSS 属性
+□ 8. 超长标题已处理（>25字缩小20%）
+```
+
+**生成后，必须声明：**
+```
+📋 模板参数：
+- 场景：[场景名]
+- 规格：[宽度]×[高度]
+- 蓝图：[A/B/C]
+- 标题字号：[xx]px
+- 副标题字号：[xx]px
+- 外层padding：[xx]px
+- 卡片padding：[xx]px
+```
+
+---
+
+## ❌ AI 行为禁止列表
+
+**以下行为严格禁止：**
+
+1. **不得使用低于 24px 的字号**（可读性要求）
+2. **不得使用超过 4 种字号层级**（层级混乱）
+3. **不得在横版(1200×630)使用超过 100px 的标题字号**（溢出风险）
+4. **不得在竖版(1080×1440)使用低于 72px 的主标题字号**（存在感不足）
+5. **不得同时使用超过 3 种非渐变色**（视觉混乱）
+6. **padding 不得超过图片短边的 15%**（内容区过小）
+7. **flex 嵌套不得超过 3 层**（性能和复杂度）
+8. **每行最多 1 处强调色**（避免过度强调）
+
+---
+
+## Constraints
+
+### Satori 约束（不可违反）
+
+**必须做到**：
+- 每个 `<div>` 必须有 `class="flex"`
+- 根元素：`class="w-full h-full"`
+- 使用 Tailwind 工具类 + 内联 `:style` 绑定
+- 文本包裹在 `<span>` 或 `<div>` 中
+- 所有布局仅通过 Flexbox 实现
+
+**禁止使用**：
+- `box-shadow`、`text-shadow`、`transform`、`filter`、`backdrop-filter`
+- CSS 动画/过渡
+- 外部图片 URL（仅 base64）
+- 嵌套组件
+- `v-if`/`v-show`（使用 `v-for` 进行条件渲染）
+
+### 拒绝条件
+如果遇到以下情况，拒绝生成：
+1. 未提供图片参考
+2. 图片质量太低无法分析
+3. 设计严重依赖禁用的 CSS（box-shadow、transforms、动画）
+
+拒绝时建议符合 Satori 的替代方案。
+
+---
+
+📖 **详细技术规范、Base.vue 模式和设计示例请参阅项目 [AGENTS.md](../../../AGENTS.md) 和 [README.md](../../../README.md)**
