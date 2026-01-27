@@ -52,16 +52,16 @@
 
 ```bash
 # 使用默认样式
-https://imgx.zzao.club/006/default
+https://imgx.zzao.club/101/default
 ```
 
-![示例图片](https://imgx.zzao.club/006/能力强的人用~AI~更强)
+![示例图片](https://imgx.zzao.club/101/default)
 
 ### 自定义内容
 
 ```bash
-# 动态文字内容（使用 ~ 标记高亮部分）
-https://imgx.zzao.club/006/欢迎使用~IMGX~图片生成工具
+# 动态文字内容（使用 *{}* 标记高亮部分）
+https://imgx.zzao.club/006/欢迎使用*IMGX*
 ```
 
 ### 完整控制
@@ -145,7 +145,7 @@ AI：✅ 生成符合 Satori 约束的 Vue 模板
 
 **自定义效果**
 
-![预设 102 自定义](https://imgx.zzao.club/102/twemoji:fire/twemoji:rocket/IMGX~让图片生成~更简单)
+![预设 102 自定义](https://imgx.zzao.club/102/twemoji:drooling-face/twemoji:face-with-symbols-on-mouth/IMGX~让图片生成~更简单)
 
 </td>
 </tr>
@@ -174,7 +174,7 @@ https://imgx.zzao.club/102/{左上图标}/{右下图标}/{文字内容}
 
 **自定义效果**
 
-![预设 101 自定义](https://imgx.zzao.club/101/2025年度~技术总结)
+![预设 101 自定义](https://imgx.zzao.club/101/2025年度*技术总结*)
 
 </td>
 </tr>
@@ -186,14 +186,6 @@ https://imgx.zzao.club/101/default
 
 # 自定义文字（使用 ~ 标记高亮部分）
 https://imgx.zzao.club/101/2025年度~技术总结
-```
-
-### 预设 006 - 简洁标题卡片
-
-![预设 006](https://imgx.zzao.club/006/IMGX~让创作~更自由)
-
-```bash
-https://imgx.zzao.club/006/IMGX~让创作~更自由
 ```
 
 ## 📖 API 使用
@@ -290,36 +282,10 @@ IMGX~快速生成~封面图
 | 模板代码 | 模板名称 | 尺寸 | 适用场景 |
 |---------|---------|------|---------|
 | `WeChatCover` | 微信公众号封面 | 1200×510 | 公众号文章 |
-| `CleanTitle` | 简洁标题卡片 | 1200×510 | 文章封面、社交分享 |
-| `MacFolder` | Mac 文件夹风格 | 自定义 | 创意设计 |
-| `ArticleCover` | 文章封面通用 | 自定义 | 博客文章 |
-| `Base` | 基础模板 | 自定义 | 快速原型 |
-
-## 📋 开发路线
-
-### ✅ 已完成 (v0.8.3)
-
-- [x] 可视化模板编辑器
-- [x] 预设管理系统
-- [x] GET/POST API 支持
-- [x] Emoji 和图标支持
-- [x] 高亮文字语法
-- [x] 多字体支持
-- [x] 服务端缓存
-
-### 🚧 进行中 (v0.9.x)
-
-- [ ] Docker 容器化部署
-- [ ] 模板市场
-- [ ] 批量生成 API
-- [ ] Webhook 支持
-
-### 🔮 规划中 (v1.0)
-
-- [ ] 私有化部署文档
-- [ ] 图片处理管道（压缩、裁剪）
-- [ ] 桌面客户端
-- [ ] NAS 存储支持
+| `CleanTitle(测试用)` | 简洁标题卡片 | 1200×510 | 文章封面、社交分享 |
+| `MacFolder(测试用)` | Mac 文件夹风格 | 自定义 | 创意设计 |
+| `ArticleCover(测试用)` | 文章封面通用 | 自定义 | 博客文章 |
+| `Base(测试用)` | 基础模板 | 自定义 | 快速原型 |
 
 ## 🧠 工作原理：AI 生产模板 vs AI 生成图片
 
