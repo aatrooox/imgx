@@ -4,6 +4,18 @@
 
 [compare changes](https://github.com/aatrooox/imgx/compare/0.4.0...v0.5.1)
 
+## v0.8.1
+
+[compare changes](https://github.com/aatrooox/imgx/compare/v0.8.0...v0.8.1)
+
+### 🩹 Fixes
+
+- Presets目录获取问题 ([88de136](https://github.com/aatrooox/imgx/commit/88de136))
+
+### ❤️ Contributors
+
+- Aatrox <gnakzz@qq.com>
+
 ## v0.8.0
 
 [compare changes](https://github.com/aatrooox/imgx/compare/v0.7.5...v0.8.0)
