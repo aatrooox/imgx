@@ -4,6 +4,48 @@
 
 [compare changes](https://github.com/aatrooox/imgx/compare/0.4.0...v0.5.1)
 
+## v0.8.0
+
+[compare changes](https://github.com/aatrooox/imgx/compare/v0.7.5...v0.8.0)
+
+### 🚀 Enhancements
+
+- **skill:** Add imgx-template-generator skill with frontmatter ([f0aeb7d](https://github.com/aatrooox/imgx/commit/f0aeb7d))
+- **skill:** Add Satori constraints and quality checklist ([ac346f6](https://github.com/aatrooox/imgx/commit/ac346f6))
+- **skill:** Integrate Base.vue as standard reference template ([eb96ad6](https://github.com/aatrooox/imgx/commit/eb96ad6))
+- **skill:** Add core design patterns for cover and social cards ([61d1cdc](https://github.com/aatrooox/imgx/commit/61d1cdc))
+- **skill:** Add complete workflow, examples, and usage guide ([b629f91](https://github.com/aatrooox/imgx/commit/b629f91))
+- Migrate HTML to PNG conversion logic from imgx-nitro ([6b6694d](https://github.com/aatrooox/imgx/commit/6b6694d))
+- Implement file-based preset system, remove database dependency ([77c6a7c](https://github.com/aatrooox/imgx/commit/77c6a7c))
+- Add /api/presets endpoint and update frontend to use file-based presets ([8dbf78b](https://github.com/aatrooox/imgx/commit/8dbf78b))
+- Add font size guidance and preset naming convention ([a7bba94](https://github.com/aatrooox/imgx/commit/a7bba94))
+- Update preset 006 to 120px and add font size guidance to all blueprints ([d57ae1b](https://github.com/aatrooox/imgx/commit/d57ae1b))
+- 移除无用文件, 新增各种配置 ([b315afe](https://github.com/aatrooox/imgx/commit/b315afe))
+- 新增模板/配置等 ([c3a63ab](https://github.com/aatrooox/imgx/commit/c3a63ab))
+- 重构前端页面 ([ef99b12](https://github.com/aatrooox/imgx/commit/ef99b12))
+
+### 🩹 Fixes
+
+- Replace broken icon.zzao.club with official Iconify API ([f4bb453](https://github.com/aatrooox/imgx/commit/f4bb453))
+
+### 💅 Refactors
+
+- Modularize templates into server/templates directory ([d5c352a](https://github.com/aatrooox/imgx/commit/d5c352a))
+- Modularize IMGX template generator skill documentation ([31da69b](https://github.com/aatrooox/imgx/commit/31da69b))
+
+### 📖 Documentation
+
+- **skill:** 改进 IMGX 模板生成器 SKILL，添加尺寸规格表和布局蓝图 ([6386064](https://github.com/aatrooox/imgx/commit/6386064))
+- Complete SKILL.md documentation ([06272ea](https://github.com/aatrooox/imgx/commit/06272ea))
+
+### 🏡 Chore
+
+- 更新github workflow ([2bd6ebb](https://github.com/aatrooox/imgx/commit/2bd6ebb))
+
+### ❤️ Contributors
+
+- Aatrox <gnakzz@qq.com>
+
 ## v0.7.5
 
 [compare changes](https://github.com/aatrooox/imgx/compare/v0.7.4...v0.7.5)
