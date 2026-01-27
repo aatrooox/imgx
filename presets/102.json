@@ -1,7 +1,7 @@
 {
   "code": "102",
   "name": "WeChat Cover (Dynamic Icons)",
-  "description": "微信公众号文章封面 - 支持动态图标传入 (仅支持twemoji表情图标)",
+  "description": "微信公众号文章封面 - 支持动态图标传入 (使用本地图标库: assets/icons/)",
   "width": 1200,
   "height": 510,
   "template": "WeChatCover",

@@ -3,6 +3,7 @@ import { renderErrorSvg } from '~/server/utils/satori'
 import { z } from 'zod'
 import { getPresetByCode } from '~/server/utils/preset'
 import { getParsedText } from '~/lib/content'
+import { normalizeStyleProps } from '~/server/utils/paramNormalizer'
 
 export default defineEventHandler(async (event) => {
   const text = decodeURI(getRouterParam(event, 'text') || '')
@@ -75,22 +76,18 @@ export default defineEventHandler(async (event) => {
   
   console.log('[Route] customContentProps:', customContentProps)
   
-  // Process custom style props (convert size types to numbers)
-  for (const key in customStyleProps) {
-    const schemaItem = (propsSchema as any[]).find((item: any) => item.key === key)
-    if (customStyleProps[key]) {
-      customStyleProps[key] = schemaItem?.type === 'size' ? parseInt(customStyleProps[key]) : customStyleProps[key]
-    }
-  }
+  // Process custom style props with normalization
+  const normalizedStyleProps = normalizeStyleProps(customStyleProps, propsSchema)
 
-  console.log('[Route] customStyleProps:', customStyleProps)
+  console.log('[Route] customStyleProps (raw):', customStyleProps)
+  console.log('[Route] normalizedStyleProps:', normalizedStyleProps)
   console.log('[Route] Calling generateImage...')
 
   try {
     const image = await generateImage({
       preset,
       customContentProps,
-      customStyleProps,
+      customStyleProps: normalizedStyleProps,
       format
     })
     

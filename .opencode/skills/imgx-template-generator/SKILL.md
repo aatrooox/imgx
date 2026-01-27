@@ -42,6 +42,32 @@ description: 生成符合 Satori 渲染约束的 IMGX Vue 模板，将文本转�
 | 🌈 **渐变背景** | 使用线性/径向渐变，复杂背景效果 | 6 分钟 | [blueprint-with-gradient.md](references/blueprint-with-gradient.md) |
 | 🎯 **带图标** | 需要显示图标/emoji/装饰元素 | 7 分钟 | [blueprint-with-icons.md](references/blueprint-with-icons.md) |
 
+**⚠️ 图标使用限制（重要）**
+
+IMGX 系统**仅支持本地图标库**（`assets/icons/` 目录），不支持远程图标库：
+
+| 支持 | 格式 | 说明 |
+|------|------|------|
+| ✅ **本地图标** | `prefix:icon-name` | 从 `assets/icons/` 加载的图标集 |
+| ❌ lucide | ~~`lucide:sparkles`~~ | 远程图标（网络不稳定） |
+| ❌ material | ~~`material:home`~~ | 远程图标（未实现） |
+| ❌ fa | ~~`fa:github`~~ | 远程图标（未实现） |
+| ❌ heroicons | ~~`heroicons:check`~~ | 远程图标（未实现） |
+
+**当前可用图标集：**
+- **twemoji**: 68 个表情图标
+  - 示例: `twemoji:beaming-face-with-smiling-eyes` 😁, `twemoji:cowboy-hat-face` 🤠
+  - 位置: `assets/icons/twemoji-face-icons.json`
+
+**如何添加新图标集：**
+1. 将 Iconify JSON 格式的图标集放入 `assets/icons/`
+2. 在 `lib/icons.ts` 中导入并注册新图标集
+3. 使用格式: `<prefix>:icon-name`（prefix 为图标集的 prefix 字段）
+
+**查看可用图标：** 查看 `assets/icons/` 目录下的 `.json` 文件
+
+---
+
 **✨ 每个蓝图包含：**
 - ✅ 适用场景说明
 - ✅ 完整模板代码（可直接使用）

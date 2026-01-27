@@ -1,14 +1,14 @@
 <template>
-  <div class="min-h-screen bg-gray-50">
+  <div class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
     <!-- 顶部导航 -->
     <nav class="fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-sm border-b border-gray-200 z-50">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-center h-14">
+        <div class="flex justify-between items-center h-16">
           <!-- Logo 部分 -->
           <div class="flex items-center">
             <h1 class="text-2xl sm:text-3xl text-gray-900 font-bold">
               <SparklesText
-                text="IMG X"
+                text="IMGX"
                 :colors="{ first: '#9E7AFF', second: '#FE8BBB' }"
                 :sparkles-count="5"
                 class="!text-2xl sm:!text-3xl"
@@ -17,133 +17,189 @@
             <em class="ml-2 text-xs sm:text-sm text-gray-500">v{{ config.public.appVersion }}</em>
           </div>
 
-          <!-- 导航按钮 -->
-          <div class="flex items-center justify-center  gap-1 sm:gap-2">
-            <Button variant="ghost" class="text-sm sm:text-base text-gray-700 hover:text-gray-900 hover:bg-gray-100 px-2 sm:px-4 py-1.5" @click="navigateTo('/usage')">预设</Button>
-            <Button variant="ghost" class="text-sm sm:text-base text-gray-700 hover:text-gray-900 hover:bg-gray-100 px-2 sm:px-4 py-1.5" @click="navigateTo('/playground')">开发</Button>
-            <Button variant="ghost" class="text-sm sm:text-base text-gray-700 hover:text-gray-900 hover:bg-gray-100 px-2 sm:px-4 py-1.5" @click="navigateTo('/template')">模板</Button>
-            <NuxtIcon name="mdi:github" class="cursor-pointer" size="1.5em" @click="navigateTo('https://github.com/aatrooox/imgx', { external: true, open: { target: '_blank' } })"/>
+          <!-- GitHub 链接 -->
+          <div class="flex items-center">
+            <NuxtIcon 
+              name="mdi:github" 
+              class="cursor-pointer text-gray-700 hover:text-gray-900 transition-colors" 
+              size="1.8em" 
+              @click="navigateTo('https://github.com/aatrooox/imgx', { external: true, open: { target: '_blank' } })"
+            />
           </div>
         </div>
       </div>
     </nav>
 
-    <!-- 首屏区域 -->
-    <section class="min-h-screen flex flex-col justify-center bg-gradient-to-br from-blue-50 via-white to-purple-50">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 w-full">
-        <!-- 卡片式设计 -->
-        <div class="space-y-4 sm:space-y-6 max-w-3xl mx-auto">
-          <!-- API 展示 -->
-          <div class="bg-white rounded-xl sm:rounded-2xl shadow-xl overflow-hidden border border-gray-100">
-            <div class="p-3 sm:p-6">
-              <h3 class="text-lg sm:text-xl font-semibold text-gray-900 mb-3">API 示例</h3>
-              <div class="bg-gray-900 rounded-lg p-3 overflow-x-auto">
-                <pre class="text-xs sm:text-sm text-gray-100 whitespace-pre-wrap break-all"><code>GET {baseUrl}/{presetCode}/{text1}/{text2}</code></pre>
-              </div>
-              <div class="mt-3 flex flex-wrap gap-2 text-xs sm:text-sm text-gray-500">
-                <span class="px-2 py-0.5 bg-gray-100 rounded">baseUrl: https://imgx.zzao.club</span>
-                <span class="px-2 py-0.5 bg-gray-100 rounded">presetCode: 预设码</span>
-                <span class="px-2 py-0.5 bg-gray-100 rounded">text: 文字内容</span>
-              </div>
-            </div>
-          </div>
+    <!-- 主内容区域 -->
+    <main class="pt-24 pb-16 px-4 sm:px-6 lg:px-8">
+      <div class="max-w-7xl mx-auto">
+        <!-- 标题区域 -->
+        <div class="text-center mb-12">
+          <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+            预设模板画廊
+          </h2>
+          <p class="text-lg text-gray-600">
+            选择一个模板，一行代码生成精美封面图
+          </p>
+        </div>
 
-          <!-- 预览卡片 -->
-          <div class="bg-white rounded-xl sm:rounded-2xl shadow-xl overflow-hidden border border-gray-100">
-            <div class="p-3 sm:p-6">
-              <div class="flex flex-col items-center space-y-3 sm:space-y-4">
-                <div class="w-full">
-                  <Input v-model="caseUrl" placeholder="请输入API" class="text-sm sm:text-base h-9"></Input>
+        <!-- Loading 状态 -->
+        <div v-if="loading" class="flex justify-center items-center py-20">
+          <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500"></div>
+        </div>
+
+        <!-- 瀑布流布局 -->
+        <div v-else class="masonry-container">
+          <div 
+            v-for="preset in presets" 
+            :key="preset.code"
+            class="masonry-item cursor-pointer group"
+            @click="navigateTo(`/preset/${preset.code}`)"
+          >
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+              <!-- 图片容器 -->
+              <div class="relative aspect-[1200/510] bg-gray-100 overflow-hidden">
+                <img 
+                  :src="`${baseUrl}/${preset.code}/default`"
+                  :alt="preset.name"
+                  class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  loading="lazy"
+                  @error="handleImageError"
+                />
+                <!-- 悬停遮罩 -->
+                <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-black/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <!-- 代码徽章 -->
+                <div class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full">
+                  <span class="text-xs font-mono font-semibold text-purple-600">{{ preset.code }}</span>
                 </div>
-                <!-- 固定宽高比的图片容器 -->
-                <div class="relative w-full aspect-[16/9] bg-gray-100 rounded-xl overflow-hidden shadow-lg">
-                  <img 
-                    :src="downloadUrl"
-                    alt="预览图"
-                    class="absolute inset-0 w-full h-full object-contain transition-opacity duration-300"
-                    :class="{ 'opacity-0': isLoadingImg, 'opacity-100': !isLoadingImg }"
-                  />
-                  <div v-if="isLoadingImg" class="absolute inset-0 flex items-center justify-center bg-white/70">
-                    <div class="animate-spin rounded-full h-8 w-8 sm:h-10 sm:w-10 border-b-2 border-blue-500"></div>
-                  </div>
-                </div>
-                <div class="flex gap-3 sm:gap-4 w-full">
-                  <Button size="default" class="flex-1 text-sm sm:text-base bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white h-9" @click="downloadUrl = caseUrl">
-                    点击生成
-                  </Button>
-                  <Button size="default" variant="outline" class="flex-1 text-sm sm:text-base bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white h-9" @click="(e) => downloadImage()">
-                    下载图片
-                  </Button>
+              </div>
+              
+              <!-- 信息区域 -->
+              <div class="p-4">
+                <h3 class="text-lg font-semibold text-gray-900 mb-2 line-clamp-1">
+                  {{ preset.name }}
+                </h3>
+                <p class="text-sm text-gray-600 line-clamp-2 mb-3">
+                  {{ preset.description }}
+                </p>
+                <div class="flex items-center justify-between text-xs text-gray-500">
+                  <span>{{ preset.width }} × {{ preset.height }}</span>
+                  <span class="bg-gray-100 px-2 py-1 rounded">{{ preset.ratio }}</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
+
+        <!-- 空状态 -->
+        <div v-if="!loading && presets.length === 0" class="text-center py-20">
+          <p class="text-gray-500 text-lg">暂无预设模板</p>
+        </div>
       </div>
-    </section>
+    </main>
   </div>
 </template>
 
 <script lang="ts" setup>
+interface Preset {
+  code: string
+  name: string
+  description: string
+  width: number
+  height: number
+  ratio: string
+  template: string
+  contentProps: any
+  styleProps: any
+  contentKeys: string
+}
+
 useHead({
-  title: 'IMGX@早早集市',
+  title: 'IMGX - 预设模板画廊',
   meta: [
     {
       name: 'description',
-      content: '一行代码生成封面图'
+      content: '一行代码生成精美封面图 - 浏览所有预设模板'
     }
   ]
 })
 
 const config = useRuntimeConfig()
-const color = useColorMode()
-const isDark = computed(() => color.preference === 'dark')
-const shadowColor = computed(() => isDark.value ? 'white' : 'black')
-// 保留原有的状态管理代码
-const isLoadingImg = ref(false)
 const baseUrl = config.public.nodeEnv !== 'development' ? 'https://imgx.zzao.club' : 'http://localhost:4573'
 
-const caseUrl = ref(`${baseUrl}/008/default`)
-const downloadUrl = ref('')
+const loading = ref(true)
+const presets = ref<Preset[]>([])
 
-const downloadImage = (type='png', imgUrl?: string) => {
-  const url = imgUrl || downloadUrl.value
-  if (!url) {
-    return
-  }
-  
-  // 获取文件内容并设置正确的 MIME 类型
-  fetch(url)
-    .then(response => response.blob())
-    .then(blob => {
-      const mimeType = type === 'svg' ? 'image/svg+xml' : `image/${type}`
-      const url = URL.createObjectURL(new Blob([blob], { type: mimeType }))
-      const a = document.createElement('a')
-      a.href = url
-      a.download = `imgx-index.${type}`
-      a.click()
-      URL.revokeObjectURL(url)
-    })
-    .catch(error => {
-      console.error('下载失败:', error)
-    })
-}
-const getPresets = async () => {
+// 获取所有预设
+const fetchPresets = async () => {
   try {
-    const res: any = await $fetch('/api/v1/presets', {
+    const res: any = await $fetch('/api/presets', {
       method: 'GET'
     })
-    const presets = res.data;
-    caseUrl.value = `${baseUrl}/${presets[0].code}/default`
-    downloadUrl.value = `${baseUrl}/${presets[0].code}/default`
+    presets.value = res.data || []
   } catch (error) {
     console.error('获取预设列表失败', error)
+    presets.value = []
   } finally {
+    loading.value = false
   }
 }
-onMounted(() => {
-  // reRandomBgColors();
-  getPresets()
-})
 
+// 处理图片加载错误
+const handleImageError = (event: Event) => {
+  const img = event.target as HTMLImageElement
+  img.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="1200" height="510" viewBox="0 0 1200 510"%3E%3Crect fill="%23f3f4f6" width="1200" height="510"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="24" fill="%239ca3af"%3E图片加载失败%3C/text%3E%3C/svg%3E'
+}
+
+onMounted(() => {
+  fetchPresets()
+})
 </script>
+
+<style scoped>
+/* CSS 列瀑布流布局 */
+.masonry-container {
+  column-count: 1;
+  column-gap: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .masonry-container {
+    column-count: 2;
+  }
+}
+
+@media (min-width: 1024px) {
+  .masonry-container {
+    column-count: 3;
+  }
+}
+
+@media (min-width: 1280px) {
+  .masonry-container {
+    column-count: 4;
+  }
+}
+
+.masonry-item {
+  break-inside: avoid;
+  margin-bottom: 1.5rem;
+  display: inline-block;
+  width: 100%;
+}
+
+/* 文本截断 */
+.line-clamp-1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+</style>

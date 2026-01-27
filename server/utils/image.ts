@@ -57,13 +57,26 @@ export async function generateImage({
   
   console.log('[Image] contentFinalProps before icon conversion:', contentFinalProps)
   
+  // Process custom style props first (before icon conversion needs iconSizes)
+  const styleFinalProps = {
+    ...(styleProps as Record<string, any>),
+    ...customStyleProps
+  }
+  
+  console.log('[Image] styleFinalProps:', styleFinalProps)
+  
   // Convert icon names to base64 URLs
   for (const key in contentFinalProps) {
     console.log('[Image] Checking prop:', key, '=', contentFinalProps[key])
     
     if (key.toLowerCase().includes('icon') && isIconName(contentFinalProps[key])) {
       console.log('[Image] Found icon prop:', key, 'icon name:', contentFinalProps[key])
-      const iconSize = (styleProps as any)?.iconSizes?.[0] || 80
+      
+      // Use merged styleFinalProps to get iconSizes (not preset.styleProps)
+      const iconSizes = styleFinalProps?.iconSizes
+      const iconSize = Array.isArray(iconSizes) ? iconSizes[0] : 80
+      
+      console.log('[Image] iconSizes from styleFinalProps:', iconSizes)
       console.log('[Image] Using icon size:', iconSize)
       
       contentFinalProps[key] = getBase64IconURL(contentFinalProps[key], iconSize)
@@ -76,12 +89,6 @@ export async function generateImage({
   }
   
   console.log('[Image] contentFinalProps after icon conversion:', contentFinalProps)
-  
-  // Process custom style props
-  const styleFinalProps = {
-    ...(styleProps as Record<string, any>),
-    ...customStyleProps
-  }
 
   const templateString = templateStrings[template] || template
   const vNode = await vueTemplateToSatori(templateString, {

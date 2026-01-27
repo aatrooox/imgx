@@ -10,6 +10,49 @@
 
 ---
 
+## ⚠️ 图标系统说明
+
+**IMGX 支持两种方式使用图标：**
+
+### 方式 1: 使用本地图标库（推荐）
+
+系统会自动将图标名称转换为 base64 图片：
+
+```json
+{
+  "topIcon": "twemoji:beaming-face-with-smiling-eyes",
+  "bottomRightIcon": "twemoji:cowboy-hat-face"
+}
+```
+
+**格式：** `<prefix>:icon-name`
+
+**当前可用图标集：**
+- `twemoji`: 68 个表情图标（位置: `assets/icons/twemoji-face-icons.json`）
+- 未来可扩展：将新的 Iconify JSON 图标集放入 `assets/icons/` 并在 `lib/icons.ts` 中注册
+
+**不支持远程图标库：**
+- ❌ `lucide:*` - 网络不稳定
+- ❌ `material:*`, `fa:*`, `heroicons:*` - 未实现
+
+### 方式 2: 直接使用 Base64 / SVG
+
+手动提供完整的 base64 或 SVG data URL：
+
+```json
+{
+  "topIcon": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAi...",
+  "lineIcon": "data:image/svg+xml,%3Csvg%20width%3D%2280%22..."
+}
+```
+
+**适用场景：**
+- 自定义 SVG 图形
+- 本地图标库中没有的图标
+- 需要特殊样式的图标
+
+---
+
 ## 📐 完整模板代码
 
 ```typescript
