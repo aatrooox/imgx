@@ -23,7 +23,7 @@ export async function getIconSVGHTML(iconName: string, iconSize: number) {
   const [prefix, iconInnerName] = iconName.split(':')
   if (!prefix || !iconInnerName) return null
 
-  const resData = await $fetch<any>(`https://icon.zzao.club/${prefix}.json?icons=${iconInnerName}&width=${iconSize}&height=${iconSize}`)
+  const resData = await $fetch<any>(`https://api.iconify.design/${prefix}.json?icons=${iconInnerName}`)
   const iconData = resData.icons[iconInnerName] as IconData
 
   if (!iconData) return null
