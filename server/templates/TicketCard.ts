@@ -32,8 +32,18 @@ export const TicketCardTemplate = `<div class="w-full h-full flex"
         justifyContent: 'center',
         position: 'relative'
       }">
-      <!-- LOGO Placeholder -->
-      <div class="flex"
+      <!-- LOGO -->
+      <div v-if="logoUrl" class="flex"
+        :style="{
+          width: '280px',
+          height: '280px',
+          backgroundImage: \`url(\${logoUrl})\`,
+          backgroundSize: 'contain',
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center'
+        }">
+      </div>
+      <div v-else class="flex"
         :style="{
           color: 'rgba(0, 0, 0, 0.7)',
           fontSize: '36px',
@@ -48,7 +58,7 @@ export const TicketCardTemplate = `<div class="w-full h-full flex"
     <div class="flex"
       :style="{
         position: 'absolute',
-        left: '347px',
+        left: '332px',
         top: '-16px',
         width: '32px',
         height: '32px',
@@ -61,7 +71,7 @@ export const TicketCardTemplate = `<div class="w-full h-full flex"
     <div class="flex"
       :style="{
         position: 'absolute',
-        left: '347px',
+        left: '332px',
         bottom: '-16px',
         width: '32px',
         height: '32px',

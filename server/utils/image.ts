@@ -5,6 +5,7 @@ import { WeChatCoverTemplate } from '../templates/WeChatCover'
 import { TechCoverTemplate } from '../templates/TechCover'
 import { TicketCardTemplate } from '../templates/TicketCard'
 import { getBase64IconURL } from '~/lib/icons'
+import { getLocalImageBase64Cached } from './image-loader'
 
 interface GenerateImageOptions {
   preset: Preset
@@ -84,6 +85,23 @@ export async function generateImage({
   }
   
   console.log('[Image] contentFinalProps after icon conversion:', contentFinalProps)
+
+  if (styleFinalProps?.logoPath && typeof styleFinalProps.logoPath === 'string') {
+    console.log('[Image] Processing logoPath:', styleFinalProps.logoPath)
+    
+    if (!styleFinalProps.logoPath.startsWith('data:') && !styleFinalProps.logoPath.startsWith('http')) {
+      const logoBase64 = await getLocalImageBase64Cached(styleFinalProps.logoPath)
+      
+      if (logoBase64) {
+        styleFinalProps.logoUrl = logoBase64
+        console.log('[Image] Logo loaded successfully (size:', logoBase64.length, 'bytes)')
+      } else {
+        console.error('[Image] Failed to load logo from:', styleFinalProps.logoPath)
+      }
+    } else {
+      styleFinalProps.logoUrl = styleFinalProps.logoPath
+    }
+  }
 
   const templateString = templateStrings[template] || template
   const vNode = await vueTemplateToSatori(templateString, {

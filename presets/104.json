@@ -28,7 +28,8 @@
     "verticalAligns": ["center", "center"],
     "fontFamily": "YouSheBiaoTiHei",
     "padding": "24px",
-    "stubText": "IMGX"
+    "stubText": "IMGX",
+    "logoPath": "public/reference-temp.jpg"
   },
   "contentKeys": "text"
 }
