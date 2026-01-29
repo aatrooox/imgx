@@ -4,7 +4,7 @@ export const TicketCardTemplate = `<div class="w-full h-full flex"
     fontFamily: fontFamily,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: padding ?? '40px'
+    padding: padding ?? '24px'
   }">
   
   <!-- Ticket container (white card) -->
@@ -13,17 +13,17 @@ export const TicketCardTemplate = `<div class="w-full h-full flex"
       width: '100%',
       height: '100%',
       backgroundColor: '#FFFFFF',
-      borderRadius: '32px',
+      borderRadius: '24px',
       overflow: 'visible',
       flexDirection: 'row',
       position: 'relative',
       overflow: 'hidden'
     }">
     
-    <!-- Left: Square Image Area (510x510) -->
+    <!-- Left: Square Image Area (350x350) -->
     <div class="flex"
       :style="{
-        width: '510px',
+        width: '350px',
         height: '100%',
         flexShrink: '0',
         backgroundColor: '#F5F5F5',
@@ -36,55 +36,55 @@ export const TicketCardTemplate = `<div class="w-full h-full flex"
       <div class="flex"
         :style="{
           color: 'rgba(0, 0, 0, 0.7)',
-          fontSize: '48px',
+          fontSize: '36px',
           fontWeight: '300',
-          letterSpacing: '8px'
+          letterSpacing: '6px'
         }">
         LOGO
       </div>
     </div>
     
-    <!-- Top semicircle notch (covers dashed line) -->
+    <!-- Top semicircle notch -->
     <div class="flex"
       :style="{
         position: 'absolute',
-        left: '507px',
-        top: '-20px',
-        width: '40px',
-        height: '40px',
+        left: '347px',
+        top: '-16px',
+        width: '32px',
+        height: '32px',
         backgroundColor: bgColor ?? '#2C3E50',
         borderRadius: '50%'
       }">
     </div>
     
-    <!-- Bottom semicircle notch (covers dashed line) -->
+    <!-- Bottom semicircle notch -->
     <div class="flex"
       :style="{
         position: 'absolute',
-        left: '507px',
-        bottom: '-20px',
-        width: '40px',
-        height: '40px',
+        left: '347px',
+        bottom: '-16px',
+        width: '32px',
+        height: '32px',
         backgroundColor: bgColor ?? '#2C3E50',
         borderRadius: '50%'
       }">
     </div>
 
-    <!-- Center: Content Area (Premium Ticket Style) -->
+    <!-- Center: Content Area -->
     <div class="flex"
       :style="{
         flex: '1',
         flexDirection: 'column',
         justifyContent: 'center',
-        padding: '48px 64px',
-        gap: '32px',
+        padding: '24px 40px',
+        gap: '16px',
         borderRight: '3px dashed rgba(0, 0, 0, 0.15)'
       }">
       
-      <!-- Row 1: Brand/Account Name (Primary) -->
+      <!-- Row 1: Brand/Account Name -->
       <div class="flex"
         :style="{
-          fontSize: fontSizes?.[0] ?? '64px',
+          fontSize: fontSizes?.[0] ?? '48px',
           fontWeight: '700',
           color: colors?.[0] ?? '#0B1220',
           letterSpacing: '-0.02em',
@@ -93,8 +93,8 @@ export const TicketCardTemplate = `<div class="w-full h-full flex"
         <template v-for="(part, partIdx) in content[0]" :key="partIdx">
           <span v-if="part.type === 'emoji'" class="flex"
             :style="{ 
-              width: fontSizes?.[0] ?? '64px', 
-              height: fontSizes?.[0] ?? '64px', 
+              width: fontSizes?.[0] ?? '48px', 
+              height: fontSizes?.[0] ?? '48px', 
               backgroundImage: \`url(\${part.base64URL})\`, 
               backgroundSize: '100% 100%' 
             }">
@@ -108,106 +108,107 @@ export const TicketCardTemplate = `<div class="w-full h-full flex"
         </template>
       </div>
 
-      <!-- Row 2: Ticket Info Blocks (Date | Article Count) -->
+      <!-- Row 2: Info Blocks (YEAR | WEEK | ARTICLE) -->
       <div class="flex"
         :style="{
           flexDirection: 'row',
           alignItems: 'flex-start',
-          gap: '48px'
+          gap: '24px'
         }">
         
-        <!-- Date Block -->
-        <div v-if="content[1]" class="flex"
+        <!-- Year Block -->
+        <div class="flex"
           :style="{
             flexDirection: 'column',
-            gap: '8px'
+            gap: '4px'
           }">
-          <!-- Micro Label -->
           <div class="flex"
             :style="{
-              fontSize: '13px',
+              fontSize: '11px',
               fontWeight: '600',
-              letterSpacing: '0.15em',
+              letterSpacing: '0.12em',
               color: 'rgba(11, 18, 32, 0.45)'
             }">
-            DATE
+            YEAR
           </div>
-          <!-- Value -->
           <div class="flex"
             :style="{
-              fontSize: '28px',
+              fontSize: '22px',
               fontWeight: '600',
-              color: 'rgba(11, 18, 32, 0.88)',
-              gap: '4px',
-              alignItems: 'baseline'
+              color: 'rgba(11, 18, 32, 0.88)'
             }">
-            <template v-for="(part, partIdx) in content[1]" :key="partIdx">
-              <span v-if="part.type === 'emoji'" class="flex"
-                :style="{ 
-                  width: '28px', 
-                  height: '28px', 
-                  backgroundImage: \`url(\${part.base64URL})\`, 
-                  backgroundSize: '100% 100%' 
-                }">
-              </span>
-              <span v-else class="text-nowrap flex"
-                :style="{ 
-                  fontSize: part.type === 'accent' ? '16px' : '28px',
-                  fontWeight: part.type === 'accent' ? '500' : '600',
-                  color: part.type === 'accent' ? 'rgba(11, 18, 32, 0.5)' : 'rgba(11, 18, 32, 0.88)'
-                }">
-                {{ part.text }}
-              </span>
-            </template>
+            {{ new Date().getFullYear() }}
           </div>
         </div>
 
-        <!-- Vertical Divider -->
+        <!-- Divider 1 -->
         <div class="flex"
           :style="{
             width: '1px',
-            height: '56px',
+            height: '40px',
             backgroundColor: 'rgba(11, 18, 32, 0.1)'
           }">
         </div>
         
-        <!-- Article Count Block -->
-        <div v-if="content[3]" class="flex"
+        <!-- Week Block -->
+        <div class="flex"
           :style="{
             flexDirection: 'column',
-            gap: '8px'
+            gap: '4px'
           }">
-          <!-- Micro Label -->
           <div class="flex"
             :style="{
-              fontSize: '13px',
+              fontSize: '11px',
               fontWeight: '600',
-              letterSpacing: '0.15em',
+              letterSpacing: '0.12em',
+              color: 'rgba(11, 18, 32, 0.45)'
+            }">
+            WEEK
+          </div>
+          <div class="flex"
+            :style="{
+              fontSize: '22px',
+              fontWeight: '600',
+              color: 'rgba(11, 18, 32, 0.88)'
+            }">
+            第{{ Math.ceil((((new Date()) - (new Date(new Date().getFullYear(), 0, 1))) / 86400000 + (new Date(new Date().getFullYear(), 0, 1)).getDay() + 1) / 7) }}周
+          </div>
+        </div>
+
+        <!-- Divider 2 -->
+        <div class="flex"
+          :style="{
+            width: '1px',
+            height: '40px',
+            backgroundColor: 'rgba(11, 18, 32, 0.1)'
+          }">
+        </div>
+        
+        <!-- Article Block -->
+        <div class="flex"
+          :style="{
+            flexDirection: 'column',
+            gap: '4px'
+          }">
+          <div class="flex"
+            :style="{
+              fontSize: '11px',
+              fontWeight: '600',
+              letterSpacing: '0.12em',
               color: 'rgba(11, 18, 32, 0.45)'
             }">
             ARTICLE
           </div>
-          <!-- Value -->
           <div class="flex"
             :style="{
-              fontSize: '28px',
+              fontSize: '22px',
               fontWeight: '600',
-              color: 'rgba(11, 18, 32, 0.88)',
-              gap: '4px',
-              alignItems: 'baseline'
+              color: 'rgba(11, 18, 32, 0.88)'
             }">
-            <template v-for="(part, partIdx) in content[3]" :key="partIdx">
-              <span v-if="part.type === 'emoji'" class="flex"
+            <template v-for="(part, partIdx) in content[1]" :key="partIdx">
+              <span class="flex"
                 :style="{ 
-                  width: '28px', 
-                  height: '28px', 
-                  backgroundImage: \`url(\${part.base64URL})\`, 
-                  backgroundSize: '100% 100%' 
-                }">
-              </span>
-              <span v-else class="text-nowrap flex"
-                :style="{ 
-                  color: part.type === 'accent' ? (accentColors?.[3] ?? '#E67E22') : 'rgba(11, 18, 32, 0.88)',
+                  color: part.type === 'accent' ? (accentColors?.[1] ?? '#E67E22') : 'rgba(11, 18, 32, 0.88)',
                   fontWeight: part.type === 'accent' ? '700' : '600'
                 }">
                 {{ part.text }}
@@ -218,71 +219,106 @@ export const TicketCardTemplate = `<div class="w-full h-full flex"
         
       </div>
 
-      <!-- Row 3: Progress Strip (Percentage + Hairline Bar) -->
-      <div v-if="content[2]" class="flex"
+      <!-- Row 3: Progress Bars -->
+      <div class="flex"
         :style="{
-          flexDirection: 'row',
-          alignItems: 'center',
-          gap: '24px',
-          marginTop: '8px'
+          flexDirection: 'column',
+          gap: '8px',
+          marginTop: '4px'
         }">
         
-        <!-- Progress Text -->
+        <!-- Year Progress -->
         <div class="flex"
           :style="{
-            alignItems: 'baseline',
-            gap: '6px'
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: '12px'
           }">
-          <template v-for="(part, partIdx) in content[2]" :key="partIdx">
-            <span v-if="part.type === 'emoji'" class="flex"
-              :style="{ 
-                width: '36px', 
-                height: '36px', 
-                backgroundImage: \`url(\${part.base64URL})\`, 
-                backgroundSize: '100% 100%' 
-              }">
-            </span>
-            <span v-else class="text-nowrap flex"
-              :style="{ 
-                fontSize: part.type === 'accent' ? '36px' : '18px',
-                fontWeight: part.type === 'accent' ? '700' : '500',
-                color: part.type === 'accent' ? 'rgba(11, 18, 32, 0.9)' : 'rgba(11, 18, 32, 0.5)',
-                letterSpacing: part.type === 'accent' ? '-0.02em' : '0'
-              }">
-              {{ part.text }}
-            </span>
-          </template>
-        </div>
-        
-        <!-- Hairline Progress Bar -->
-        <div class="flex"
-          :style="{
-            flex: '1',
-            maxWidth: '280px',
-            height: '6px',
-            backgroundColor: 'rgba(11, 18, 32, 0.08)',
-            borderRadius: '999px',
-            overflow: 'hidden'
-          }">
-          <!-- Progress Fill -->
           <div class="flex"
             :style="{
-              width: \`\${(() => {
-                const percentText = content[2].find(p => p.text && p.text.includes('%'))?.text || '0%';
-                const match = percentText.match(/\\d+/);
-                return match ? match[0] : '0';
-              })()}%\`,
-              height: '100%',
-              backgroundColor: 'rgba(11, 18, 32, 0.75)',
-              borderRadius: '999px'
+              fontSize: '13px',
+              fontWeight: '500',
+              color: 'rgba(11, 18, 32, 0.5)',
+              width: '56px',
+              flexShrink: '0'
             }">
+            本年剩余
+          </div>
+          <div class="flex"
+            :style="{
+              fontSize: '16px',
+              fontWeight: '700',
+              color: 'rgba(11, 18, 32, 0.85)',
+              width: '40px',
+              flexShrink: '0'
+            }">
+            {{ Math.round((1 - (((new Date()) - (new Date(new Date().getFullYear(), 0, 1))) / 86400000) / (((new Date(new Date().getFullYear(), 11, 31)) - (new Date(new Date().getFullYear(), 0, 1))) / 86400000 + 1)) * 100) }}%
+          </div>
+          <div class="flex"
+            :style="{
+              flex: '1',
+              height: '12px',
+              backgroundColor: 'rgba(11, 18, 32, 0.08)',
+              overflow: 'hidden'
+            }">
+            <div class="flex"
+              :style="{
+                width: \`\${Math.round((1 - (((new Date()) - (new Date(new Date().getFullYear(), 0, 1))) / 86400000) / (((new Date(new Date().getFullYear(), 11, 31)) - (new Date(new Date().getFullYear(), 0, 1))) / 86400000 + 1)) * 100)}%\`,
+                height: '100%',
+                backgroundColor: 'rgba(11, 18, 32, 0.75)'
+              }">
+            </div>
+          </div>
+        </div>
+        
+        <!-- Month Progress -->
+        <div class="flex"
+          :style="{
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: '12px'
+          }">
+          <div class="flex"
+            :style="{
+              fontSize: '13px',
+              fontWeight: '500',
+              color: 'rgba(11, 18, 32, 0.5)',
+              width: '56px',
+              flexShrink: '0'
+            }">
+            本月剩余
+          </div>
+          <div class="flex"
+            :style="{
+              fontSize: '16px',
+              fontWeight: '700',
+              color: 'rgba(11, 18, 32, 0.85)',
+              width: '40px',
+              flexShrink: '0'
+            }">
+            {{ Math.round((1 - (new Date().getDate()) / (new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0)).getDate()) * 100) }}%
+          </div>
+          <div class="flex"
+            :style="{
+              flex: '1',
+              height: '12px',
+              backgroundColor: 'rgba(11, 18, 32, 0.08)',
+              overflow: 'hidden'
+            }">
+            <div class="flex"
+              :style="{
+                width: \`\${Math.round((1 - (new Date().getDate()) / (new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0)).getDate()) * 100)}%\`,
+                height: '100%',
+                backgroundColor: 'rgba(11, 18, 32, 0.75)'
+              }">
+            </div>
           </div>
         </div>
         
       </div>
     </div>
 
-    <!-- Right: Ticket Stub (80px) -->
+    <!-- Right: Ticket Stub (Vertical Character Stack) -->
     <div class="flex"
       :style="{
         width: '80px',
@@ -292,18 +328,19 @@ export const TicketCardTemplate = `<div class="w-full h-full flex"
         alignItems: 'center',
         justifyContent: 'center'
       }">
-      <!-- Rotated IMGX text -->
+      <!-- Vertical character stack -->
       <div class="flex"
         :style="{
-          transform: 'rotate(-90deg)',
-          transformOrigin: 'center',
-          fontSize: '28px',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '8px',
+          fontSize: '24px',
           fontWeight: '300',
-          letterSpacing: '16px',
-          color: '#666666',
-          whiteSpace: 'nowrap'
+          color: '#666666'
         }">
-        IMGX
+        <template v-for="(char, idx) in (stubText ?? 'IMGX').split('')" :key="idx">
+          <span class="flex">{{ char }}</span>
+        </template>
       </div>
     </div>
 

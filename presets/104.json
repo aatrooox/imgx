@@ -1,9 +1,9 @@
 {
   "code": "104",
-  "name": "Ticket Card (车票卡片)",
-  "description": "车票风格卡片，1710x510尺寸（左510方形+右1200长条），适合公众号双封面裁切",
-  "width": 1710,
-  "height": 510,
+  "name": "Ticket Card Compact (车票卡片-紧凑版)",
+  "description": "紧凑车票风格卡片，适合作为文章顶部插图。日期自动计算，仅需传入公众号名称和文章篇数。",
+  "width": 1200,
+  "height": 350,
   "template": "TicketCard",
   "contentProps": {
     "content": [
@@ -11,21 +11,9 @@
         {"text": "早早集市", "type": "text"}
       ],
       [
-        {"text": "2026", "type": "text"},
-        {"text": "year", "type": "accent"},
-        {"text": " 29", "type": "text"},
-        {"text": "day", "type": "accent"},
-        {"text": " 5", "type": "text"},
-        {"text": "week", "type": "accent"}
-      ],
-      [
-        {"text": "剩余 ", "type": "text"},
-        {"text": "92%", "type": "accent"}
-      ],
-      [
-        {"text": "第 ", "type": "text"},
+        {"text": "第", "type": "text"},
         {"text": "100", "type": "accent"},
-        {"text": " 篇", "type": "text"}
+        {"text": "篇", "type": "text"}
       ]
     ]
   },
@@ -33,13 +21,14 @@
     "bgColor": "#2C3E50",
     "textWrapBgColor": "transparent",
     "textWrapPadding": "0px",
-    "colors": ["#1a1a1a", "#666666", "#888888", "#666666"],
-    "accentColors": ["#E67E22", "#999999", "#4CAF50", "#E67E22"],
-    "fontSizes": ["72px", "20px", "16px", "20px"],
-    "aligns": ["justify-start", "justify-start", "justify-start", "justify-start"],
-    "verticalAligns": ["center", "center", "center", "center"],
+    "colors": ["#0B1220", "#0B1220"],
+    "accentColors": ["#E67E22", "#E67E22"],
+    "fontSizes": ["48px", "22px"],
+    "aligns": ["justify-start", "justify-start"],
+    "verticalAligns": ["center", "center"],
     "fontFamily": "YouSheBiaoTiHei",
-    "padding": "40px"
+    "padding": "24px",
+    "stubText": "IMGX"
   },
   "contentKeys": "text"
 }
