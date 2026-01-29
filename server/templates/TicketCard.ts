@@ -35,12 +35,14 @@ export const TicketCardTemplate = `<div class="w-full h-full flex"
       <!-- LOGO -->
       <div v-if="logoUrl" class="flex"
         :style="{
-          width: '280px',
-          height: '280px',
+          position: 'absolute',
+          left: '75px',
+          top: '75px',
+          width: '200px',
+          height: '200px',
           backgroundImage: \`url(\${logoUrl})\`,
-          backgroundSize: '200px 200px',
-          backgroundRepeat: 'no-repeat',
-          backgroundPosition: 'center center'
+          backgroundSize: '100% 100%',
+          backgroundRepeat: 'no-repeat'
         }">
       </div>
       <div v-else class="flex"
