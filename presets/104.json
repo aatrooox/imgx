@@ -29,7 +29,7 @@
     "fontFamily": "YouSheBiaoTiHei",
     "padding": "24px",
     "stubText": "IMGX",
-    "logoPath": "public/reference-temp.jpg"
+    "logoPath": "public/logo.png"
   },
   "contentKeys": "text"
 }
