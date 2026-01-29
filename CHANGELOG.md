@@ -4,6 +4,41 @@
 
 [compare changes](https://github.com/aatrooox/imgx/compare/0.4.0...v0.5.1)
 
+## v0.8.4
+
+[compare changes](https://github.com/aatrooox/imgx/compare/v0.8.3...v0.8.4)
+
+### 🚀 Enhancements
+
+- Migrate image generation routes to /api/ prefix + cache system ([c8e2da7](https://github.com/aatrooox/imgx/commit/c8e2da7))
+- **TicketCard:** Redesign center content area with premium ticket style ([017e2d2](https://github.com/aatrooox/imgx/commit/017e2d2))
+- **TicketCard:** Vertical character stacking for ticket stub ([1e33148](https://github.com/aatrooox/imgx/commit/1e33148))
+- **TicketCard:** Add local logo image support ([4ae43b9](https://github.com/aatrooox/imgx/commit/4ae43b9))
+- Add project logo to TicketCard preset ([fdf94a1](https://github.com/aatrooox/imgx/commit/fdf94a1))
+
+### 🩹 Fixes
+
+- Parse multi-segment path correctly for single contentKey templates ([9450df3](https://github.com/aatrooox/imgx/commit/9450df3))
+- **TicketCard:** Adjust logo size and centering ([664cee1](https://github.com/aatrooox/imgx/commit/664cee1))
+- **TicketCard:** Use absolute positioning for logo centering ([4323669](https://github.com/aatrooox/imgx/commit/4323669))
+
+### 💅 Refactors
+
+- Migrate logo loading to Nitro serverAssets ([365e5ea](https://github.com/aatrooox/imgx/commit/365e5ea))
+
+### 📖 Documentation
+
+- Readme ([b20979e](https://github.com/aatrooox/imgx/commit/b20979e))
+- Readme ([18dd23e](https://github.com/aatrooox/imgx/commit/18dd23e))
+
+### 🏡 Chore
+
+- 更新文档 ([2e9804c](https://github.com/aatrooox/imgx/commit/2e9804c))
+
+### ❤️ Contributors
+
+- Aatrox <gnakzz@qq.com>
+
 ## v0.8.3
 
 [compare changes](https://github.com/aatrooox/imgx/compare/v0.8.2...v0.8.3)

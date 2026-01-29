@@ -3,7 +3,7 @@
   "private": true,
   "homepage": "https://imgx.zzao.club",
   "description": "a img tool power by nuxt",
-  "version": "0.8.3",
+  "version": "0.8.4",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/aatrooox/imgx.git"
