@@ -5,7 +5,7 @@ import { WeChatCoverTemplate } from '../templates/WeChatCover'
 import { TechCoverTemplate } from '../templates/TechCover'
 import { TicketCardTemplate } from '../templates/TicketCard'
 import { getBase64IconURL } from '~/lib/icons'
-import { getLocalImageBase64Cached } from './image-loader'
+import { getServerAssetImageBase64Cached } from './image-loader'
 
 interface GenerateImageOptions {
   preset: Preset
@@ -90,13 +90,13 @@ export async function generateImage({
     console.log('[Image] Processing logoPath:', styleFinalProps.logoPath)
     
     if (!styleFinalProps.logoPath.startsWith('data:') && !styleFinalProps.logoPath.startsWith('http')) {
-      const logoBase64 = await getLocalImageBase64Cached(styleFinalProps.logoPath)
+      const logoBase64 = await getServerAssetImageBase64Cached(styleFinalProps.logoPath)
       
       if (logoBase64) {
         styleFinalProps.logoUrl = logoBase64
-        console.log('[Image] Logo loaded successfully (size:', logoBase64.length, 'bytes)')
+        console.log('[Image] Logo loaded successfully from server assets')
       } else {
-        console.error('[Image] Failed to load logo from:', styleFinalProps.logoPath)
+        console.error('[Image] Failed to load logo from server assets:', styleFinalProps.logoPath)
       }
     } else {
       styleFinalProps.logoUrl = styleFinalProps.logoPath

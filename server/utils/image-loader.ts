@@ -1,48 +1,43 @@
-import { readFile } from 'node:fs/promises'
-import { resolve } from 'node:path'
-
 /**
- * Load local image file and convert to base64 data URL
- * @param imagePath - Path relative to project root or absolute path
+ * Load image from Nitro server assets and convert to base64 data URL
+ * @param assetKey - Asset key in format: "images/logo.png" (without "assets:" prefix)
  * @returns base64 data URL string
  * 
  * @example
- * // From public directory
- * const logoUrl = await getLocalImageBase64('public/logo.png')
- * 
- * // From assets directory  
- * const iconUrl = await getLocalImageBase64('assets/icons/icon.svg')
+ * const logoUrl = await getServerAssetImageBase64('images/logo.png')
  */
-export async function getLocalImageBase64(imagePath: string): Promise<string | null> {
+export async function getServerAssetImageBase64(assetKey: string): Promise<string | null> {
   try {
-    const projectRoot = resolve(process.cwd())
-    const fullPath = resolve(projectRoot, imagePath)
+    const storage = useStorage('assets:server')
     
-    console.log('[ImageLoader] Loading image from:', fullPath)
+    console.log('[ImageLoader] Loading server asset:', assetKey)
     
-    const buffer = await readFile(fullPath)
-    const mimeType = getMimeType(imagePath)
+    const buffer = await storage.getItemRaw<Buffer>(assetKey)
+    
+    if (!buffer) {
+      console.error('[ImageLoader] Asset not found:', assetKey)
+      return null
+    }
+    
+    const mimeType = getMimeType(assetKey)
     
     if (!mimeType) {
-      console.error('[ImageLoader] Unsupported image format:', imagePath)
+      console.error('[ImageLoader] Unsupported image format:', assetKey)
       return null
     }
     
     const base64 = buffer.toString('base64')
     const dataUrl = `data:${mimeType};base64,${base64}`
     
-    console.log(`[ImageLoader] Image loaded successfully (size: ${buffer.length} bytes)`)
+    console.log(`[ImageLoader] Asset loaded successfully (size: ${buffer.length} bytes)`)
     
     return dataUrl
   } catch (error) {
-    console.error('[ImageLoader] Failed to load image:', imagePath, error)
+    console.error('[ImageLoader] Failed to load asset:', assetKey, error)
     return null
   }
 }
 
-/**
- * Get MIME type from file extension
- */
 function getMimeType(filePath: string): string | null {
   const ext = filePath.toLowerCase().split('.').pop()
   
@@ -60,24 +55,21 @@ function getMimeType(filePath: string): string | null {
   return ext ? mimeMap[ext] || null : null
 }
 
-/**
- * Cache for loaded images to avoid repeated file reads
- */
 const imageCache = new Map<string, string>()
 
 /**
- * Get local image with caching
+ * Get server asset image with caching
  */
-export async function getLocalImageBase64Cached(imagePath: string): Promise<string | null> {
-  if (imageCache.has(imagePath)) {
-    console.log('[ImageLoader] Using cached image:', imagePath)
-    return imageCache.get(imagePath)!
+export async function getServerAssetImageBase64Cached(assetKey: string): Promise<string | null> {
+  if (imageCache.has(assetKey)) {
+    console.log('[ImageLoader] Using cached asset:', assetKey)
+    return imageCache.get(assetKey)!
   }
   
-  const dataUrl = await getLocalImageBase64(imagePath)
+  const dataUrl = await getServerAssetImageBase64(assetKey)
   
   if (dataUrl) {
-    imageCache.set(imagePath, dataUrl)
+    imageCache.set(assetKey, dataUrl)
   }
   
   return dataUrl

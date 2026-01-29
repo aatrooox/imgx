@@ -61,7 +61,11 @@ export default defineNuxtConfig({
     serverAssets: [
       {
         baseName: 'presets',
-        dir: '../presets' // relative to nitro srcDir
+        dir: '../presets'
+      },
+      {
+        baseName: 'images',
+        dir: './assets/images'
       }
     ],
     rollupConfig: {
