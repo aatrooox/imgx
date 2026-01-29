@@ -55,7 +55,14 @@ export default defineEventHandler(async (event) => {
   console.log('[Route] contentKeysArray:', contentKeysArray)
   
   if (contentKeysArray.length === 1 && contentKeysArray[0] === 'text') {
-    const lines = contents.join('/').split('+')
+    let lines: string[]
+    if (contents.length > 1) {
+      lines = contents
+    } else if (contents.length === 1 && contents[0].includes('+')) {
+      lines = contents[0].split('+')
+    } else {
+      lines = contents
+    }
     const parsedContent = lines.map(line => getParsedText(line))
     customContentProps.content = parsedContent
   } else {
