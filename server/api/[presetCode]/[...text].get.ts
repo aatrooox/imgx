@@ -50,7 +50,10 @@ export default defineEventHandler(async (event) => {
 
   // Process custom content props
   const customContentProps: Record<string, string> = {}
-  const contentKeysArray = contentKeys.split(',')
+  // Handle both string and array formats for contentKeys
+  const contentKeysArray = Array.isArray(contentKeys) 
+    ? contentKeys 
+    : contentKeys.split(',')
   
   console.log('[Route] contentKeysArray:', contentKeysArray)
   

@@ -7,7 +7,7 @@ export interface Preset {
   height: number
   contentProps: Record<string, any>
   styleProps: Record<string, any>
-  contentKeys: string
+  contentKeys: string | string[]
   propsSchema?: any[]
 }
 

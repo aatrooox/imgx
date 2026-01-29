@@ -2,6 +2,20 @@
 
 Essential information for AI coding agents working on the IMGX project.
 
+## ⚠️ CRITICAL RULES
+
+### DO NOT Start Dev Server
+
+**NEVER** start, restart, or manage the dev server (`pnpm dev`) automatically:
+- ❌ Do NOT run `pnpm dev`
+- ❌ Do NOT run `pkill` then restart server
+- ❌ Do NOT attempt to "fix" server issues by restarting
+- ✅ If testing is needed, **ASK the user first**
+- ✅ Assume the server is already running when needed
+- ✅ If server issues occur, report to user and wait for instructions
+
+**Reason:** Server management should be controlled by the user to avoid disrupting their workflow.
+
 ## Project Overview
 
 IMGX is a Nuxt 4 app that generates card images from text via API. Core stack: Vue 3, TypeScript, Tailwind CSS, Prisma, and Satori (HTML/CSS → SVG → PNG).
