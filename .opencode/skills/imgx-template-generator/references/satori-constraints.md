@@ -2,6 +2,8 @@
 
 Satori 是将 HTML/CSS 转换为 SVG 的渲染引擎，但**不是完整的浏览器引擎**，因此有严格的限制。
 
+**最后更新：2026-01-29（基于 Satori 官方文档）**
+
 ---
 
 ## ✅ 必须做到
@@ -75,14 +77,12 @@ Error: <span> must have display: flex
 - **Flexbox**: `flex`, `flex-col`, `flex-row`, `flex-wrap`
 - **对齐**: `items-center`, `items-start`, `items-end`, `justify-center`, `justify-between`
 - **尺寸**: `w-full`, `h-full`, `w-[200px]`, `h-[100px]`
-- **间距**: `gap-4`, `space-x-2`（部分支持）
-- **文本**: `text-center`, `font-bold`（部分需要 inline style）
+- **间距**: `gap-4`, `space-x-2`
+- **文本**: `text-center`, `text-nowrap`, `font-bold`
 
 **不支持的 Tailwind 类：**
 - ❌ 动画: `animate-*`
 - ❌ 过渡: `transition-*`
-- ❌ 阴影: `shadow-*`
-- ❌ 滤镜: `blur-*`, `brightness-*`
 
 ---
 
@@ -119,73 +119,30 @@ export const MyTemplate = `<div
 
 ---
 
-## ❌ 不能使用
+## ❌ 有限制的功能
 
-### 1. box-shadow（阴影）
+### 1. transform（变换）
 
-```html
-<!-- ❌ 不支持 -->
-<div :style="{boxShadow: '0 4px 6px rgba(0,0,0,0.1)'}">
-```
-
-**替代方案：**
-- 使用边框模拟浅阴影
-- 使用背景渐变创造深度感
-- 接受 Satori 的限制
+✅ **支持：** translate, rotate, scale, skew
+❌ **不支持：** 3D transforms
 
 ```html
-<!-- ✅ 替代：边框模拟阴影 -->
-<div :style="{
-  border: '1px solid rgba(0,0,0,0.1)',
-  borderBottom: '3px solid rgba(0,0,0,0.15)'
-}">
-```
-
----
-
-### 2. transform（变换）
-
-```html
-<!-- ❌ 不支持 -->
+<!-- ✅ 支持 -->
+<div :style="{transform: 'translate(10px, 20px)'}">
 <div :style="{transform: 'rotate(45deg)'}">
 <div :style="{transform: 'scale(1.2)'}">
+<div :style="{transform: 'skewX(10deg)'}">
+
+<!-- ❌ 不支持 3D -->
+<div :style="{transform: 'rotateX(45deg)'}">
+<div :style="{transform: 'translate3d(0, 0, 10px)'}">
 ```
 
-**替代方案：**
-- 重新设计布局避免旋转需求
-- 使用静态图标（已旋转的 SVG/图片）
+**transformOrigin**: 支持单值和双值语法（相对和绝对值）
 
 ---
 
-### 3. filter（滤镜）
-
-```html
-<!-- ❌ 不支持 -->
-<div :style="{filter: 'blur(10px)'}">
-<div :style="{filter: 'brightness(0.8)'}">
-<div :style="{filter: 'drop-shadow(0 4px 6px rgba(0,0,0,0.1))'}">
-```
-
-**注意：**
-- `drop-shadow` 也不支持（虽然是 CSS 滤镜的阴影实现）
-
----
-
-### 4. animations & transitions（动画和过渡）
-
-```html
-<!-- ❌ 不支持 -->
-<div :style="{animation: 'spin 1s linear infinite'}">
-<div :style="{transition: 'all 0.3s ease'}">
-```
-
-**原因：**
-- Satori 渲染静态图片（SVG → PNG）
-- 图片无法展示动画效果
-
----
-
-### 5. 外部图片
+### 2. 外部图片
 
 ```html
 <!-- ❌ 不支持 -->
@@ -207,7 +164,7 @@ export const MyTemplate = `<div
 
 ---
 
-### 6. z-index（层叠顺序）
+### 3. z-index（层叠顺序）
 
 ```html
 <!-- ❌ 不支持 -->
@@ -228,7 +185,27 @@ export const MyTemplate = `<div
 
 ---
 
-### 7. 嵌套 Vue 组件
+### 4. calc() 不支持
+
+```html
+<!-- ❌ 不支持 -->
+<div :style="{width: 'calc(100% - 20px)'}">
+```
+
+**替代方案：**
+- 在 JavaScript 中预先计算
+- 使用 Flexbox 自动布局
+
+---
+
+### 5. currentColor 限制
+
+✅ **仅支持在 `color` 属性中使用**
+❌ **在其他属性中不可用**
+
+---
+
+### 6. 嵌套 Vue 组件
 
 ```typescript
 // ❌ 不支持
@@ -249,48 +226,135 @@ export const MyTemplate = `<div class="flex">
 
 ---
 
-## 🎯 支持的 CSS 属性清单
+## 🎯 支持的 CSS 属性完整清单
 
-### 布局（Layout）
-- ✅ `display: flex`
-- ✅ `flex-direction`
-- ✅ `flex-wrap`
-- ✅ `justify-content`
-- ✅ `align-items`
-- ✅ `align-content`
-- ✅ `gap`
+### Display & Position
+
+| 属性 | 支持的值 | 备注 |
+|------|----------|------|
+| `display` | `flex`, `contents`, `none` | 默认为 `flex` |
+| `position` | `relative`, `static`, `absolute` | 默认为 `relative` |
+| `top`, `right`, `bottom`, `left` | ✅ 支持 | 定位属性 |
 
 ### 尺寸（Size）
-- ✅ `width`, `height`
-- ✅ `min-width`, `max-width`
-- ✅ `min-height`, `max-height`
+
+| 属性 | 支持情况 | 备注 |
+|------|----------|------|
+| `width`, `height` | ✅ 支持 | |
+| `minWidth`, `minHeight` | ✅ 支持 | ❌ 不支持 `min-content`, `max-content`, `fit-content` |
+| `maxWidth`, `maxHeight` | ✅ 支持 | ❌ 不支持 `min-content`, `max-content`, `fit-content` |
 
 ### 间距（Spacing）
-- ✅ `padding`, `padding-*`
-- ✅ `margin`, `margin-*`
+
+| 属性 | 支持情况 |
+|------|----------|
+| `margin` | ✅ 支持（包括 `marginTop`, `marginRight` 等） |
+| `padding` | ✅ 支持（包括 `paddingTop`, `paddingRight` 等） |
 
 ### 边框（Border）
-- ✅ `border`, `border-*`
-- ✅ `border-radius`
-- ✅ `border-color`, `border-width`
+
+| 属性 | 支持的值 | 备注 |
+|------|----------|------|
+| `borderWidth` | ✅ 支持 | 包括各方向 |
+| `borderStyle` | `solid`, `dashed` | 默认 `solid` |
+| `borderColor` | ✅ 支持 | 包括各方向 |
+| `border` | ✅ 支持 | 简写形式，如 `1px solid gray` |
+| `borderRadius` | ✅ 支持 | 支持简写和各角，如 `5px`, `50% / 5px` |
+
+### Flexbox 布局
+
+| 属性 | 支持的值 | 默认值 |
+|------|----------|--------|
+| `flexDirection` | `column`, `row`, `row-reverse`, `column-reverse` | `row` |
+| `flexWrap` | `wrap`, `nowrap`, `wrap-reverse` | `wrap` |
+| `flexGrow` | ✅ 支持 | |
+| `flexShrink` | ✅ 支持 | |
+| `flexBasis` | ✅ 支持 | ❌ 不支持 `auto` |
+| `alignItems` | `stretch`, `center`, `flex-start`, `flex-end`, `baseline`, `normal` | `stretch` |
+| `alignContent` | ✅ 支持 | |
+| `alignSelf` | ✅ 支持 | |
+| `justifyContent` | ✅ 支持 | |
+| `gap` | ✅ 支持 | |
+
+### 字体（Font）
+
+| 属性 | 支持情况 |
+|------|----------|
+| `fontFamily` | ✅ 支持 |
+| `fontSize` | ✅ 支持 |
+| `fontWeight` | ✅ 支持 |
+| `fontStyle` | ✅ 支持 |
+
+### 文本（Text）
+
+| 属性 | 支持的值 | 默认值 |
+|------|----------|--------|
+| `color` | ✅ 支持 | |
+| `tabSize` | ✅ 支持 | |
+| `textAlign` | `start`, `end`, `left`, `right`, `center`, `justify` | `start` |
+| `textTransform` | `none`, `lowercase`, `uppercase`, `capitalize` | `none` |
+| `textOverflow` | `clip`, `ellipsis` | `clip` |
+| `textDecoration` | 支持 `underline`, `line-through`；样式 `dotted`, `dashed`, `double`, `solid` | |
+| `textShadow` | ✅ 支持 | |
+| `lineHeight` | ✅ 支持 | |
+| `letterSpacing` | ✅ 支持 | |
+| `whiteSpace` | `normal`, `pre`, `pre-wrap`, `pre-line`, `nowrap` | `normal` |
+| `wordBreak` | `normal`, `break-all`, `break-word`, `keep-all` | `normal` |
+| `textWrap` | `wrap`, `balance` | `wrap` |
+| `lineClamp` | ✅ 支持 | 多行文本截断 |
 
 ### 背景（Background）
-- ✅ `background-color`
-- ✅ `background-image` (渐变)
-- ❌ `background-image` (url)
 
-### 文字（Text）
-- ✅ `color`
-- ✅ `font-size`
-- ✅ `font-weight`
-- ✅ `font-family`
-- ✅ `line-height`
-- ✅ `text-align`
-- ✅ `letter-spacing`
-- ✅ `word-spacing`
+| 属性 | 支持情况 | 备注 |
+|------|----------|------|
+| `backgroundColor` | ✅ 支持 | 单一值 |
+| `backgroundImage` | ✅ 支持 | `linear-gradient`, `radial-gradient`, `repeating-linear-gradient`, `repeating-radial-gradient`, `url` (base64) |
+| `backgroundPosition` | ✅ 支持 | 单一值 |
+| `backgroundSize` | ✅ 支持 | 双值语法，如 `10px 20%` |
+| `backgroundClip` | `border-box`, `text` | |
+| `backgroundRepeat` | `repeat`, `repeat-x`, `repeat-y`, `no-repeat` | 默认 `repeat` |
 
-### 不透明度（Opacity）
-- ✅ `opacity`
+### 变换（Transform）
+
+| 属性 | 支持情况 | 备注 |
+|------|----------|------|
+| `transform` | ✅ 支持 | `translate`, `translateX`, `translateY`, `rotate`, `scale`, `scaleX`, `scaleY`, `skew`, `skewX`, `skewY` |
+| `transformOrigin` | ✅ 支持 | 单值和双值语法（相对和绝对值） |
+| ❌ 3D transforms | 不支持 | `rotateX`, `translate3d` 等 |
+
+### 对象适配（Object Fit）
+
+| 属性 | 支持的值 | 默认值 |
+|------|----------|--------|
+| `objectFit` | `contain`, `cover`, `none` | `none` |
+| `objectPosition` | 关键字：`top`, `bottom`, `left`, `right`, `center` 及组合 | `center` |
+
+### 其他
+
+| 属性 | 支持情况 |
+|------|----------|
+| `opacity` | ✅ 支持 |
+| `boxSizing` | ✅ 支持 |
+| `boxShadow` | ✅ 支持 |
+| `overflow` | `visible`, `hidden` (默认 `visible`) |
+| `filter` | ✅ 支持 |
+| `clipPath` | ✅ 支持 |
+
+### 遮罩（Mask）
+
+| 属性 | 支持情况 |
+|------|----------|
+| `maskImage` | ✅ 支持 `linear-gradient`, `radial-gradient`, `url` |
+| `maskPosition` | ✅ 支持 |
+| `maskSize` | ✅ 支持双值语法，如 `10px 20%` |
+| `maskRepeat` | `repeat`, `repeat-x`, `repeat-y`, `no-repeat` (默认 `repeat`) |
+
+### WebKit 特性
+
+| 属性 | 支持情况 |
+|------|----------|
+| `WebkitTextStrokeWidth` | ✅ 支持 |
+| `WebkitTextStrokeColor` | ✅ 支持 |
 
 ---
 
@@ -309,10 +373,10 @@ Error: <div> must have display: flex
 #### 错误 2: 使用不支持的属性
 
 ```
-渲染成功但样式缺失（如阴影、变换）
+渲染成功但样式缺失
 ```
 
-**解决：** 检查是否使用了 `box-shadow`, `transform`, `filter`
+**解决：** 检查是否使用了不支持的属性值或 3D transforms
 
 #### 错误 3: 图片加载失败
 
@@ -327,9 +391,25 @@ Error: Failed to load image
 ## 📚 相关资源
 
 - [Satori 官方文档](https://github.com/vercel/satori)
+- [Satori CSS 支持列表](https://github.com/vercel/satori#css)
 - [Tailwind CSS 文档](https://tailwindcss.com/docs)
-- [支持的 CSS 属性列表](https://github.com/vercel/satori#css)
+- [Satori Playground](https://og-playground.vercel.app/)
 
 ---
 
-**记住：Satori 不是浏览器，只支持 Flexbox + 基础样式。**
+## 📝 重要限制总结
+
+1. ❌ **不支持 3D transforms**
+2. ❌ **不支持 z-index**（通过 DOM 顺序控制）
+3. ❌ **不支持 calc()**
+4. ❌ **currentColor** 仅支持在 `color` 属性中
+5. ❌ **min-content**, **max-content**, **fit-content** 不支持在 min/max 尺寸中
+6. ❌ **动画和过渡**（Satori 生成静态图片）
+7. ✅ **支持 boxShadow**（与旧版本不同）
+8. ✅ **支持 filter**（与旧版本不同）
+9. ✅ **支持 transform**（2D only）
+10. ✅ **支持 overflow, clipPath, lineClamp, mask, textWrap, wordBreak, whiteSpace**
+
+---
+
+**记住：Satori 不是浏览器，只支持 Flexbox + 精选的 CSS 属性子集。**

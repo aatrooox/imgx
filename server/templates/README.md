@@ -194,7 +194,7 @@ type ParsedContent = LinePart[]  // 多行内容
 
 访问 API 时添加 `?format=svg` 查看生成的 SVG：
 ```
-http://localhost:4573/006/default?format=svg
+http://localhost:4573/api/006/default?format=svg
 ```
 
 ### 2. 检查模板是否被正确导入

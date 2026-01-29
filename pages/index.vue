@@ -60,7 +60,7 @@
               <!-- 图片容器 -->
               <div class="relative aspect-[1200/510] bg-gray-100 overflow-hidden">
                 <img 
-                  :src="`${baseUrl}/${preset.code}/default`"
+                  :src="`${baseUrl}/api/${preset.code}/default`"
                   :alt="preset.name"
                   class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                   loading="lazy"

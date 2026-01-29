@@ -1,11 +1,9 @@
 import { Resvg } from '@resvg/resvg-js'
 import type { Preset } from './preset'
 import { renderErrorSvg, vueTemplateToSatori, renderSVGBySatori } from './satori'
-import { BaseTemplate } from '../templates/Base'
-import { ArticleCoverTemplate } from '../templates/ArticleCover'
-import { MacFolderTemplate } from '../templates/MacFolder'
-import { CleanTitleTemplate } from '../templates/CleanTitle'
 import { WeChatCoverTemplate } from '../templates/WeChatCover'
+import { TechCoverTemplate } from '../templates/TechCover'
+import { TicketCardTemplate } from '../templates/TicketCard'
 import { getBase64IconURL } from '~/lib/icons'
 
 interface GenerateImageOptions {
@@ -16,12 +14,9 @@ interface GenerateImageOptions {
 }
 
 const templateStrings: Record<string, string> = {
-  'Base': BaseTemplate,
-  '001': BaseTemplate,
-  'ArticleCover': ArticleCoverTemplate,
-  'MacFolder': MacFolderTemplate,
-  'CleanTitle': CleanTitleTemplate,
   'WeChatCover': WeChatCoverTemplate,
+  'TechCover': TechCoverTemplate,
+  'TicketCard': TicketCardTemplate,
 }
 
 /**

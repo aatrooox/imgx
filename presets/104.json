@@ -1,0 +1,45 @@
+{
+  "code": "104",
+  "name": "Ticket Card (车票卡片)",
+  "description": "车票风格卡片，1710x510尺寸（左510方形+右1200长条），适合公众号双封面裁切",
+  "width": 1710,
+  "height": 510,
+  "template": "TicketCard",
+  "contentProps": {
+    "content": [
+      [
+        {"text": "早早集市", "type": "text"}
+      ],
+      [
+        {"text": "2026", "type": "text"},
+        {"text": "year", "type": "accent"},
+        {"text": " 29", "type": "text"},
+        {"text": "day", "type": "accent"},
+        {"text": " 5", "type": "text"},
+        {"text": "week", "type": "accent"}
+      ],
+      [
+        {"text": "剩余 ", "type": "text"},
+        {"text": "92%", "type": "accent"}
+      ],
+      [
+        {"text": "第 ", "type": "text"},
+        {"text": "100", "type": "accent"},
+        {"text": " 篇", "type": "text"}
+      ]
+    ]
+  },
+  "styleProps": {
+    "bgColor": "#2C3E50",
+    "textWrapBgColor": "transparent",
+    "textWrapPadding": "0px",
+    "colors": ["#1a1a1a", "#666666", "#888888", "#666666"],
+    "accentColors": ["#E67E22", "#999999", "#4CAF50", "#E67E22"],
+    "fontSizes": ["72px", "20px", "16px", "20px"],
+    "aligns": ["justify-start", "justify-start", "justify-start", "justify-start"],
+    "verticalAligns": ["center", "center", "center", "center"],
+    "fontFamily": "YouSheBiaoTiHei",
+    "padding": "40px"
+  },
+  "contentKeys": "text"
+}

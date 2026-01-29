@@ -1,0 +1,30 @@
+{
+  "code": "103",
+  "name": "Black Card Cover (黑卡封面)",
+  "description": "高端黑卡风格封面，纯黑背景配金色点缀，简约低调奢华",
+  "width": 1200,
+  "height": 510,
+  "template": "TechCover",
+  "contentProps": {
+    "content": [
+      [
+        {"text": "专属", "type": "accent"},
+        {"text": " 定制", "type": "text"}
+      ]
+    ]
+  },
+  "styleProps": {
+    "bgColor": "#000000",
+    "bgImage": "linear-gradient(160deg, #1a1a1a 0%, #000000 50%, #0a0a0a 100%)",
+    "textWrapBgColor": "transparent",
+    "textWrapPadding": "0px",
+    "colors": ["#FFFFFF"],
+    "accentColors": ["#D4AF37"],
+    "fontSizes": ["100px"],
+    "aligns": ["justify-center"],
+    "verticalAligns": ["center"],
+    "fontFamily": "YouSheBiaoTiHei",
+    "padding": "60px"
+  },
+  "contentKeys": "text"
+}

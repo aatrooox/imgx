@@ -1,202 +1,245 @@
 # AGENTS.md - Guide for Coding Agents
 
-This document provides essential information for AI coding agents working on the IMGX project.
+Essential information for AI coding agents working on the IMGX project.
 
 ## Project Overview
 
-IMGX is a Nuxt 3 application that generates card images from text via API. It uses Vue 3, TypeScript, Tailwind CSS, Prisma ORM, and the Satori library to convert Vue components into images.
+IMGX is a Nuxt 4 app that generates card images from text via API. Core stack: Vue 3, TypeScript, Tailwind CSS, Prisma, and Satori (HTML/CSS → SVG → PNG).
 
-## Build, Dev & Release Commands
+## Commands
 
 ### Development
-pnpm dev              # Start dev server on port 4573 with auto-open
-
-### Build & Deploy
-pnpm build            # Build for production
-pnpm generate         # Generate static site
+```bash
+pnpm dev              # Dev server on port 4573 with auto-open
+pnpm build            # Production build
 pnpm preview          # Preview production build
-pnpm postinstall      # Run after install (nuxt prepare)
+```
 
-### Release Management
-pnpm release          # Patch version bump + changelog + push
-pnpm release:patch    # Same as above
-pnpm release:minor    # Minor version bump + changelog + push
-pnpm release:major    # Major version bump + changelog + push
-
-### Utilities
-pnpm extract          # Extract face icons (custom script)
+### Release
+```bash
+pnpm release          # Patch bump + changelog + push
+pnpm release:minor    # Minor bump
+pnpm release:major    # Major bump
+```
 
 ### Testing
-Note: This project currently has no automated test suite. Manual testing is done via dev server.
+**No automated test suite.** Manual testing via `pnpm dev`. If adding tests, consider Vitest + @vue/test-utils.
 
-## Package Manager
+### Package Manager
+**Use pnpm exclusively** (v9.15.4). Do not use npm or yarn.
 
-Use pnpm exclusively - specified in package.json (pnpm@9.15.4)
+## Code Style
 
-## Code Style Guidelines
+### Linting & Formatting
+- No ESLint or Prettier config. Follow patterns in existing code.
+- TypeScript strict mode via Nuxt's tsconfig.
 
 ### TypeScript
 
-#### Type Safety
-- Always use TypeScript for new files (.ts, .vue)
-- Define explicit types for function parameters and return values
-- Use type for object shapes, interface for extendable contracts
-- Leverage Nuxt's auto-imports for composables and utils
+**Type Definitions:**
+```typescript
+// Prefer 'type' for shapes, 'interface' for extendable contracts
+type TextPart = { text: string; accent: boolean }
+interface ComponentBaseProps { content: ParsedContent }
 
-#### Import Order
-1. External dependencies (Vue, Nuxt, third-party libs)
-2. Type imports (with type keyword)
-3. Local utilities and libs (~/lib/*, ~/utils/*)
-4. Assets (fonts, images)
-5. Components (auto-imported by Nuxt)
-
-#### Import Style Examples
-// Correct
-import { Resvg } from '@resvg/resvg-js'
+// Always use type-only imports when importing types
 import type { Component } from 'vue'
-import { satori, html } from '~/utils/satori'
-import BiaoTiHei from '~/assets/fonts/YouSheBiaoTiHei-2.ttf'
+import type { HTMLAttributes } from 'vue'
+```
 
-// Avoid - Missing 'type' keyword
-import { Component } from 'vue'
+**Zod Schemas for Validation:**
+```typescript
+// Use Zod for runtime validation + type inference
+const schema = z.object({
+  format: z.enum(['svg', 'png']).optional().default('png'),
+  colors: z.string().optional(),  // Normalize later
+}).catchall(z.any())  // Allow extra props for flexibility
+
+// In event handlers
+const query = await useSafeValidatedQuery(event, schema)
+if (!query.success) {
+  throw createError({ statusCode: 400, statusMessage: query.message })
+}
+```
+
+### Import Order
+1. External libs (vue, @resvg/resvg-js, zod)
+2. Type imports (`import type { ... }`)
+3. Nuxt aliases (`~/lib/*`, `~/server/utils/*`)
+4. Assets (fonts as buffers: `import Font from '~/assets/fonts/Font.ttf'`)
 
 ### Vue Components
 
-#### Script Setup
-- Use <script setup lang="ts"> for all components
-- Define props with TypeScript interfaces
-- Use defineProps, defineEmits with type parameters
+```vue
+<script setup lang="ts">
+// 1. Imports
+import type { HTMLAttributes } from 'vue'
+import { computed, watch } from 'vue'
 
-#### Component Organization
-1. Imports
-2. Type definitions
-3. Props & emits
-4. Composables
-5. State (ref, reactive)
-6. Computed properties
-7. Methods
-8. Lifecycle hooks
+// 2. Type definitions
+interface Props {
+  modelValue: string
+  placeholder?: string
+}
 
-### API Routes & Server
+// 3. Props & emits
+const props = withDefaults(defineProps<Props>(), {
+  placeholder: 'Enter text'
+})
+const emit = defineEmits<{ 'update:modelValue': [string] }>()
 
-#### File Naming
-- Use bracket notation for dynamic routes: [param].get.ts, [...slug].ts
-- Number-prefix middleware by execution order: 1.auth0.ts, 2.rateLimit.ts
+// 4. State & composables
+const localValue = ref(props.modelValue)
 
-#### Event Handler Pattern
+// 5. Computed & methods
+const formattedValue = computed(() => localValue.value.trim())
+</script>
+```
+
+**Conventions:**
+- Always `<script setup lang="ts">`
+- PascalCase filenames: `SchemaEditor.vue`, `TextHighlight.vue`
+- Use `cn()` helper for class merging (from `~/lib/utils`)
+
+### Server/API Routes
+
+**File Naming:**
+- Dynamic routes: `[presetCode]/[...text].get.ts`
+- Middleware: Numeric prefix for order: `1.auth0.ts`, `2.rateLimit.ts`
+
+**Event Handler Pattern:**
+```typescript
 export default defineEventHandler(async (event) => {
   // 1. Extract params
-  const param = getRouterParam(event, 'param')
+  const code = getRouterParam(event, 'code')
   
-  // 2. Validate input with Zod
+  // 2. Validate with Zod
   const query = await useSafeValidatedQuery(event, schema)
-  
-  // 3. Check validation
   if (!query.success) {
-    throw createError({
-      statusCode: 400,
-      statusMessage: query.message ?? '参数错误'
-    })
+    throw createError({ statusCode: 400, statusMessage: query.message })
   }
   
-  // 4. Process and return
-  return processData(query.data)
+  // 3. Process & return
+  const result = await processData(query.data)
+  
+  // 4. Set headers (caching)
+  setHeader(event, 'Cache-Control', 'public, max-age=3600, immutable')
+  const etag = `"${hashContent(result)}"`
+  setHeader(event, 'ETag', etag)
+  
+  // 5. Check client cache (304)
+  if (getRequestHeader(event, 'if-none-match') === etag) {
+    event.node.res.statusCode = 304
+    return null
+  }
+  
+  return result
+})
+```
+
+**Middleware Patterns:**
+- **Auth:** JWT from cookies via `jose.jwtVerify()`, set `event.context.userId`
+- **Rate Limit:** Redis via `useStorage('redis')`, key: `ratelimit:${ip}:${path}`
+
+**Parameter Normalization:**
+```typescript
+// Arrays: fontSizes, colors, iconSizes
+// Query: ?colors[]=FF0000&colors[]=00FF00 or ?colors=FF0000,00FF00
+// Both normalize to: { colors: ['#FF0000', '#00FF00'] }
+
+import { normalizeStyleProps } from '~/server/utils/paramNormalizer'
+const normalized = normalizeStyleProps(rawProps, propsSchema)
+```
+
+### Error Handling
+
+```typescript
+// Server: Use createError
+throw createError({
+  statusCode: 400,
+  statusMessage: '参数错误'  // Mixed CN/EN is OK
 })
 
-#### Error Handling
-- Use createError for HTTP errors
-- Use try-catch for async operations
-- Include Chinese error messages when appropriate (this project uses mixed CN/EN)
-
-### Styling with Tailwind CSS
-
-#### Best Practices
-- Use Tailwind utilities in templates
-- Use responsive prefixes: sm:, md:, lg:
-- Combine with cn() helper for conditional classes
-- Dynamic styles via :style binding when Tailwind isn't sufficient
+// Async ops: try-catch + console.error
+try {
+  const result = await riskyOperation()
+} catch (error) {
+  console.error('[Route] Error:', error)
+  throw createError({ statusCode: 500, statusMessage: 'Generation failed' })
+}
+```
 
 ### Naming Conventions
 
-#### Variables & Functions
-- Use camelCase: isLoading, downloadImage, baseUrl
-- Boolean variables: is*, has*, should* prefix
-- Event handlers: handle* or on* prefix
+| Type | Convention | Examples |
+|------|------------|----------|
+| Variables/Functions | camelCase | `generateImage`, `isLoading`, `baseUrl` |
+| Booleans | is/has/should prefix | `isValid`, `hasAccess` |
+| Event handlers | handle/on prefix | `handleClick`, `onSubmit` |
+| Components | PascalCase | `SchemaEditor.vue`, `GlowBorder.vue` |
+| Constants | UPPER_SNAKE_CASE | `COLOR_RANGES`, `MAX_SIZE` |
+| Config objects | camelCase | `runtimeConfig`, `colorMap` |
 
-#### Components
-- Use PascalCase for component files: SchemaEditor.vue, PreviewWraper.vue
-- UI components in components/ui/ follow shadcn-vue naming
-
-#### Constants
-- Use UPPER_SNAKE_CASE for true constants
-- Use camelCase for configuration objects
-
-### Comments & Documentation
-- Add comments for complex business logic
-- Chinese comments are acceptable (project uses mixed CN/EN)
-- Document API parameters in Zod schemas with inline comments
-
-## Project-Specific Patterns
+## Key Patterns
 
 ### Image Generation Flow
-1. Route handler extracts text, size, template from URL
-2. Validate params with Zod schemas
-3. Load Vue component dynamically via serverTemplates
-4. Render component to SVG using Satori
-5. Convert SVG to PNG using Resvg
-6. Return image with caching headers (ETag)
+1. Route extracts preset code + dynamic content from URL path
+2. Validate query params with Zod
+3. Split props: `contentKeys` → content, rest → style
+4. Normalize style props (add `#` to colors, `px` to sizes)
+5. Merge with preset defaults
+6. Render Vue component → Satori → SVG → Resvg → PNG
+7. Return with ETag + Cache-Control headers
 
-### Component Props Parsing
-- Props split into contentProps (text content) and styleProps (visual styling)
-- Content passed via URL path segments, styles via query params
-- Merged with preset defaults
+### Content Parsing
+- Asterisk `*text*` marks accent text: `"Hello*World*"` → "Hello", "World" (accented)
+- Square brackets `[icon]` for emoji/icons: `"[twemoji:fire]"`
+- Path segments map to `preset.contentKeys`: `/api/102/icon1/icon2/text`
 
-### Authentication Middleware
-- JWT validation in server/middleware/1.auth0.ts
-- Token stored in cookies
-- White-listed routes bypass auth
+### Caching Strategy
+- **ETag:** Hash of query params, check `if-none-match` → 304
+- **Cache-Control:** `public, max-age=3600, immutable`
+- **Redis:** Rate limiting + preset caching
 
 ## Common Pitfalls
 
-1. Font Loading: Custom fonts must be imported as buffers for Satori
-2. Prisma Client: Uses custom alias for browser compatibility (.prisma/client/index-browser)
-3. Auto-imports: Nuxt auto-imports composables, utils, and components - no manual imports needed
-4. API Proxy: /api/v1/** routes proxied to external service (localhost:5777)
-5. Cache Control: Image routes use ETag for browser caching
+1. **Fonts:** Must import as buffers for Satori: `import Font from '~/assets/fonts/Font.ttf'`
+2. **Prisma:** Custom alias `@prisma/client/index-browser` for browser compatibility
+3. **Auto-imports:** Nuxt auto-imports utils/composables—don't re-import
+4. **Type suppression:** Never use `as any`, `@ts-ignore`, `@ts-expect-error`
+5. **Zod catchall:** Use `.catchall(z.any())` for flexibility with unknown props
 
 ## File Structure
 
-components/          # Vue components (auto-imported)
-  ui/               # shadcn-vue UI components
-  preset/           # Preset editor components
-  *.vue             # Feature components
-lib/                # Shared TypeScript utilities
-  schema.ts         # Zod validation schemas
-  template.ts       # Template management
-  utils.ts          # Helper functions (cn, etc.)
-pages/              # Nuxt pages (file-based routing)
-server/             # Nitro server
-  api/              # API endpoints
-  middleware/       # Server middleware
-  routes/           # Custom routes
-  utils/            # Server utilities
-utils/              # Client utilities
-assets/             # Static assets (fonts, images)
+```
+server/
+  routes/[presetCode]/[...text].get.ts  # Main image generation endpoint
+  middleware/1.auth0.ts                 # JWT validation
+  middleware/2.rateLimit.ts             # Redis rate limiting
+  utils/satori.ts                       # Satori rendering + fonts
+  utils/paramNormalizer.ts              # Style prop normalization
+lib/
+  schema.ts                             # Zod schemas
+  content.ts                            # Text parsing (accent marks)
+  utils.ts                              # cn() helper
+components/
+  ui/                                   # shadcn-vue components
+  preset/                               # Preset editor
+```
 
-## Key Dependencies
+## Dependencies
 
-- Nuxt 4: Meta-framework (Vue + SSR + file routing)
-- Satori: Convert HTML/CSS to SVG
-- Resvg: Convert SVG to PNG
-- Zod: Schema validation with h3-zod for Nuxt integration
-- Prisma: Database ORM
-- shadcn-vue: UI component library
-- Tailwind CSS: Utility-first CSS framework
+- **Nuxt 4:** Meta-framework (v4.3.0)
+- **Satori:** HTML/CSS → SVG rendering
+- **Resvg:** SVG → PNG conversion
+- **Zod + h3-zod:** Runtime validation
+- **Prisma:** Database ORM
+- **shadcn-vue:** UI components
+- **Tailwind CSS:** Utility-first styling
 
-## Additional Notes
+## Notes
 
-- Project uses ES modules ("type": "module" in package.json)
-- Nuxt compatibility date: 2025-02-08
-- Dev server runs on port 4573
-- Runtime config in nuxt.config.ts for environment variables
-- No test suite currently - manual testing via dev server
+- ES modules only (`"type": "module"`)
+- Dev server: `localhost:4573`
+- Nuxt compatibility: `2025-02-08`
+- Mixed CN/EN comments/messages accepted

@@ -8,7 +8,7 @@ import { normalizeStyleProps } from '~/server/utils/paramNormalizer'
  * POST endpoint for generating images with JSON body
  * 
  * Usage:
- * POST /:presetCode
+ * POST /api/:presetCode
  * Content-Type: application/json
  * 
  * Body:
@@ -27,7 +27,7 @@ import { normalizeStyleProps } from '~/server/utils/paramNormalizer'
  * }
  * 
  * Example:
- * curl -X POST https://imgx.zzao.club/006 \
+ * curl -X POST https://imgx.zzao.club/api/006 \
  *   -H "Content-Type: application/json" \
  *   -d '{"title":"Hello","subtitle":"World","format":"png"}' \
  *   --output image.png

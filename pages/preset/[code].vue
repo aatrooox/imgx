@@ -284,7 +284,7 @@ const fetchPreset = async () => {
     contentPropsForm.value = { ...preset.value.contentProps }
     stylePropsForm.value = { ...preset.value.styleProps }
     
-    previewUrl.value = `${baseUrl}/${code}/default`
+    previewUrl.value = `${baseUrl}/api/${code}/default`
   } catch (err: any) {
     error.value = err.data?.message || '获取预设失败，请检查预设码是否正确'
     console.error('获取预设失败', err)
@@ -313,7 +313,7 @@ const generatePreviewUrl = () => {
   })
   
   const queryString = queryParams.toString() ? `?${queryParams.toString()}` : ''
-  return `${baseUrl}/${code}${pathPart}${queryString}`
+  return `${baseUrl}/api/${code}${pathPart}${queryString}`
 }
 
 // 更新预览
@@ -359,7 +359,7 @@ const postRequestExample = computed(() => {
     format: 'png',
     download: false
   }
-  return `POST ${baseUrl}/${preset.value.code}
+  return `POST ${baseUrl}/api/${preset.value.code}
 Content-Type: application/json
 
 ${JSON.stringify(payload, null, 2)}`

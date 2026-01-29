@@ -52,23 +52,23 @@
 
 ```bash
 # 使用默认样式
-https://imgx.zzao.club/101/default
+https://imgx.zzao.club/api/101/default
 ```
 
-![示例图片](https://imgx.zzao.club/101/default)
+![示例图片](https://imgx.zzao.club/api/101/default)
 
 ### 自定义内容
 
 ```bash
 # 动态文字内容（使用 *{}* 标记高亮部分）
-https://imgx.zzao.club/006/欢迎使用*IMGX*
+https://imgx.zzao.club/api/006/欢迎使用*IMGX*
 ```
 
 ### 完整控制
 
 ```bash
 # GET 请求：路径传内容，query 传样式
-GET https://imgx.zzao.club/102/😊/🎉/IMGX~让图片生成~更简单
+GET https://imgx.zzao.club/api/102/😊/🎉/IMGX~让图片生成~更简单
 
 # POST 请求：完整 JSON 控制
 POST https://imgx.zzao.club/
@@ -98,7 +98,7 @@ Content-Type: application/json
 AI：✅ 生成符合 Satori 约束的 Vue 模板
     ✅ 提供默认配置 JSON
     ✅ 创建预设码：102
-你：🎉 立即可用！https://imgx.zzao.club/102/你的标题
+你：🎉 立即可用！https://imgx.zzao.club/api/102/你的标题
 ```
 
 ### 🎨 可视化模板编辑器
@@ -138,14 +138,14 @@ AI：✅ 生成符合 Satori 约束的 Vue 模板
 
 **默认效果**
 
-![预设 102 默认](https://imgx.zzao.club/102/default)
+![预设 102 默认](https://imgx.zzao.club/api/102/default)
 
 </td>
 <td width="50%">
 
 **自定义效果**
 
-![预设 102 自定义](https://imgx.zzao.club/102/twemoji:drooling-face/twemoji:face-with-symbols-on-mouth/IMGX~让图片生成~更简单)
+![预设 102 自定义](https://imgx.zzao.club/api/102/twemoji:drooling-face/twemoji:face-with-symbols-on-mouth/IMGX~让图片生成~更简单)
 
 </td>
 </tr>
@@ -153,10 +153,10 @@ AI：✅ 生成符合 Satori 约束的 Vue 模板
 
 ```bash
 # 默认样式
-https://imgx.zzao.club/102/default
+https://imgx.zzao.club/api/102/default
 
 # 自定义图标和文字
-https://imgx.zzao.club/102/{左上图标}/{右下图标}/{文字内容}
+https://imgx.zzao.club/api/102/{左上图标}/{右下图标}/{文字内容}
 ```
 
 ### 预设 101 - 微信公众号封面（固定装饰）
@@ -167,14 +167,14 @@ https://imgx.zzao.club/102/{左上图标}/{右下图标}/{文字内容}
 
 **默认效果**
 
-![预设 101 默认](https://imgx.zzao.club/101/default)
+![预设 101 默认](https://imgx.zzao.club/api/101/default)
 
 </td>
 <td width="50%">
 
 **自定义效果**
 
-![预设 101 自定义](https://imgx.zzao.club/101/2025年度*技术总结*)
+![预设 101 自定义](https://imgx.zzao.club/api/101/2025年度*技术总结*)
 
 </td>
 </tr>
@@ -182,10 +182,10 @@ https://imgx.zzao.club/102/{左上图标}/{右下图标}/{文字内容}
 
 ```bash
 # 默认样式
-https://imgx.zzao.club/101/default
+https://imgx.zzao.club/api/101/default
 
 # 自定义文字（使用 ~ 标记高亮部分）
-https://imgx.zzao.club/101/2025年度~技术总结
+https://imgx.zzao.club/api/101/2025年度~技术总结
 ```
 
 ## 📖 API 使用
@@ -359,13 +359,13 @@ IMGX~快速生成~封面图
 ### 1. Markdown 中的动态图片
 
 ```markdown
-![封面](https://imgx.zzao.club/006/你的文章标题~关键词~更多内容)
+![封面](https://imgx.zzao.club/api/006/你的文章标题~关键词~更多内容)
 ```
 
 ### 2. GitHub Profile 装饰
 
 ```markdown
-![](https://imgx.zzao.club/102/twemoji:fire/twemoji:rocket/Hello~World)
+![](https://imgx.zzao.club/api/102/twemoji:fire/twemoji:rocket/Hello~World)
 ```
 
 ### 3. 批量生成（结合脚本）
@@ -373,7 +373,7 @@ IMGX~快速生成~封面图
 ```javascript
 const titles = ['标题1', '标题2', '标题3']
 const images = titles.map(t => 
-  `https://imgx.zzao.club/006/${encodeURIComponent(t)}`
+  `https://imgx.zzao.club/api/006/${encodeURIComponent(t)}`
 )
 ```
 
