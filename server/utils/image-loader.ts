@@ -26,10 +26,13 @@ export async function getServerAssetImageBase64(assetKey: string): Promise<strin
       return null
     }
     
-    const base64 = buffer.toString('base64')
-    const dataUrl = `data:${mimeType};base64,${base64}`
-    
-    console.log(`[ImageLoader] Asset loaded successfully (size: ${buffer.length} bytes)`)
+     // Ensure buffer is a proper Buffer object (Nitro storage may return Uint8Array or plain object)
+     const properBuffer = Buffer.isBuffer(buffer) ? buffer : Buffer.from(buffer)
+     const base64 = properBuffer.toString('base64')
+     const dataUrl = `data:${mimeType};base64,${base64}`
+     
+     console.log('[ImageLoader] Base64 preview:', base64.substring(0, 50))
+     console.log(`[ImageLoader] Asset loaded successfully (size: ${properBuffer.length} bytes, type: ${properBuffer.constructor.name})`)
     
     return dataUrl
   } catch (error) {
