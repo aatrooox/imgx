@@ -4,6 +4,20 @@
 
 [compare changes](https://github.com/aatrooox/imgx/compare/0.4.0...v0.5.1)
 
+## v0.8.10
+
+[compare changes](https://github.com/aatrooox/imgx/compare/v0.8.9...v0.8.10)
+
+### 🚀 Enhancements
+
+- Add ZOTEPAD pixel matrix template (preset 106) ([7cd39b5](https://github.com/aatrooox/imgx/commit/7cd39b5))
+- Expand emoji library from 138 to 4169 icons ([3ba6392](https://github.com/aatrooox/imgx/commit/3ba6392))
+- 方块矩阵模板 ([eee98d9](https://github.com/aatrooox/imgx/commit/eee98d9))
+
+### ❤️ Contributors
+
+- Aatrox <gnakzz@qq.com>
+
 ## v0.8.9
 
 [compare changes](https://github.com/aatrooox/imgx/compare/v0.8.8...v0.8.9)
