@@ -1,6 +1,7 @@
 import { getPresetByCode } from '~/server/utils/preset'
 import { generateImage } from '~/server/utils/image'
 import { renderErrorSvg } from '~/server/utils/satori'
+import { setCacheHeaders } from '~/server/utils/cache'
 import { z } from 'zod'
 
 export default defineEventHandler(async (event) => {
@@ -19,7 +20,7 @@ export default defineEventHandler(async (event) => {
   
   if (!preset) {
     setHeader(event, 'Content-Type', 'image/svg+xml')
-    setHeader(event, 'Cache-Control', 'public, max-age=3600, immutable')
+    setCacheHeaders(event)
     const svg = await renderErrorSvg('Preset not found', { width: 300, height: 100 })
     return svg
   }
@@ -27,14 +28,11 @@ export default defineEventHandler(async (event) => {
   const image = await generateImage({ preset, format, scale })
   
   setHeader(event, 'Content-Type', format === 'svg' ? 'image/svg+xml' : 'image/png')
-  setHeader(event, 'Cache-Control', 'public, max-age=3600, immutable')
   
   const etag = `"${Buffer.from(JSON.stringify({ preset: preset.code, format, scale })).toString('base64')}"`
-  setHeader(event, 'ETag', etag)
+  const is304 = setCacheHeaders(event, etag)
   
-  const ifNoneMatch = getRequestHeader(event, 'if-none-match')
-  if (ifNoneMatch === etag) {
-    event.node.res.statusCode = 304
+  if (is304) {
     return null
   }
   

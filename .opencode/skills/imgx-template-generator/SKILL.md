@@ -41,6 +41,7 @@ description: 生成符合 Satori 渲染约束的 IMGX Vue 模板，将文本转�
 | 🎨 **强调文本** | 需要高亮关键词（背景盒子/特殊颜色） | 7 分钟 | [blueprint-with-accent.md](references/blueprint-with-accent.md) |
 | 🌈 **渐变背景** | 使用线性/径向渐变，复杂背景效果 | 6 分钟 | [blueprint-with-gradient.md](references/blueprint-with-gradient.md) |
 | 🎯 **带图标** | 需要显示图标/emoji/装饰元素 | 7 分钟 | [blueprint-with-icons.md](references/blueprint-with-icons.md) |
+| 🧱 **像素矩阵** | 像素艺术风格，用 emoji/颜色拼成文字或图案 | 5 分钟 | [blueprint-pixel-matrix.md](references/blueprint-pixel-matrix.md) |
 
 **⚠️ 图标使用限制（重要）**
 
@@ -423,6 +424,7 @@ If after applying all fixes you still see `atob()` errors:
 - [强调文本模板](references/blueprint-with-accent.md)
 - [渐变背景模板](references/blueprint-with-gradient.md)
 - [图标模板](references/blueprint-with-icons.md)
+- [像素矩阵模板](references/blueprint-pixel-matrix.md)
 
 ### 辅助资料（问题查询）
 - [常见模式库](references/patterns.md) - 15+ 设计模式和代码片段
@@ -503,7 +505,11 @@ If after applying all fixes you still see `atob()` errors:
   ├─ 是 → 🎯 使用 blueprint-with-icons.md
   └─ 否 → 继续
 
-问题 4: 是否需要多行文本且每行样式不同？
+问题 4: 是否需要像素艺术风格（用色块/emoji拼成图案）？
+  ├─ 是 → 🧱 使用 blueprint-pixel-matrix.md
+  └─ 否 → 继续
+
+问题 5: 是否需要多行文本且每行样式不同？
   ├─ 是 → 📋 使用 blueprint-multi-line.md
   └─ 否 → 📝 使用 blueprint-simple-text.md
 ```
@@ -520,9 +526,9 @@ If after applying all fixes you still see `atob()` errors:
 
 ## 📊 文档统计
 
-- **总文档数**: 14 个
+- **总文档数**: 15 个
 - **核心文档**: 3 个（架构、Satori、Props）
-- **蓝图库**: 5 个（覆盖所有常见场景）
+- **蓝图库**: 6 个（覆盖所有常见场景）
 - **辅助资料**: 3 个（模式、故障、清单）
 - **示例演示**: 2 个（学习参考）
 

@@ -1,0 +1,20 @@
+{
+  "code": "105",
+  "name": "Pixel Matrix - IMGX",
+  "description": "像素方格矩阵 - IMGX 字母，支持 emoji 填充",
+  "width": 1200,
+  "height": 510,
+  "ratio": "2.35:1",
+  "template": "PixelMatrix",
+  "contentProps": {},
+  "styleProps": {
+    "bgColor": "#1a1a2e",
+    "bgImage": "linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)",
+    "fontFamily": "YouSheBiaoTiHei",
+    "padding": "60px",
+    "pixelSize": 30,
+    "pixelGap": 3,
+    "pixelRounded": 4
+  },
+  "contentKeys": ""
+}

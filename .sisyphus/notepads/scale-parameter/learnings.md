@@ -64,3 +64,28 @@ Successfully added `scale` parameter support to enable 2x/3x high-resolution ima
 ✅ All three API endpoints updated
 ✅ No breaking changes to existing functionality
 ✅ Scale parameter is optional (defaults to 1)
+
+## ZOTEPAD_EMOJI_MATRIX - Pixel Matrix Pattern
+
+### Key Learning
+Added `ZOTEPAD_EMOJI_MATRIX` constant to `server/templates/PixelMatrix.ts` with 7-letter layout.
+
+### Matrix Structure Pattern
+- 5 rows × 41 columns (ZOTEPAD) vs 7 rows × 23 columns (existing IMGX_LETTERS_MATRIX)
+- Each letter: 5 columns wide, separated by 1-column gaps
+- Layout: Z(5) + gap(1) + O(5) + gap(1) + T(5) + gap(1) + E(5) + gap(1) + P(5) + gaps(3) + A(3) + gaps(2) + D(4) = 41
+
+### Emoji Fill Feature
+- Letter O uniquely uses `'twemoji:star-struck'` emoji for all 25 cells (5×5 complete fill)
+- Other letters use hex color codes: Z=#9B59B6, T=#1ABC9C, E=#E67E22, P=#E91E63, A=#00BCD4, D=#F1C40F
+- Emoji fill creates visual highlight effect for the letter O
+
+### Row Pattern
+- Row 1 & 5: Full outline/fill of each letter
+- Rows 2-4: Interior patterns (outline, partial fill, hollow)
+- Consistent structure across all 7 letters
+
+### Build Notes
+- Standard TypeScript export, no special compilation needed
+- Array indices must match exactly (no runtime validation)
+- Verified: all 5 rows have exactly 41 elements

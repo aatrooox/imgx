@@ -1,5 +1,6 @@
 import { generateImage } from '~/server/utils/image'
 import { renderErrorSvg } from '~/server/utils/satori'
+import { setCacheHeaders } from '~/server/utils/cache'
 import { z } from 'zod'
 import { getPresetByCode } from '~/server/utils/preset'
 import { normalizeStyleProps } from '~/server/utils/paramNormalizer'
@@ -74,7 +75,7 @@ export default defineEventHandler(async (event) => {
 
   if (!preset) {
     setHeader(event, 'Content-Type', 'image/svg+xml')
-    setHeader(event, 'Cache-Control', 'public, max-age=3600, immutable')
+    setCacheHeaders(event)
     
     const svg = await renderErrorSvg('Preset not found', { width: 300, height: 100 })
     return svg
@@ -132,21 +133,15 @@ export default defineEventHandler(async (event) => {
     console.log('[Route POST] ========== Request End ==========')
 
     setHeader(event, 'Content-Type', format === 'svg' ? 'image/svg+xml' : 'image/png')
-    setHeader(event, 'Cache-Control', 'public, max-age=3600, immutable')
     
     if (download) {
       setHeader(event, 'Content-Disposition', `attachment; filename="imgx-${presetCode}-${new Date().getTime()}.${format}"`)
     }
     
-     // Generate ETag for caching (based on body content)
-     const etag = `"${Buffer.from(JSON.stringify({ ...body, scale })).toString('base64')}"`
-     setHeader(event, 'ETag', etag)
-    setHeader(event, 'Last-Modified', new Date().toUTCString())
+    const etag = `"${Buffer.from(JSON.stringify({ ...body, scale })).toString('base64')}"`
+    const is304 = setCacheHeaders(event, etag)
 
-    // Check client cache
-    const ifNoneMatch = getRequestHeader(event, 'if-none-match')
-    if (ifNoneMatch === etag) {
-      event.node.res.statusCode = 304
+    if (is304) {
       return null
     }
 
