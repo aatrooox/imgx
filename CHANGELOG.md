@@ -4,6 +4,18 @@
 
 [compare changes](https://github.com/aatrooox/imgx/compare/0.4.0...v0.5.1)
 
+## v0.8.7
+
+[compare changes](https://github.com/aatrooox/imgx/compare/v0.8.6...v0.8.7)
+
+### 🩹 Fixes
+
+- 修复生产环境加载img问题 ([4f3e268](https://github.com/aatrooox/imgx/commit/4f3e268))
+
+### ❤️ Contributors
+
+- Aatrox <gnakzz@qq.com>
+
 ## v0.8.6
 
 [compare changes](https://github.com/aatrooox/imgx/compare/v0.8.5...v0.8.6)
