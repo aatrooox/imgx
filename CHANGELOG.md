@@ -4,6 +4,18 @@
 
 [compare changes](https://github.com/aatrooox/imgx/compare/0.4.0...v0.5.1)
 
+## v0.8.9
+
+[compare changes](https://github.com/aatrooox/imgx/compare/v0.8.8...v0.8.9)
+
+### 🎨 Styles
+
+- 修复UI问题 ([a7410e5](https://github.com/aatrooox/imgx/commit/a7410e5))
+
+### ❤️ Contributors
+
+- Aatrox <gnakzz@qq.com>
+
 ## v0.8.8
 
 [compare changes](https://github.com/aatrooox/imgx/compare/v0.8.7...v0.8.8)
