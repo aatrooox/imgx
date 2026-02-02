@@ -1,0 +1,19 @@
+{
+  "code": "106",
+  "name": "Pixel Matrix - ZOTEPAD",
+  "description": "像素方格矩阵 - ZOTEPAD 字母，O填满emoji",
+  "width": 1200,
+  "height": 510,
+  "ratio": "2.35:1",
+  "template": "PixelMatrix",
+  "contentProps": {},
+  "styleProps": {
+    "bgColor": "#1a1a2e",
+    "fontFamily": "YouSheBiaoTiHei",
+    "padding": "60px",
+    "pixelSize": 22,
+    "pixelGap": 3,
+    "pixelRounded": 4
+  },
+  "contentKeys": ""
+}

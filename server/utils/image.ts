@@ -4,6 +4,7 @@ import { renderErrorSvg, vueTemplateToSatori, renderSVGBySatori } from './satori
 import { WeChatCoverTemplate } from '../templates/WeChatCover'
 import { TechCoverTemplate } from '../templates/TechCover'
 import { TicketCardTemplate } from '../templates/TicketCard'
+import { PixelMatrixTemplate, IMGX_LETTERS_MATRIX, IMGX_LETTERS_EMOJI_MATRIX, ZOTEPAD_EMOJI_MATRIX } from '../templates/PixelMatrix'
 import { getBase64IconURL } from '~/lib/icons'
 import { getServerAssetImageBase64Cached } from './image-loader'
 
@@ -19,6 +20,7 @@ const templateStrings: Record<string, string> = {
   'WeChatCover': WeChatCoverTemplate,
   'TechCover': TechCoverTemplate,
   'TicketCard': TicketCardTemplate,
+  'PixelMatrix': PixelMatrixTemplate,
 }
 
 /**
@@ -54,6 +56,28 @@ export async function generateImage({
   }
   
   console.log('[Image] contentFinalProps before icon conversion:', contentFinalProps)
+  
+  if (template === 'PixelMatrix') {
+    // Select matrix based on preset code
+    if (preset.code === '106') {
+      contentFinalProps.characterMatrix = ZOTEPAD_EMOJI_MATRIX
+    } else {
+      contentFinalProps.characterMatrix = IMGX_LETTERS_EMOJI_MATRIX
+    }
+    
+    const pixelSize = (styleProps as any)?.pixelSize || (customStyleProps as any)?.pixelSize || 20
+    
+    const processedMatrix = contentFinalProps.characterMatrix.map((row: any[]) => 
+      row.map((cell: any) => {
+        if (typeof cell === 'string' && isIconName(cell)) {
+          return getBase64IconURL(cell, pixelSize)
+        }
+        return cell
+      })
+    )
+    
+    contentFinalProps.characterMatrix = processedMatrix
+  }
   
   // Process custom style props first (before icon conversion needs iconSizes)
   const styleFinalProps = {
