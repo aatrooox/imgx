@@ -18,7 +18,7 @@ export const IMGX_LETTERS_MATRIX = [
 
 // ZOTEPAD 字母 Emoji 版本 - 7个字母，O 完全填满 emoji
 // 每个字母 5 列宽，字母之间 1 列间隔
-// Z = 紫色, O = 🤩 星星眼 (填满), T = 蓝绿色, E = 橙色, P = 粉色, A = 青色, D = 黄色
+// Z = 紫色, O = 🤩 星眼 (填满), T = 蓝绿色, E = 橙色, P = 粉色, A = 青色, D = 黄色
 export const ZOTEPAD_EMOJI_MATRIX = [
   // Row 1: Z O T E P A D
   ['#9B59B6', '#9B59B6', '#9B59B6', '#9B59B6', '#9B59B6', '', 'twemoji:star-struck', 'twemoji:star-struck', 'twemoji:star-struck', 'twemoji:star-struck', 'twemoji:star-struck', '', '#1ABC9C', '#1ABC9C', '#1ABC9C', '#1ABC9C', '#1ABC9C', '', '#E67E22', '#E67E22', '#E67E22', '#E67E22', '#E67E22', '', '#E91E63', '#E91E63', '#E91E63', '#E91E63', '', '', '', '#00BCD4', '#00BCD4', '#00BCD4', '', '', '#F1C40F', '#F1C40F', '#F1C40F', '#F1C40F', ''],

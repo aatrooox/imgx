@@ -1,5 +1,5 @@
 import { LazyGlowBorder } from '#components';
-import emojiIcons from '@@/assets/icons/twemoji-face-icons.json'
+import emojiIcons from '@iconify-json/twemoji/icons.json'
 import { getIconData, iconToSVG, iconToHTML, replaceIDs } from '@iconify/utils';
 
 interface IconData {
