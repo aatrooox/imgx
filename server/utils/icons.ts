@@ -23,7 +23,7 @@ export async function getBase64IconURL(iconName: string, iconSize: number) {
     return null
   }
    
-  const base64SVG = `data:image/svg+xml;base64,${btoa(svgHTML)}`
+  const base64SVG = `data:image/svg+xml;base64,${Buffer.from(svgHTML, 'utf8').toString('base64')}`
   console.log('[Icons] Base64 URL generated (length:', base64SVG.length, ')')
   return base64SVG
 }

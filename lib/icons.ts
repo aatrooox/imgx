@@ -40,7 +40,7 @@ export function getBase64IconURL(iconName:string, iconSize: number) {
 
   if (!svgHTML) return null;
    
-  const base64SVG = `data:image/svg+xml;base64,${btoa(svgHTML)}`;
+  const base64SVG = `data:image/svg+xml;base64,${Buffer.from(svgHTML, 'utf8').toString('base64')}`;
 
   return base64SVG
 }
