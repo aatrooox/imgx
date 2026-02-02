@@ -4,6 +4,18 @@
 
 [compare changes](https://github.com/aatrooox/imgx/compare/0.4.0...v0.5.1)
 
+## v0.8.5
+
+[compare changes](https://github.com/aatrooox/imgx/compare/v0.8.4...v0.8.5)
+
+### 🩹 Fixes
+
+- 修复base64解码问题 ([35a230d](https://github.com/aatrooox/imgx/commit/35a230d))
+
+### ❤️ Contributors
+
+- Aatrox <gnakzz@qq.com>
+
 ## v0.8.4
 
 [compare changes](https://github.com/aatrooox/imgx/compare/v0.8.3...v0.8.4)
