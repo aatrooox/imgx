@@ -4,6 +4,18 @@
 
 [compare changes](https://github.com/aatrooox/imgx/compare/0.4.0...v0.5.1)
 
+## v0.8.6
+
+[compare changes](https://github.com/aatrooox/imgx/compare/v0.8.5...v0.8.6)
+
+### 🩹 Fixes
+
+- 修复satori渲染图片问题 ([f9bce9e](https://github.com/aatrooox/imgx/commit/f9bce9e))
+
+### ❤️ Contributors
+
+- Aatrox <gnakzz@qq.com>
+
 ## v0.8.5
 
 [compare changes](https://github.com/aatrooox/imgx/compare/v0.8.4...v0.8.5)
