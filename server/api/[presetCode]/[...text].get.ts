@@ -13,9 +13,16 @@ export default defineEventHandler(async (event) => {
   console.log('[Route] presetCode:', presetCode)
   console.log('[Route] text:', text)
   
-  const query = await useSafeValidatedQuery(event, z.object({}).catchall(z.string()))
-  const format = (query.data?.format as 'svg' | 'png') || 'png'
-  const download = query.data?.download === '1'
+   const query = await useSafeValidatedQuery(event, z.object({}).catchall(z.string()))
+   const format = (query.data?.format as 'svg' | 'png') || 'png'
+   const download = query.data?.download === '1'
+   
+   // Parse and validate scale parameter
+   const scaleRaw = query.data?.scale
+   const scale = scaleRaw ? parseFloat(scaleRaw as string) : 1
+   if (isNaN(scale) || scale < 0.5 || scale > 5) {
+     throw createError({ statusCode: 400, statusMessage: 'Invalid scale parameter. Must be between 0.5 and 5.' })
+   }
   
   if (!query.success) {
     throw createError({
@@ -93,13 +100,14 @@ export default defineEventHandler(async (event) => {
   console.log('[Route] normalizedStyleProps:', normalizedStyleProps)
   console.log('[Route] Calling generateImage...')
 
-  try {
-    const image = await generateImage({
-      preset,
-      customContentProps,
-      customStyleProps: normalizedStyleProps,
-      format
-    })
+   try {
+     const image = await generateImage({
+       preset,
+       customContentProps,
+       customStyleProps: normalizedStyleProps,
+       format,
+       scale
+     })
     
     console.log('[Route] Image generated successfully')
     console.log('[Route] ========== Request End ==========')
@@ -110,9 +118,9 @@ export default defineEventHandler(async (event) => {
       setHeader(event, 'Content-Disposition', `attachment; filename="imgx-${presetCode}-${new Date().getTime()}.${format}"`)
     }
     
-    // Generate ETag for caching
-    const etag = `"${Buffer.from(JSON.stringify(getQuery(event))).toString('base64')}"`
-    setHeader(event, 'ETag', etag)
+     // Generate ETag for caching
+     const etag = `"${Buffer.from(JSON.stringify({ ...getQuery(event), scale })).toString('base64')}"`
+     setHeader(event, 'ETag', etag)
     setHeader(event, 'Last-Modified', new Date().toUTCString())
 
     // Check client cache

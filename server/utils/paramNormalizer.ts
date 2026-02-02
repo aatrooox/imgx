@@ -74,6 +74,11 @@ function normalizeValue(key: string, value: any, propsSchema?: any[]): any {
     if (strValue.startsWith('#')) {
       return strValue
     }
+    // 如果是 CSS 颜色关键字，保持不变
+    const cssColorKeywords = ['transparent', 'inherit', 'currentColor', 'none']
+    if (cssColorKeywords.includes(strValue.toLowerCase())) {
+      return strValue.toLowerCase()
+    }
     // 添加 # 前缀
     return `#${strValue}`
   }

@@ -55,11 +55,17 @@ export default defineEventHandler(async (event) => {
     })
   }
   
-  const body = bodyResult.data
-  const format = body.format
-  const download = body.download
-  
-  console.log('[Route POST] body:', body)
+   const body = bodyResult.data
+   const format = body.format
+   const download = body.download
+   
+   // Parse and validate scale parameter
+   const scale = body.scale ? parseFloat(body.scale) : 1
+   if (isNaN(scale) || scale < 0.5 || scale > 5) {
+     throw createError({ statusCode: 400, statusMessage: 'Invalid scale parameter. Must be between 0.5 and 5.' })
+   }
+   
+   console.log('[Route POST] body:', body)
   console.log('[Route POST] format:', format)
   console.log('[Route POST] download:', download)
 
@@ -80,8 +86,10 @@ export default defineEventHandler(async (event) => {
   console.log('[Route POST] contentKeys:', contentKeys)
   console.log('[Route POST] propsSchema:', propsSchema)
 
-  // Separate content props and style props from body
-  const contentKeysArray = contentKeys.split(',').map((k: string) => k.trim()).filter((k: string) => k)
+   // Separate content props and style props from body
+   const contentKeysArray = Array.isArray(contentKeys) 
+     ? contentKeys 
+     : contentKeys.split(',').map((k: string) => k.trim()).filter((k: string) => k)
   
   const customContentProps: Record<string, any> = {}
   const customStyleProps: Record<string, any> = {}
@@ -111,13 +119,14 @@ export default defineEventHandler(async (event) => {
   console.log('[Route POST] normalizedStyleProps:', normalizedStyleProps)
   console.log('[Route POST] Calling generateImage...')
 
-  try {
-    const image = await generateImage({
-      preset,
-      customContentProps,
-      customStyleProps: normalizedStyleProps,
-      format
-    })
+   try {
+     const image = await generateImage({
+       preset,
+       customContentProps,
+       customStyleProps: normalizedStyleProps,
+       format,
+       scale
+     })
     
     console.log('[Route POST] Image generated successfully')
     console.log('[Route POST] ========== Request End ==========')
@@ -129,9 +138,9 @@ export default defineEventHandler(async (event) => {
       setHeader(event, 'Content-Disposition', `attachment; filename="imgx-${presetCode}-${new Date().getTime()}.${format}"`)
     }
     
-    // Generate ETag for caching (based on body content)
-    const etag = `"${Buffer.from(JSON.stringify(body)).toString('base64')}"`
-    setHeader(event, 'ETag', etag)
+     // Generate ETag for caching (based on body content)
+     const etag = `"${Buffer.from(JSON.stringify({ ...body, scale })).toString('base64')}"`
+     setHeader(event, 'ETag', etag)
     setHeader(event, 'Last-Modified', new Date().toUTCString())
 
     // Check client cache

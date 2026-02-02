@@ -12,6 +12,7 @@ interface GenerateImageOptions {
   customContentProps?: Record<string, any>
   customStyleProps?: Record<string, any>
   format?: 'svg' | 'png'
+  scale?: number
 }
 
 const templateStrings: Record<string, string> = {
@@ -31,7 +32,8 @@ export async function generateImage({
   preset, 
   customContentProps = {}, 
   customStyleProps = {}, 
-  format = 'png' 
+  format = 'png',
+  scale = 1
 }: GenerateImageOptions) {
   console.log('[Image] generateImage called')
   console.log('[Image] preset:', preset.code, preset.name)
@@ -132,17 +134,18 @@ export async function generateImage({
     ...styleFinalProps
   })
   
-  const svg = await renderSVGBySatori(vNode, width, height)
+   const svg = await renderSVGBySatori(vNode, width, height)
 
-  if (format === 'svg') {
-    return svg
-  }
+   if (format === 'svg') {
+     return svg
+   }
 
-  const resvg = new Resvg(svg, {
-    fitTo: {
-      mode: 'original',
-    },
-  })
+   const resvg = new Resvg(svg, {
+     fitTo: {
+       mode: scale === 1 ? 'original' : 'zoom',
+       value: scale
+     },
+   })
 
-  return resvg.render().asPng()
+   return resvg.render().asPng()
 }

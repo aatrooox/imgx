@@ -8,6 +8,13 @@ export default defineEventHandler(async (event) => {
   const query = await useSafeValidatedQuery(event, z.object({ format: z.enum(['svg', 'png']).optional() }))
   const format = query.data?.format || 'png'
   
+  // Parse and validate scale parameter
+  const scaleRaw = getQuery(event).scale
+  const scale = scaleRaw ? parseFloat(scaleRaw as string) : 1
+  if (isNaN(scale) || scale < 0.5 || scale > 5) {
+    throw createError({ statusCode: 400, statusMessage: 'Invalid scale parameter. Must be between 0.5 and 5.' })
+  }
+  
   const preset = await getPresetByCode(presetCode!)
   
   if (!preset) {
@@ -17,12 +24,12 @@ export default defineEventHandler(async (event) => {
     return svg
   }
   
-  const image = await generateImage({ preset, format })
+  const image = await generateImage({ preset, format, scale })
   
   setHeader(event, 'Content-Type', format === 'svg' ? 'image/svg+xml' : 'image/png')
   setHeader(event, 'Cache-Control', 'public, max-age=3600, immutable')
   
-  const etag = `"${preset.code}-default"`
+  const etag = `"${Buffer.from(JSON.stringify({ preset: preset.code, format, scale })).toString('base64')}"`
   setHeader(event, 'ETag', etag)
   
   const ifNoneMatch = getRequestHeader(event, 'if-none-match')

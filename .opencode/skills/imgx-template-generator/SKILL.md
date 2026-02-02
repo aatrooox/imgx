@@ -170,6 +170,246 @@ http://localhost:4573/[code]/测试文本*强调*内容
 
 ---
 
+## 🐛 Production Debugging & Common Pitfalls
+
+### Critical Issue: Satori `atob()` Errors in Production
+
+If you encounter `InvalidCharacterError: Invalid character at atob` in production (but works locally), follow this diagnostic checklist:
+
+#### Issue 1: Buffer Type Mismatch in Nitro Storage
+
+**Symptom:**
+```
+[Image] Invalid base64 characters detected: 137,80,78,71,13,10...
+```
+
+**Root Cause:**
+- Nitro's `storage.getItemRaw<Buffer>()` may return `Uint8Array` or plain objects in production
+- These don't have `.toString('base64')` method
+- Results in raw byte arrays instead of base64 strings
+
+**Fix (server/utils/image-loader.ts):**
+```typescript
+// ❌ WRONG: Assumes buffer is always Buffer
+const base64 = buffer.toString('base64')
+
+// ✅ CORRECT: Defensive type conversion
+const properBuffer = Buffer.isBuffer(buffer) ? buffer : Buffer.from(buffer)
+const base64 = properBuffer.toString('base64')
+const dataUrl = `data:${mimeType};base64,${base64}`
+
+// Add diagnostic logging
+console.log('[ImageLoader] Base64 preview:', base64.substring(0, 50))
+console.log(`[ImageLoader] type: ${properBuffer.constructor.name}`)
+```
+
+#### Issue 2: Satori CSS backgroundImage Bug (Issue #609)
+
+**Symptom:**
+```
+InvalidCharacterError: Invalid character
+    at atob (node:buffer:1292:13)
+    at ef (satori/dist/index.js:3:49379)
+```
+
+**Root Cause:**
+- Known Satori bug with `backgroundImage: url(data:image/...;base64,...)`
+- CSS parser's `atob()` fails on certain base64 formats
+- Issue: https://github.com/vercel/satori/issues/609
+
+**Fix: Use `<img>` instead of `backgroundImage`**
+
+```typescript
+// ❌ AVOID: CSS backgroundImage with data URLs
+<div :style="{ backgroundImage: `url(${logoUrl})` }"></div>
+
+// ✅ RECOMMENDED: Direct img element
+<img :src="logoUrl" :style="{ objectFit: 'cover' }" />
+```
+
+**Why `<img>` works better:**
+- Bypasses CSS parser entirely
+- Uses Satori's image handler directly
+- Better error handling and logging
+
+#### Issue 3: Invalid Tailwind Classes
+
+**Symptom:**
+```
+`nowrap` unknown or invalid utility
+```
+
+**Fix:**
+```typescript
+// ❌ WRONG: Not a valid Tailwind class
+<span class="text-nowrap flex">
+
+// ✅ CORRECT: Valid Tailwind class
+<span class="whitespace-nowrap flex">
+```
+
+Invalid CSS classes can interfere with Satori's template parsing.
+
+#### Issue 4: btoa() Server-Side Encoding
+
+**Symptom:**
+- Works locally but fails in production
+- `atob()` errors with SVG icons
+
+**Root Cause:**
+- `btoa()` is a browser API, unreliable in Node.js
+- Treats input as Latin-1, not UTF-8
+- Produces incorrect encoding for non-ASCII characters
+
+**Fix (server/utils/icons.ts, lib/icons.ts):**
+```typescript
+// ❌ WRONG: Browser API in server code
+const base64 = btoa(svgHTML)
+
+// ✅ CORRECT: Node.js Buffer API
+const base64 = Buffer.from(svgHTML, 'utf8').toString('base64')
+```
+
+#### Issue 5: bgColor=transparent Renders as Black
+
+**Symptom:**
+- URL param `?bgColor=transparent` produces black background instead of transparent
+- Other CSS color keywords (`inherit`, `currentColor`) also fail
+
+**Root Cause:**
+- `paramNormalizer.ts` auto-adds `#` prefix to all color values
+- `transparent` becomes `#transparent` (invalid color)
+- Satori/browsers render invalid colors as black
+
+**Fix (server/utils/paramNormalizer.ts):**
+```typescript
+// In normalizeValue() for COLOR_PROPS
+if (COLOR_PROPS.has(key)) {
+  if (strValue.startsWith('#')) {
+    return strValue
+  }
+  // ✅ NEW: Preserve CSS color keywords
+  const cssColorKeywords = ['transparent', 'inherit', 'currentColor', 'none']
+  if (cssColorKeywords.includes(strValue.toLowerCase())) {
+    return strValue.toLowerCase()
+  }
+  return `#${strValue}`
+}
+```
+
+**Usage:**
+```bash
+# ✅ Now works correctly
+GET /api/104/text?bgColor=transparent
+GET /api/104/text?bgColor=inherit
+```
+
+#### Issue 6: Query String Corruption (+ → space)
+
+**Symptom:**
+```
+[Image] Base64 contains whitespace - sanitizing
+```
+
+**Root Cause:**
+- If base64 data URLs are passed via query string
+- URL form-encoding converts `+` to space
+- `atob()` rejects base64 with whitespace
+
+**Fix (server/utils/image.ts):**
+```typescript
+// Add sanitization before Satori rendering
+if (styleFinalProps.logoUrl?.startsWith('data:')) {
+  const idx = styleFinalProps.logoUrl.indexOf(',');
+  if (idx !== -1) {
+    const head = styleFinalProps.logoUrl.slice(0, idx + 1);
+    let body = styleFinalProps.logoUrl.slice(idx + 1);
+    
+    // Remove whitespace corruption
+    if (/\s/.test(body)) {
+      console.warn('[Image] Base64 contains whitespace - sanitizing');
+      body = body.replace(/\s+/g, '');
+    }
+    
+    // Validate charset
+    if (!/^[A-Za-z0-9+/=]+$/.test(body)) {
+      throw createError({ 
+        statusCode: 500, 
+        statusMessage: 'Invalid image data encoding' 
+      });
+    }
+    
+    styleFinalProps.logoUrl = head + body;
+  }
+}
+```
+
+**Prevention:**
+- Avoid passing data URLs in query strings
+- Use asset paths instead: `logoPath=images/logo.png`
+- Or use POST with JSON body (preserves `+` characters)
+
+### Diagnostic Techniques
+
+**1. Add Logging at Key Points:**
+
+```typescript
+// In image-loader.ts
+console.log('[ImageLoader] Base64 preview:', base64.substring(0, 50))
+console.log('[ImageLoader] Buffer type:', buffer.constructor.name)
+
+// In image.ts
+console.log('[Image] logoUrl preview:', styleFinalProps.logoUrl?.substring(0, 60))
+
+// In satori.ts
+console.log('[Satori] Rendering HTML length:', html.length)
+```
+
+**2. Check Production Logs:**
+
+✅ **Success Pattern:**
+```
+[ImageLoader] Base64 preview: iVBORw0KGgoAAAANSUhEU...
+[ImageLoader] type: Buffer
+```
+
+❌ **Failure Pattern:**
+```
+[Image] Invalid base64 characters: 137,80,78,71...
+```
+→ Indicates Buffer serialization issue
+
+**3. Verify Base64 Integrity:**
+
+```bash
+# Extract base64 from logs and test decode
+echo "iVBORw0KGgoAAAA..." | base64 -d | file -
+# Should show: PNG image data
+```
+
+### Best Practices Summary
+
+| Component | Best Practice | Avoid |
+|-----------|---------------|-------|
+| **Images** | Use `<img src="data:...">` | `backgroundImage: url(...)` |
+| **Buffer** | `Buffer.isBuffer()` check | Assume storage returns Buffer |
+| **Base64** | `Buffer.from().toString('base64')` | `btoa()` on server |
+| **CSS** | Valid Tailwind classes | `text-nowrap` (invalid) |
+| **Data URLs** | Pass as asset paths | Query string parameters |
+| **Logging** | Preview first 50 chars | Log full 10KB base64 |
+
+### When to Escalate
+
+If after applying all fixes you still see `atob()` errors:
+
+1. **Check Satori version:** Update to latest (`npm ls satori`)
+2. **Inspect actual HTML:** Log rendered HTML before Satori
+3. **Test SVG rendering:** Try pure SVG output (`format=svg`)
+4. **File upstream bug:** Search https://github.com/vercel/satori/issues
+5. **Workaround:** Switch from Satori to Puppeteer/Playwright for complex cases
+
+---
+
 ## 📚 完整文档索引
 
 ### 核心概念（必读）
@@ -326,4 +566,4 @@ http://localhost:4573/[code]/测试文本*强调*内容
 
 **开始前必读：** [架构说明](references/architecture.md) → [Satori 约束](references/satori-constraints.md) → [选择蓝图](#第二步选择蓝图按需求选择)
 
-**遇到问题？** 查阅 [故障排除指南](references/troubleshooting.md)
+**遇到问题？** 查阅 [故障排除指南](references/troubleshooting.md) 或 [Production Debugging](#-production-debugging--common-pitfalls)
