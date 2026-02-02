@@ -157,34 +157,32 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* CSS 列瀑布流布局 */
+/* Grid 响应式布局 */
 .masonry-container {
-  column-count: 1;
-  column-gap: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1.5rem;
 }
 
 @media (min-width: 640px) {
   .masonry-container {
-    column-count: 2;
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (min-width: 1024px) {
   .masonry-container {
-    column-count: 3;
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
 @media (min-width: 1280px) {
   .masonry-container {
-    column-count: 4;
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 
 .masonry-item {
-  break-inside: avoid;
-  margin-bottom: 1.5rem;
-  display: inline-block;
   width: 100%;
 }
 
