@@ -70,7 +70,7 @@ export const WeChatCoverTemplate = `<div class="w-full h-full flex items-center 
                 backgroundSize: '100% 100%' 
               }">
             </span>
-            <span v-else class="text-nowrap flex"
+             <span v-else class="whitespace-nowrap flex"
               :style="{ 
                 color: part.type === 'accent' ? (accentColors?.[lineIdx] ?? colors?.[lineIdx] ?? '#000000') : '' 
               }">

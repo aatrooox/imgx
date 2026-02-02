@@ -33,18 +33,17 @@ export const TicketCardTemplate = `<div class="w-full h-full flex"
         position: 'relative'
       }">
       <!-- LOGO -->
-      <div v-if="logoUrl" class="flex"
+      <img v-if="logoUrl" class="flex"
+        :src="logoUrl"
         :style="{
           position: 'absolute',
           left: '75px',
           top: '75px',
           width: '200px',
           height: '200px',
-          backgroundImage: \`url(\${logoUrl})\`,
-          backgroundSize: '100% 100%',
-          backgroundRepeat: 'no-repeat'
-        }">
-      </div>
+          objectFit: 'cover'
+        }"
+      />
       <div v-else class="flex"
         :style="{
           color: 'rgba(0, 0, 0, 0.7)',
@@ -111,7 +110,7 @@ export const TicketCardTemplate = `<div class="w-full h-full flex"
               backgroundSize: '100% 100%' 
             }">
           </span>
-          <span v-else class="text-nowrap flex"
+           <span v-else class="whitespace-nowrap flex"
             :style="{ 
               color: part.type === 'accent' ? (accentColors?.[0] ?? '#E67E22') : '' 
             }">

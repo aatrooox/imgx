@@ -86,24 +86,47 @@ export async function generateImage({
   
   console.log('[Image] contentFinalProps after icon conversion:', contentFinalProps)
 
-  if (styleFinalProps?.logoPath && typeof styleFinalProps.logoPath === 'string') {
-    console.log('[Image] Processing logoPath:', styleFinalProps.logoPath)
-    
-    if (!styleFinalProps.logoPath.startsWith('data:') && !styleFinalProps.logoPath.startsWith('http')) {
-      const logoBase64 = await getServerAssetImageBase64Cached(styleFinalProps.logoPath)
-      
-      if (logoBase64) {
-        styleFinalProps.logoUrl = logoBase64
-        console.log('[Image] Logo loaded successfully from server assets')
-      } else {
-        console.error('[Image] Failed to load logo from server assets:', styleFinalProps.logoPath)
-      }
-    } else {
-      styleFinalProps.logoUrl = styleFinalProps.logoPath
-    }
-  }
+   if (styleFinalProps?.logoPath && typeof styleFinalProps.logoPath === 'string') {
+     console.log('[Image] Processing logoPath:', styleFinalProps.logoPath)
+     
+     if (!styleFinalProps.logoPath.startsWith('data:') && !styleFinalProps.logoPath.startsWith('http')) {
+       const logoBase64 = await getServerAssetImageBase64Cached(styleFinalProps.logoPath)
+       
+       if (logoBase64) {
+         styleFinalProps.logoUrl = logoBase64
+         console.log('[Image] Logo loaded successfully from server assets')
+       } else {
+         console.error('[Image] Failed to load logo from server assets:', styleFinalProps.logoPath)
+       }
+     } else {
+       styleFinalProps.logoUrl = styleFinalProps.logoPath
+     }
+   }
 
-  const templateString = templateStrings[template] || template
+   // Validate and sanitize base64 in logoUrl (prevent query-string corruption)
+   if (styleFinalProps.logoUrl && typeof styleFinalProps.logoUrl === 'string' && styleFinalProps.logoUrl.startsWith('data:')) {
+     const idx = styleFinalProps.logoUrl.indexOf(',');
+     if (idx !== -1) {
+       const head = styleFinalProps.logoUrl.slice(0, idx + 1);
+       let body = styleFinalProps.logoUrl.slice(idx + 1);
+       
+       // Check for whitespace corruption (+ → space from query parsing)
+       if (/\s/.test(body)) {
+         console.warn('[Image] Base64 contains whitespace - sanitizing (possible query encoding issue)');
+         body = body.replace(/\s+/g, '');  // Remove all whitespace
+       }
+       
+       // Validate base64 charset
+       if (!/^[A-Za-z0-9+/=]+$/.test(body)) {
+         console.error('[Image] Invalid base64 characters detected:', body.slice(0, 100));
+         throw createError({ statusCode: 500, statusMessage: 'Invalid image data encoding' });
+       }
+       
+       styleFinalProps.logoUrl = head + body;
+     }
+   }
+
+   const templateString = templateStrings[template] || template
   const vNode = await vueTemplateToSatori(templateString, {
     ...contentFinalProps,
     ...styleFinalProps

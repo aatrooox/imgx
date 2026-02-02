@@ -117,14 +117,14 @@ export const TechCoverTemplate = `<div class="w-full h-full flex items-center ju
                 backgroundSize: '100% 100%' 
               }">
             </span>
-            <span v-else-if="part.type === 'accent'" class="text-nowrap flex"
+             <span v-else-if="part.type === 'accent'" class="whitespace-nowrap flex"
               :style="{ 
                 color: accentColors?.[lineIdx] ?? '#D4AF37',
                 padding: '0px 12px'
               }">
               {{ part.text }}
             </span>
-            <span v-else class="text-nowrap flex">
+             <span v-else class="whitespace-nowrap flex">
               {{ part.text }}
             </span>
           </template>
